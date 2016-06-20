@@ -1,2 +1,4 @@
 nimcache/
 .vscode/
+*.exe
+private/*.exe
