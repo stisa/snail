@@ -1,8 +1,4 @@
-import nimblas,sequtils
-
-include private/types
-include private/prettyprint
-include private/operations
+import ../nalg
 
 var m : array[2, array[2, float]] = [[2.0,1.0],[3.0,4.0]]
 

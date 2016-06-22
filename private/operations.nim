@@ -19,11 +19,11 @@ template fp [N,M:static[int]](m: Matrix[N,M]): ptr float64  =
     cast[ptr float64](addr mpf[0])
 
 # take the sum of the abs values of the elements of a vector v
-proc l_1 [N:static[int]] (v: Vector[N]): auto =
+proc l_1 *[N:static[int]] (v: Vector[N]): auto =
     asum(N, v.fp, 1)
 
 # Vector dot product
-proc dot [N:static[int]] (v: Vector[N], w: Vector[N]): auto =
+proc dot *[N:static[int]] (v: Vector[N], w: Vector[N]): auto =
     dot(N, v.fp, 1, w.fp, 1)
 # shorthand to^^
-proc `*` [N:static[int]] (v: Vector[N], w: Vector[N]): auto {.inline.}= dot(v,w)
+proc `*` *[N:static[int]] (v: Vector[N], w: Vector[N]): auto {.inline.}= dot(v,w)
