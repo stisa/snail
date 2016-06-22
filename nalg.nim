@@ -10,4 +10,4 @@ var mm : Matrix[2,2] = matrix(m)
 
 var v : Vector[2] = vector([2.0,1.0])
 var vv : Vector[2] = vector([2.0,1.0])
-echo v*vv
+#echo v*vv

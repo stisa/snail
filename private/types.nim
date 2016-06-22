@@ -12,7 +12,7 @@ type
     ]#
     Vector* [N:static[int]] = object
         data: array [N, float64]
-        isCol: bool
+        isCol*: bool
 
     Array[N: static[int]] = array[N, float64] # hackhis, gives nicer code tho
     BiArray[N,M: static[int]] = array[N, array[M, float64]]

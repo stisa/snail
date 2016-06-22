@@ -11,12 +11,12 @@ proc `t`* [N:static[int]] (v: Vector[N]): Vector[N] =
 template fp [N:static[int]](v: Vector[N]): ptr float64  = 
     var vpf: array[N, float64]
     shallowCopy vpf, v.data
-    cast[ptr float64](addr vpf[0])
+    cast[ptr float64](addr vpf)
 
 template fp [N,M:static[int]](m: Matrix[N,M]): ptr float64  = 
     var mpf: array[N*M, float64]
     shallowCopy vpf, m.data
-    cast[ptr float64](addr mpf[0])
+    cast[ptr float64](addr mpf)
 
 # take the sum of the abs values of the elements of a vector v
 proc l_1 *[N:static[int]] (v: Vector[N]): auto =
@@ -27,3 +27,15 @@ proc dot *[N:static[int]] (v: Vector[N], w: Vector[N]): auto =
     dot(N, v.fp, 1, w.fp, 1)
 # shorthand to^^
 proc `*` *[N:static[int]] (v: Vector[N], w: Vector[N]): auto {.inline.}= dot(v,w)
+
+proc add *[N:static[int]] (v: Vector[N], w: Vector[N]): Vector[N] = 
+    copy(N, v.fp, 1, result.fp, 1)
+    echo result
+    axpy(N,1,w.fp,1,result.fp,1)
+    echo result
+
+proc `+` *[N:static[int]] (v: Vector[N], w: Vector[N]): auto {.inline.}= add(v,w)
+
+proc `.*` *[N:static[int]] (v: Vector[N], a: float64): Vector[N] =
+    echo ".*" & $v.fp[]
+    scal(N, a, v.fp, 1)

@@ -1,9 +1,11 @@
 import ../nalg
 
-var m : array[2, array[2, float]] = [[2.0,1.0],[3.0,4.0]]
-
-var mm : Matrix[2,2] = matrix(m)
-
-var v : Vector[2] = vector([2.0,1.0])
-var vv : Vector[2] = vector([2.0,1.0])
-echo v*vv
+var tv : Vector[2] = vector([2.0,1.0])
+let tvv : Vector[2] = vector([2.0,1.0])
+let ttvvv: Vector[2] = vector([4.0,2.0])
+assert(tv*tvv == 5.0, "Regression: vector dot product")
+#assert((tv.t).isCol == true, " Regression: vector transpose in place, got "& $tv.isCol)
+assert( tv.l_1 == 3.0, " Regression: vector l_1")
+#assert(tv+tvv == ttvvv, "Regression: adding two vector")
+var va :Vector[2] = tv.*2.0
+echo va
