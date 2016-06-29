@@ -1,0 +1,33 @@
+total executions of each stack trace:
+Entry: 1/8 Calls: 11/22 = 50.00% [sum: 11; 11/22 = 50.00%]
+  genrand_int32 11/22 = 50.00%
+  genrand_res53 12/22 = 54.55%
+  random 13/22 = 59.09%
+  random 13/22 = 59.09%
+  random 13/22 = 59.09%
+  randomMatrix2 14/22 = 63.64%
+  bench 14/22 = 63.64%
+Entry: 2/8 Calls: 3/22 = 13.64% [sum: 14; 14/22 = 63.64%]
+  genericDeepCopyAux 5/22 = 22.73%
+  genericDeepCopyAux 5/22 = 22.73%
+  genericDeepCopyAux 5/22 = 22.73%
+  genericDeepCopyAux 5/22 = 22.73%
+  genericDeepCopy 5/22 = 22.73%
+  innDotWrapper 7/22 = 31.82%
+  slave 7/22 = 31.82%
+Entry: 3/8 Calls: 2/22 = 9.09% [sum: 16; 16/22 = 72.73%]
+  genericDeepCopyAux 5/22 = 22.73%
+  genericDeepCopyAux 5/22 = 22.73%
+  genericDeepCopyAux 5/22 = 22.73%
+  genericDeepCopyAux 5/22 = 22.73%
+  genericDeepCopyAux 5/22 = 22.73%
+  genericDeepCopy 5/22 = 22.73%
+  innDotWrapper 7/22 = 31.82%
+  slave 7/22 = 31.82%
+Entry: 4/8 Calls: 2/22 = 9.09% [sum: 18; 18/22 = 81.82%]
+  zip 2/22 = 9.09%
+  dot 2/22 = 9.09%
+  * 2/22 = 9.09%
+  innDot 2/22 = 9.09%
+  innDotWrapper 7/22 = 31.82%
+  slave 7/22 = 31.82%

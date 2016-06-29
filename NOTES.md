@@ -1,3 +1,5 @@
 
-- traversing an array looks faster in normal instead of parallel ( 0.08 vs 2.31 )
+
+- Needs to be compiled with "--threads:on", TODO: fallback for when not threader ( plus a warning? )
+
  

@@ -14,12 +14,14 @@ proc l_1 *[N:static[int]] (v: Vector[N]): float64 =
     result = v.data.foldl(abs(a)+abs(b))
 
 # Vector dot product
-proc dot *[N:static[int]] (v: Vector[N], w: Vector[N]): float64 =
-    result = zip(v.data,w.data)
-        .map(proc(s:tuple[a:float,b:float]):float64 = s.a*s.b)
-        .foldl(a+b)
+proc dot *[N:static[int]] (v: Vector[N], w: Vector[N]): float =
+    result = zip(v.data,w.data).innerDotZipped
+    #result = zip(v.data,w.data)
+    #    .map(proc(s:tuple[a:float,b:float]):float64 = s.a*s.b)
+    #    .foldl(a+b)
 # shorthand to^^
 proc `*` *[N:static[int]] (v: Vector[N], w: Vector[N]): auto {.inline.}= dot(v,w)
+
 
 # Sum two vectors
 proc add *[N:static[int]] (v: Vector[N], w: Vector[N]): Vector[N] = 
@@ -58,7 +60,15 @@ proc `*`* [N,M,V:static[int]](m: Matrix[N,M],
     w: Matrix[M,V]) :Matrix[N,V] {.inline.} = matMul(m,w)
 
 proc matMulNP* [N,M,V:static[int]](m: Matrix[N,M], w: Matrix[M,V]) :Matrix[N,V] =
+    new result.data
     for r in 0..N-1: # iter on rows of m
         for c in 0..V-1: # on cols of w
             result[r,c] = m.row(r)*w.col(c)   
- 
+
+#[proc matMul2* [N,M,V:static[int]](m: Matrix[N,M], w: Matrix[M,V]) :Matrix[N,V] =
+    new result.data
+    for j in 0..<V:
+        for k in 0..<M:
+            for i in 0..<N:
+                result[j,i]= result[j,i] + m[k,i] * w[j,k]
+            ]#

@@ -24,6 +24,10 @@ proc vector* [N:static[int]] (arr: Array[N], isCol:bool = false): Vector[N] =
     result.data = arr
     result.isCol = isCol
 
+proc randomVec* (N: static[int],max: float = 1): Vector[N] =  
+    new result.data
+    for i in mitems(result.data[]): i = random(max)
+
 proc len*[N: static[int]](v: Vector[N]): int = N
 
 proc `[]`*(v: Vector, i:int): float64 = v.data[i]
@@ -60,9 +64,9 @@ proc len*[N:static[int],M:static[int]](m: Matrix[N,M]): int {.inline.} = N*M
 
 proc dims*[N,M:static[int]](m: Matrix[N,M]): tuple[rows:int,cols:int] {.inline.}= (N,M)
 
-proc `[]`*[N,M : static[int]](m : Matrix[N,M], i, j: int): float64 {.inline.}= m.data[i * m.M + j]
+proc `[]`*[N,M : static[int]](m : Matrix[N,M], i, j: int): float {.inline.}= m.data[i * M + j]
 
-proc `[]=`*[N,M : static[int]](m : var Matrix[N,M], i, j: int, val: float64) {.inline.}= m.data[i * m.M + j] = val 
+proc `[]=`*[N,M : static[int]](m : var Matrix[N,M], i, j: int, val: float) {.inline.}= m.data[i * M + j] = val 
 
 #extract a row
 proc row *[N,M : static[int]](m : Matrix[N,M], r: int) : Vector[M]=
@@ -77,22 +81,3 @@ proc col *[N,M : static[int]](m : Matrix[N,M], c: int) : Vector[N]=
     new result.data
     result.isCol = true
     for i in 0..N-1: result.data[i] = m.data[i*m.M+c]
-
-
-type
-    Arr[N:static[int],T] = array[N,T]
-
-# surpsingly, foldl works for arrays too
-proc zip*[N,M, R,T](arr1 : Arr[N,R], arr2: Arr[M,T]): array[N,tuple[a: R, b: T]] = 
-    assert(N>=M)# the first element is longer
-    for i in 0 .. N-1: result[i] = (arr1[i], arr2[i])
- 
-proc zip*[N,M, R,T](arr1 : ref Arr[N,R], arr2: ref Arr[M,T]): array[N,tuple[a: R, b: T]] = 
-    assert(N>=M)# the first element is longer
-    for i in 0 .. N-1: result[i] = (arr1[i], arr2[i])
-
-
- #proc foldl* [N,T](arr1 : Arr[N,T], op: expr):auto =
- #   arr1.foldl(op(a,b))
-proc apply*[N:static[int],T](data: var Arr[N,T], op: proc (x: T): T {.closure.}) {.inline.} = 
-    for i in mitems(data): i = op(i)
