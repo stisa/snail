@@ -2,3 +2,5 @@ nimcache/
 .vscode/
 *.exe
 private/*.exe
+*.txt
+bench.nim
