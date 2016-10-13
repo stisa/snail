@@ -1,4 +1,3 @@
-
 #TODO
 proc `$`*[N,M:int](a: array[N, array[M, float]]): string =
   result = ""
@@ -28,15 +27,14 @@ proc `$`*[N:int](ar: array[N, tuple[a:float,b:float]]): string =
 
 proc `$`*[N:static[int]] (v: Vector[N]): string =
     result = "["
-    if isNil(v.data):
-        result.add("nil]\n")
+    if isNil(v.data): result.add("nil]\n")
     else:
-        for e in v.data[0..(N-2)]:
-            if v.isCol :
-                result.add( $e & "|\n|")
+        for i,e in v.data[]:
+            if(i==N-1): result.add($v.data[N-1]&"]\n")
             else:
-                result.add($e & ", ")
-        result.add($v.data[N-1]&"]\n")
+                if v.isCol : result.add( $e & "|\n|")
+                else: result.add($e & ", ")
+        
     
         
 proc `$`*[N,M:static[int]] (m: Matrix[N,M]): string =

@@ -1,34 +1,25 @@
-# Compute PI in an inefficient way
-import times,nalg,linalg
+
+import times,nalg #,linalg
 
 var startTime,endTime: float
 
-var fm : Matrix[5,5] = matrix2(5,5, [ 1.0 , 0.1 , 1.1 , 0.2 , 1.2 , 0.3 , 1.3 , 0.4 , 1.4 , 0.5 , 1.5 , 0.6 , 1.6 , 0.7 , 1.7 , 0.8 , 1.8 , 0.9 , 1.9 , 0.10 , 1.10 , 0.11 , 1.11 , 0.12 , 1.12]) 
-var fw : Matrix[5,5] = matrix2(5,5, [ 1.0 , 0.1 , 1.1 , 0.2 , 1.2 , 0.3 , 1.3 , 0.4 , 1.4 , 0.5 , 1.5 , 0.6 , 1.6 , 0.7 , 1.7 , 0.8 , 1.8 , 0.9 , 1.9 , 0.10 , 1.10 , 0.11 , 1.11 , 0.12 , 1.12]) 
+proc gauss*[N:static[int]](A:var Matrix[N,N],b:Vector[N]):Vector[N] =
+    var m : float
+    result = b
+    for i in 0..N-1:
+        let ii :float = A[i,i]
+        echo ii
+        for j in i..N-1:
+            m = A[j,i] / ii
+            for k in i..N-1: A[j,k] = A[j,k] - m*A[i,k]
+            result[j]=result[j]-m*result[i]
+    #bss
+    result[N-1] = result[N-1]/A[N-1,N-1] 
+    for i in N-2..0:
+        for j in i+1..N-1:
+            result[i] = result[i] - A[i,j] * result[j]
+        result[i] = result[i]/A[i,i]
 
-var fm2 : Matrix64[5,5] = matrix([[ 1.0 , 0.1 , 1.1 , 0.2 , 1.2 ],[ 0.3 , 1.3 , 0.4 , 1.4 , 0.5 ],[ 1.5 , 0.6 , 1.6 , 0.7 , 1.7 ],[ 0.8 , 1.8 , 0.9 , 1.9 , 0.10 ],[ 1.10 , 0.11 , 1.11 , 0.12 , 1.12]]) 
-var fw2 : Matrix64[5,5] = matrix([[ 1.0 , 0.1 , 1.1 , 0.2 , 1.2 ],[ 0.3 , 1.3 , 0.4 , 1.4 , 0.5 ],[ 1.5 , 0.6 , 1.6 , 0.7 , 1.7 ],[ 0.8 , 1.8 , 0.9 , 1.9 , 0.10 ],[ 1.10 , 0.11 , 1.11 , 0.12 , 1.12]]) 
-
-var mw2 : Matrix64[5,5]
-var mw : Matrix[5,5] 
-
-#
-startTime = epochTime()
-mw2 = fm2*fw2
-endTime = epochTime()   
-echo "p required ", endTime - startTime
-
-{.experimental.}
-startTime = epochTime()
-mw = fm*fw
-endTime = epochTime()   
-echo "np required ", endTime - startTime
-
-echo mw2
-echo "separation"
-echo mw.data
-#[startTime = epochTime()
-#for i in 0..1000:
-discard randomMatrix(1000,500).row(13)
-endTime = epochTime()
-echo "v required ", endTime - startTime]#
+var f2 :Matrix[2,2] = matrix2D([[1.0,0],[0.0,1.0]])
+var v2:Vector[2] = colVector(2,[3.0,3])
+echo gauss(f2,v2)

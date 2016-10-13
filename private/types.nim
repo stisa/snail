@@ -13,6 +13,9 @@ type
     Vector* [N:static[int]] = object
         data*:ref array [N, float]
         isCol*: bool
+    VecType {.pure.}= enum
+        Col, Row 
+
 
     Array*[N: static[int]] = array[N, float64] # hackhis, gives nicer code tho
     MArray*[N,M: static[int]] = array[N*M, float64] # hackhis, gives nicer code tho
@@ -20,9 +23,19 @@ type
 
 #[ Vector methods ]#
 # vector( [1-D arr], bool ) = Vector[N]
-proc vector* [N:static[int]] (arr: Array[N], isCol:bool = false): Vector[N] =
-    result.data = arr
+proc vector*  (N:static[int],arr: Array[N], isCol:bool = false): Vector[N] =
+    new result.data
+    result.data[] = arr
     result.isCol = isCol
+
+proc colVector*  (N:static[int],arr: Array[N]): Vector[N] =
+    new result.data
+    result.data[] = arr
+    result.isCol = true
+
+proc rowVector*  (N:static[int],arr: Array[N]): Vector[N] =
+    new result.data
+    result.data[] = arr
 
 proc randomVec* (N: static[int],max: float = 1): Vector[N] =  
     new result.data
@@ -30,31 +43,31 @@ proc randomVec* (N: static[int],max: float = 1): Vector[N] =
 
 proc len*[N: static[int]](v: Vector[N]): int = N
 
-proc `[]`*(v: Vector, i:int): float64 = v.data[i]
+proc `[]`*[N : static[int]](v: Vector[N], i:int): float {.inline.} = v.data[i]
 
-proc `[]=`*[N : static[int]](v: Vector[N], i:int, val: float64)= v.data[i] = val 
+proc `[]=`*[N : static[int]](v: Vector[N], i:int, val: float){.inline.} = v.data[i] = val 
 
 #[ Matrix methods ]#
 
 # matrix(m, [1-D arr]) = Matrix[N,M]
-proc matrix* [N,M:static[int]](m: Matrix[N,M],arr: Array[N*M]): Matrix[N,M] = 
-    new result.data
-    result.data = arr
+#proc matrix* [N,M:static[int]](m: Matrix[N,M],arr: Array[N*M]): Matrix[N,M] = 
+#    new result.data
+#    result.data = arr
 
-proc matrix2* (N,M:static[int],arr: Array[N*M]): Matrix[N,M] = 
+proc matrix* (N,M:static[int],arr: Array[N*M]): Matrix[N,M] = 
     new result.data
     result.data[] = arr
 
 # matrix([2-D arr]) = Matrix[N,M]
-proc matrix3* [N,M:static[int]](arr: BiArray[N,M]): Matrix[N,M] = 
+proc matrix2D* [N,M:static[int]](arr: BiArray[N,M]): Matrix[N,M] = 
     new result.data
-    for i in 0..N-1: result.data[i*N..i*N+M-1] = arr[i]
+    for i in 0..N-1: result.data[][i*N..i*N+M-1] = arr[i]
 
 #proc randomMatrix1* (N: static[int], M: static[int], max: float = 1): Matrix[N,M] =  
     #result.data.apply(proc(x:float):float = random(max))
 #    for i in mitems(result.data): i = random(max) 
 
-proc randomMatrix2* (N: static[int], M: static[int], max: float = 1): Matrix[N,M] =  
+proc randomMatrix* (N: static[int], M: static[int], max: float = 1): Matrix[N,M] =  
     #for i in 0..(N*M)-1: result.data[i] = random(max)
     new result.data
     #for i in 0..(N*M)-1: result.data[i] = random(max)
@@ -74,6 +87,9 @@ proc row *[N,M : static[int]](m : Matrix[N,M], r: int) : Vector[M]=
     new result.data
     for i in 0..M-1: result.data[i] = m.data[r*m.M+i]
 
+proc overWriteRow *[N,M : static[int]](m :var Matrix[N,M], r: int,rowv:Vector[M]) =
+    assert(r<N, "The matrix has less rows than the requested row index")
+    for i in 0..M-1: m.data[r*m.M+i] = rowv[i]
 
 #extract a col
 proc col *[N,M : static[int]](m : Matrix[N,M], c: int) : Vector[N]=
