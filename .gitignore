@@ -4,3 +4,4 @@ nimcache/
 private/*.exe
 *.txt
 bench.nim
+*.log
