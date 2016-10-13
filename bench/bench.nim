@@ -1,10 +1,10 @@
-import times,../nalg,linalg
-import nimprof
+import times,../nalg
+#import nimprof
 
 var startTime,endTime: float
-let m : Matrix[100,100] = randomMatrix2(100,100)
-let w : Matrix[100,100] = randomMatrix2(100,100)
-
+let A : Matrix[100,100] = randomMatrix(100,100)
+var B : Matrix[100,100] = A
+let b : Vector[100] = randomVec(100)
 #let n : Vector[3000] = randomVec(3000)
 #let v : Vector[3000] = randomVec(3000)
 #let m2 : Matrix64[200,200] = randomMatrix(200,200)
@@ -26,8 +26,13 @@ echo "nalg required ", endTime - startTime
 ]#
 
 startTime = epochTime()
-#for i in 0..<100:
-discard m*w
+for i in 0..<100:
+  discard solve(A,b)
+endTime = epochTime()   
+echo "nalg required ", endTime - startTime
+startTime = epochTime()
+for i in 0..<100:
+  discard solveInplace(B,b)
 endTime = epochTime()   
 echo "nalg required ", endTime - startTime
 

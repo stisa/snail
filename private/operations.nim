@@ -27,14 +27,10 @@ proc `*` *[N:static[int]] (v: Vector[N], w: Vector[N]): float {.inline.}= dot(v,
 # Sum two vectors
 proc add *[N:static[int]] (v: Vector[N], w: Vector[N]): Vector[N] = 
     new result.data
-    #echo "wtf"& $N
     let tmpseq = zip(v.data,w.data).map(proc(s:tuple[a:float,b:float]):float64 = s.a+s.b)
-    #echo "wtf"& $tmpseq
-    #echo "wtf"& $result.data
     for i,r in result.data[].mpairs :
         r = tmpseq[i] 
-        #echo i
-    #echo result.data
+
 # shorthand to^^
 proc `+` *[N:static[int]] (v: Vector[N], w: Vector[N]): auto {.inline.}= add(v,w)
 
@@ -47,6 +43,15 @@ proc `/.` *[N:static[int]] (a: float64,v: Vector[N]): Vector[N] =
     assert( anyIt(v.data,it!=0.0) == true)
     new result.data
     result.data[0..N-1] = v.data.mapIt(a/it)[0..N-1]
+
+proc `./=`* [N:static[int]](v:var Vector[N],val:float) = 
+  assert(val!=0.0, "Div by zero")
+  for e in v.mitems: e/=val
+
+proc `./`* [N:static[int]](v: Vector[N],val:float): Vector[N] =
+  assert(val!=0.0, "Div by zero")
+  result = v
+  for e in result.mitems: e/=val
 
 #[
 import threadpool
@@ -89,12 +94,13 @@ proc `*`* [N,M:static[int]](m: Matrix[N,M],
 proc addM *[N,M:static[int]] (m: Matrix[N,M], w: Matrix[N,M]): Matrix[N,M] = 
     new result.data
     result.data[0..(N*M)-1] = zip(m.data,w.data)
-        .map(proc(s:tuple[a:float,b:float]):float64 = s.a+s.b) [0..(N*M)-1]
+        .map(proc(s:tuple[a:float,b:float]):float64 = s.a+s.b)[0..(N*M)-1]
 # shorthand to^^
 proc `+` *[N,M:static[int]] (m: Matrix[N,M], w: Matrix[N,M]): Matrix[N,M]{.inline.}= addM(m,w)
 
-#proc gauss*[N,M:static[int]](A:Matrix[N,M],b:Vector[M]):Vector[N] =
-#    discard 
+proc subtractVecFromRow* [N:static[int]](A:var Matrix[N,N],row:int,vec:Vector[N],times:float=1.0)=
+  for j in 0..<N: A[row,j] = A[row,j]-times*vec[j]
 
-#proc solve*[N,M:static[int]](A:Matrix[N,M],b:Vector[M]):Vector[N] {.inline.} = solve(A,b)
+proc divRowByFloat* [N:static[int]](A:var Matrix[N,N],row:int,val:float)=
+  for j in 0..<N: A[row,j] = A[row,j]/val
 

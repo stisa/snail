@@ -5,17 +5,14 @@ type
                         | e f g |
     ]#
     Matrix* [N, M : static[int]] = object
-        data *: ref array [N*M, float]
+        data *: ref array[N*M, float]
     #[
     Vector with fixed size, defaults to row vector 
     eg Vector [3] = | a b c |
     ]#
     Vector* [N:static[int]] = object
-        data*:ref array [N, float]
+        data*:ref array[N, float]
         isCol*: bool
-    VecType {.pure.}= enum
-        Col, Row 
-
 
     Array*[N: static[int]] = array[N, float64] # hackhis, gives nicer code tho
     MArray*[N,M: static[int]] = array[N*M, float64] # hackhis, gives nicer code tho
