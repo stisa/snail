@@ -55,9 +55,17 @@ proc sub *[N:static[int]] (v: Vector[N], w: Vector[N]): Vector[N] =
 proc `-` *[N:static[int]] (v: Vector[N], w: Vector[N]): auto {.inline.}= sub(v,w)
 
 
-proc `*.` *[N:static[int]] (a: float64,v: Vector[N]): Vector[N] =
+proc `*` *[N:static[int]] (a: float64,v: Vector[N]): Vector[N] =
     new result.data
-    result.data[0..N-1] = v.data.mapIt(a*it)[0..N-1]
+    for i in 0..<N:
+      result.data[i] = a*v.data[i]
+    #result.data[0..N-1] = v.data.mapIt(a*it)[0..N-1]
+
+proc `.*` *[N:static[int]] (v,w: Vector[N]): Vector[N] =
+    new result.data
+    for i in 0..<N:
+      result.data[i] = v.data[i]*w.data[i]
+
 
 proc `/.` *[N:static[int]] (a: float64,v: Vector[N]): Vector[N] =
     assert( anyIt(v.data,it!=0.0) == true)
@@ -70,8 +78,9 @@ proc `./=`* [N:static[int]](v:var Vector[N],val:float) =
 
 proc `./`* [N:static[int]](v: Vector[N],val:float): Vector[N] =
   assert(val!=0.0, "Div by zero")
-  result = v
-  for e in result.mitems: e/=val
+  new result.data
+  for i in 0..<N:
+    result.data[i] = v.data[i]/val
 
 #[
 import threadpool
@@ -119,7 +128,9 @@ proc addM *[N,M:static[int]] (m: Matrix[N,M], w: Matrix[N,M]): Matrix[N,M] =
 proc `+` *[N,M:static[int]] (m: Matrix[N,M], w: Matrix[N,M]): Matrix[N,M]{.inline.}= addM(m,w)
 
 proc subtractVecFromRow* [N:static[int]](A:var Matrix[N,N],row:int,vec:Vector[N],times:float=1.0)=
-  for j in 0..<N: A[row,j] = A[row,j]-times*vec[j]
+ # echo "fm>",A.row(row)
+ # echo "wht>",vec
+  for j in 0..<N: A[row,j] = A[row,j]-A[row,j]*times*vec[j]
 
 proc divRowByFloat* [N:static[int]](A:var Matrix[N,N],row:int,val:float)=
   for j in 0..<N: A[row,j] = A[row,j]/val
