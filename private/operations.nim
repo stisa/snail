@@ -1,5 +1,5 @@
 #import types, arrayutils, sequtils
-
+import math
 #import sequtils
 # transpose in place. Should file a bug with nim: single ' not allowed as operator
 # TODO: fix discard, this should be inlineable?
@@ -11,9 +11,20 @@ proc `t`* [N:static[int]] (v: Vector[N]): Vector[N] =
     result = v
     if result.isCol: result.isCol=false else: result.isCol=true
 
-# take the sum of the abs values of the elements of a vector v
-proc l_1 *[N:static[int]] (v: Vector[N]): float64 =
-    result = v.data.foldl(abs(a)+abs(b))
+# P-norm
+proc pnorm *[N:static[int]] (v: Vector[N],p:range[1..high(int)]=1): float =
+  for i in 0..<v.len:
+    result += abs(v[i]).pow(p.float)
+  result = result.pow(1/p)
+
+# Euclidean norm
+proc enorm *[N:static[int]] (v: Vector[N]): float = pnorm(v,2)
+
+# Infinite norm
+proc norm *[N:static[int]] (v: Vector[N]): float = 
+  for p in 0..<N: 
+    if abs(v[p])>result: result = abs(v[p])
+
 
 # Vector dot product
 proc dot *[N:static[int]] (v: Vector[N], w: Vector[N]): float =
@@ -33,6 +44,15 @@ proc add *[N:static[int]] (v: Vector[N], w: Vector[N]): Vector[N] =
 
 # shorthand to^^
 proc `+` *[N:static[int]] (v: Vector[N], w: Vector[N]): auto {.inline.}= add(v,w)
+
+proc sub *[N:static[int]] (v: Vector[N], w: Vector[N]): Vector[N] = 
+    new result.data
+    let tmpseq = zip(v.data,w.data).map(proc(s:tuple[a:float,b:float]):float64 = s.a-s.b)
+    for i,r in result.data[].mpairs :
+        r = tmpseq[i] 
+
+# shorthand to^^
+proc `-` *[N:static[int]] (v: Vector[N], w: Vector[N]): auto {.inline.}= sub(v,w)
 
 
 proc `*.` *[N:static[int]] (a: float64,v: Vector[N]): Vector[N] =
@@ -104,3 +124,11 @@ proc subtractVecFromRow* [N:static[int]](A:var Matrix[N,N],row:int,vec:Vector[N]
 proc divRowByFloat* [N:static[int]](A:var Matrix[N,N],row:int,val:float)=
   for j in 0..<N: A[row,j] = A[row,j]/val
 
+proc norm*[N,M:static[int]] (m: Matrix[N,M]): float =
+  for i in 0..<N:
+    var tmp = 0.0
+    for j in 0..<M:
+      tmp += abs(m[i,j])
+    echo tmp
+    if tmp>result: result = tmp
+  

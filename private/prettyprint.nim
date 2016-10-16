@@ -1,4 +1,6 @@
 #TODO
+import strutils
+
 proc `$`*[N,M:int](a: array[N, array[M, float]]): string =
   result = ""
   for v in a:
@@ -38,4 +40,14 @@ proc `$`*[N:static[int]] (v: Vector[N]): string =
     
         
 proc `$`*[N,M:static[int]] (m: Matrix[N,M]): string =
-    result = "temporary<--"& $m.data
+    #result = "temporary<--"& $m.data
+    result = "["
+    if isNil(m.data): result.add("nil]\n")
+    else:
+      for i in 0..<N:
+        for j in 0..<M:
+          let fstring = if m[i,j]>=0: '+'&formatFloat(m[i,j],ffDecimal,2) else: formatFloat(m[i,j],ffDecimal,2)
+          if(j==M-1) and (i!=N-1): result.add(fstring&"|\n|")
+          elif(j==M-1) and (i==N-1): result.add(fstring&"]\n")
+          else:
+            result.add(fstring & ", ")
