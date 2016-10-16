@@ -20,6 +20,7 @@ proc ngaussInplace*[N:static[int]](A:var Matrix[N,N],b:Vector[N]):Vector[N] =
   
 proc ngauss*[N:static[int]](A: Matrix[N,N],b:Vector[N]):Vector[N] =
   ## Solve the system Ax=b for x. Does not modify A
+  # TODO: only allow colum vectors for knonws?
   deepCopy(result, b)
   var tempA = A
   deepCopy(tempA,A)
@@ -36,7 +37,7 @@ proc ngauss*[N:static[int]](A: Matrix[N,N],b:Vector[N]):Vector[N] =
       if j == i: continue # skip this if considering current pivoted row
 
       let tims = tempA[j,i] # Save the times we have to subtract to zero the column i
-      tempA.subtractVecFromRow(j,pivrow,tims) # zero the column i in this row
+      tempA.subtractVecFromRow(j,pivrow,tims) # zero the column i in row j
       result[j] = result[j]-result[i]*tims # subtract the known i from known j ( still easier than extending the matrix )
   result.isCol = true
 
@@ -111,12 +112,8 @@ proc swapRow*[N:static[int]](A: var Matrix[N,N],frm,to:int) =
     A[to,i] = f
 
 proc subtractRows*[N:static[int]](A:var Matrix[N,N],fm,wht:int,tims:float=1.0)=
-  #Subtract wht from fm
-  #echo "fm>",A.row(fm)
-  #echo "wht>",A.row(wht)
-  for j in 0..<N:
-   # echo "a>",A[wht,j] 
-    A[fm,j] = A[fm,j]-A[wht,j]*tims
+  #Subtract wht from fm tims times
+   for j in 0..<N: A[fm,j] = A[fm,j]-A[wht,j]*tims
 
 proc solve*[N:static[int]](A: Matrix[N,N],b:Vector[N]):Vector[N] =
   ## Solve the system Ax=b for x. Does not modify A
