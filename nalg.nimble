@@ -15,4 +15,7 @@ task bench, "TODO":
 
 task tests, "TODO":
   echo "TODO"
+
+task builddocs, "Builds documentation and examples":
+  echo "TODO"
   

@@ -5,6 +5,9 @@ TODO:
 - test everything
 - try a more functional approach for concatenation of operations?
 
+Future structure
+-----------------
+
 On Perfomance of a naive algebra library
 ----------------------------------------
 
@@ -12,9 +15,9 @@ On an i7 4710 ( laptop ) this library requires about **3.5s** to multiply two de
 From this comes the name: Naive Algebra ( note that no particular optimization has been done yet, and it is my intention to bring the time down ).
 
 For reference, the same operation using [linalg]() with [openblas]() takes about **0.004s**, so use that if you need something faster and are fine with
-configuring external libraries etc.
+configuring external libraries etc. ( linalg also doesn't work on web, I think )
 
-I *think* this has to do with memory access/deepCopy happening, but I will have to profile the library to find out.
+I *think* this has to do with memory access/deepCopy happening/assignments, but I will have to profile the library to find out.
 
 Performance up to matrices 100x100 is reasonable at ~0.5s, and some testing shows a sublinear correlation between #elements and time
 
