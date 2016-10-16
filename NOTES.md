@@ -1,5 +1,9 @@
 
-TODO: change name to SNAil? Small Nim Algebra..il
+TODO: 
+- change name to SNAil? Small Nim Algebra..il
+- rework the structure to remove `include`s
+- test everything
+- try a more functional approach for concatenation of operations?
 
 On Perfomance of a naive algebra library
 ----------------------------------------
@@ -20,9 +24,9 @@ MatMul, Tentative Improvements
 
 Misc notes
 ----------
-- ~~Needs to be compiled with "--threads:on", TODO: fallback for when not threader ( plus a warning? )~~
+- ~~Needs to be compiled with "--threads:on", TODO: fallback for when not threaded ( plus a warning? )~~
 
 - Needs more tests
 - Flesh out arrayutils
 - Check arrayutils.zip and improve different size array handling ( eg zip(N,M) where M<N or generally M!=N ) 
- 
+
