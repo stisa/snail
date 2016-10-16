@@ -31,12 +31,14 @@ proc `$`*[N:static[int]] (v: Vector[N]): string =
     result = "["
     if isNil(v.data): result.add("nil]\n")
     else:
-        for i,e in v.data[]:
-            if(i==N-1): result.add($v.data[N-1]&"]\n")
-            else:
-                if v.isCol : result.add( $e & "|\n|")
-                else: result.add($e & ", ")
-        
+      for i,e in v.data[]:
+        let fstring = if e>=0: '+'&formatFloat(e,ffDecimal,2) 
+                        else: formatFloat(e,ffDecimal,2)
+        if(i==N-1): result.add(fstring&"]\n")
+        else:
+          if v.isCol : result.add( fstring & "|\n|")
+          else: result.add(fstring & ", ")
+    
     
         
 proc `$`*[N,M:static[int]] (m: Matrix[N,M]): string =
@@ -46,7 +48,8 @@ proc `$`*[N,M:static[int]] (m: Matrix[N,M]): string =
     else:
       for i in 0..<N:
         for j in 0..<M:
-          let fstring = if m[i,j]>=0: '+'&formatFloat(m[i,j],ffDecimal,2) else: formatFloat(m[i,j],ffDecimal,2)
+          let fstring = if m[i,j]>=0: '+'&formatFloat(m[i,j],ffDecimal,2) 
+                        else: formatFloat(m[i,j],ffDecimal,2)
           if(j==M-1) and (i!=N-1): result.add(fstring&"|\n|")
           elif(j==M-1) and (i==N-1): result.add(fstring&"]\n")
           else:
