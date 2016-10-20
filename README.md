@@ -1,6 +1,6 @@
 SNAiL
 =====
-<sub>Simple nim linear algebra library</sub>
+<small>Simple nim linear algebra library</small>
 
 Future structure
 -----------------
