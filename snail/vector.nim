@@ -97,7 +97,13 @@ proc dot *[N:static[int]] (v, w: Vector[N]): float =
       result += v[i]*w[i]
     return sqrt(result)
 
+proc dot *[N:static[int]] (v:RowVector[N], w: ColVector[N]): float =
+    for i in v.low..v.high:
+      result += v[i]*w[i]
+    return sqrt(result)
+
 proc `*` *[N:static[int]] (v, w: Vector[N]): float {.inline.}= dot(v,w)
+proc `*` *[N:static[int]] (v:RowVector[N], w: ColVector[N]): float = dot(v,w)
 
 # Sum two vectors
 proc add *[N:static[int]] (v, w: Vector[N]): Vector[N] = 
@@ -159,4 +165,4 @@ when isMainModule: # Dirty testing
   assert( norm(r) == 3.0 )
   assert( norm(rr) == 5.0 )
 
-  echo dot(r,r)
+  # TODO: test other ops
