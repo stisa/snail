@@ -5,6 +5,33 @@ SNAiL
 Future structure
 -----------------
 
+For matrix and vector, have a single file (each) implementing basic operations ( sum, multiplication, norms, etc )
+Then:
+- a file for linear systems ( MEG, PPMEG, hopefully LU/LUP, QR,etc in the future )
+- a file for eigenvalues/eigenvectors ( Jacobi, Gauss-Siedel...)
+- a file for interpolations ( lagrange polynomial, Chebychev points, Lobatto points, linear interpolation, least squares)
+- a file for beziér curves, b-splines, splines ( cubic? ), De Casteljau, control polygon
+- a file for numeric integration ( simpson ( and composite ) , trapezoidal... )
+- a file for estimating derivatives?
+
+Other?? Linear regressions, finite differences...?
+
+The end user should be able to `import` the packages it needs ( just vectors, just linsystems...) .  
+As an example, solving a linear system with gauss' method with partial pivoting should look like:
+```nim
+import snail/matrix # So we can use matrices
+from snail/linsys import ppmeg as solve # It's nicer to write solve(A,b) than ppmeg(A,b)
+
+var A = matrix2D([[1.0,0],[0.0,1]])
+var b = colVector(2,[1.0,1])
+
+proc `\`(m:Matrix,v:Vector):Vector = solve(m,v)
+
+let x = A\b
+
+```
+
+
 On Perfomance of a naive algebra library
 ----------------------------------------
 
