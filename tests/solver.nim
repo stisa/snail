@@ -1,4 +1,4 @@
-import ../nalg
+import ../snail
 
 # This system will result in a division by zero with the naive algorithm
 #0 5 6 = 11

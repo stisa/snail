@@ -1,6 +1,6 @@
 
 TODO: 
-- change name to SNAil? Small Nim Algebra..il
+- change name to SNAil? Simple Nim Algebra..i.. lib
 - rework the structure to remove `include`s
 - test everything
 - try a more functional approach for concatenation of operations?

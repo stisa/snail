@@ -2,7 +2,7 @@
 
 version       = "0.1.0"
 author        = "Stisa"
-description   = "Naive Algebra for Nim"
+description   = "Simple Naive Algebra for Nim"
 license       = "MIT"
 
 
