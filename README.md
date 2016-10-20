@@ -1,9 +1,6 @@
-
-TODO: 
-- change name to SNAil? Simple Nim Algebra..i.. lib
-- rework the structure to remove `include`s
-- test everything
-- try a more functional approach for concatenation of operations?
+SNAiL
+=====
+<sub>Simple nim linear algebra library</sub>
 
 Future structure
 -----------------
@@ -32,4 +29,7 @@ Misc notes
 - Needs more tests
 - Flesh out arrayutils
 - Check arrayutils.zip and improve different size array handling ( eg zip(N,M) where M<N or generally M!=N ) 
-
+- change name to SNAil? Simple Nim Algebra..i.. lib
+- rework the structure to remove `include`s
+- test everything
+- try a more functional approach for concatenation of operations?
