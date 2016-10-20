@@ -1,6 +1,8 @@
 #TODO
 import strutils
 
+proc `$`[T](a:ref seq[T]):string = $(a[])
+
 proc `$`*[N,M:int](a: array[N, array[M, float]]): string =
   result = ""
   for v in a:

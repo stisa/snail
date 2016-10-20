@@ -1,4 +1,4 @@
-import "random-0.5.3/random",sequtils
+import random,sequtils
 
 include private/types
 include private/prettyprint

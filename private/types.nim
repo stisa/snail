@@ -40,7 +40,9 @@ proc randomVec* (N: static[int],max: float = 1): Vector[N] =
 
 proc len*[N: static[int]](v: Vector[N]): int = N
 
-proc `[]`*[N : static[int]](v: Vector[N], i:int): float {.inline.} = v.data[i]
+proc `[]`*[N : static[int]](v: Vector[N], i:int): float {.inline.} =
+  if v.data != nil:
+    result = v.data[][i]
 
 proc `[]=`*[N : static[int]](v: Vector[N], i:int, val: float){.inline.} = v.data[i] = val 
 

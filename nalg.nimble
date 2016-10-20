@@ -17,5 +17,5 @@ task tests, "TODO":
   echo "TODO"
 
 task builddocs, "Builds documentation and examples":
-  echo "TODO"
+  exec("nim js -o:tests/webtest.js  tests/webtest.nim")
   

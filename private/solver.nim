@@ -21,9 +21,10 @@ proc ngaussInplace*[N:static[int]](A:var Matrix[N,N],b:Vector[N]):Vector[N] =
 proc ngauss*[N:static[int]](A: Matrix[N,N],b:Vector[N]):Vector[N] =
   ## Solve the system Ax=b for x. Does not modify A
   # TODO: only allow colum vectors for knonws?
-  deepCopy(result, b)
   var tempA = A
-  deepCopy(tempA,A)
+  when not defined js:
+    deepCopy(result, b)  
+    deepCopy(tempA,A)
   
   for i in 0..<N: # Iterate over rows    
     let piv = tempA[i,i]
@@ -44,9 +45,10 @@ proc ngauss*[N:static[int]](A: Matrix[N,N],b:Vector[N]):Vector[N] =
 proc pgauss*[N:static[int]](A: Matrix[N,N],b:Vector[N]):Vector[N] =
   ## Solve the system Ax=b for x. Does not modify A
   ## Uses Gaussian Elimination with partial pivoting
-  deepCopy(result, b)
   var tempA = A
-  deepCopy(tempA,A)
+  when not defined js:
+    deepCopy(result, b)  
+    deepCopy(tempA,A)
 
   for i in 0..<N: # Iterate over rows
     if i!=N-1: # Don't swap on the last iteration, it's already row echelon
@@ -118,9 +120,10 @@ proc subtractRows*[N:static[int]](A:var Matrix[N,N],fm,wht:int,tims:float=1.0)=
 proc solve*[N:static[int]](A: Matrix[N,N],b:Vector[N]):Vector[N] =
   ## Solve the system Ax=b for x. Does not modify A
   ## Uses Gaussian Elimination with partial pivoting
-  deepCopy(result, b)
   var tempA = A
-  deepCopy(tempA,A)
+  when not defined js:
+    deepCopy(result, b)  
+    deepCopy(tempA,A)
 
   for i in 0..<N: # Iterate over rows
     if i!=N-1: # Don't swap on the last iteration, it's already row echelon
