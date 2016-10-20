@@ -76,7 +76,6 @@ proc high*(v: RowVector):int = v.data[].high
 proc `t`* [N:static[int]] (v: ColVector[N]):RowVector[N] = rowVec(v.data[])
 proc `t`* [N:static[int]] (v: RowVector[N]):ColVector[N] = colVec(v.data[])
 
-
 proc pnorm *[N:static[int]] (v: Vector[N],p:Natural=1): float =
   assert(p>=1)
   ## P norm: \|v\| = p-root(sum ( \|x_i\|^p) )
@@ -87,84 +86,58 @@ proc pnorm *[N:static[int]] (v: Vector[N],p:Natural=1): float =
 proc enorm *[N:static[int]] (v: Vector[N]): float = pnorm(v,2)
   ## Euclidean norm: \|v\| = sqrt(sum ( \|x_i\|^2) )
 
-
 proc norm *[N:static[int]] (v: Vector[N]): float = 
   ## Infinite norm: \|v\| = max_i of \|x_i\| 
   for p in v.low..v.high: 
     if abs(v[p])>result: result = abs(v[p])
 
-#[]
-# P-norm
-proc pnorm *[N:static[int]] (v: Vector[N],p:range[1..high(int)]=1): float =
-  for i in v.low..<v.high:
-    result += abs(v[i]).pow(p.float)
-  result = result.pow(1/p)
-
-# Euclidean norm
-proc enorm *[N:static[int]] (v: Vector[N]): float = pnorm(v,2)
-
-# Infinite norm
-proc norm *[N:static[int]] (v: Vector[N]): float = 
-  for p in 0..<N: 
-    if abs(v[p])>result: result = abs(v[p])
-
-
 # Vector dot product
-proc dot *[N:static[int]] (v: Vector[N], w: Vector[N]): float =
-    for i in 
-    #result = zip(v.data,w.data)
-    #    .map(proc(s:tuple[a:float,b:float]):float64 = s.a*s.b)
-    #    .foldl(a+b)
-# shorthand to^^
-proc `*` *[N:static[int]] (v: Vector[N], w: Vector[N]): float {.inline.}= dot(v,w)
+proc dot *[N:static[int]] (v, w: Vector[N]): float =
+    for i in v.low..v.high:
+      result += v[i]*w[i]
+    return sqrt(result)
+
+proc `*` *[N:static[int]] (v, w: Vector[N]): float {.inline.}= dot(v,w)
 
 # Sum two vectors
-proc add *[N:static[int]] (v: Vector[N], w: Vector[N]): Vector[N] = 
+proc add *[N:static[int]] (v, w: Vector[N]): Vector[N] = 
     new result.data
-    let tmpseq = zip(v.data,w.data).map(proc(s:tuple[a:float,b:float]):float64 = s.a+s.b)
-    for i,r in result.data[].mpairs :
-        r = tmpseq[i] 
-
+    for i in v.low..v.high:
+      result[i] = v[i]+w[i]
 # shorthand to^^
 proc `+` *[N:static[int]] (v: Vector[N], w: Vector[N]): auto {.inline.}= add(v,w)
 
-proc sub *[N:static[int]] (v: Vector[N], w: Vector[N]): Vector[N] = 
+proc sub *[N:static[int]] (v, w: Vector[N]): Vector[N] = 
     new result.data
-    let tmpseq = zip(v.data,w.data).map(proc(s:tuple[a:float,b:float]):float64 = s.a-s.b)
-    for i,r in result.data[].mpairs :
-        r = tmpseq[i] 
-
+    for i in v.low..v.high:
+      result[i] = v[i]+w[i]
 # shorthand to^^
 proc `-` *[N:static[int]] (v: Vector[N], w: Vector[N]): auto {.inline.}= sub(v,w)
 
 
 proc `*` *[N:static[int]] (a: float64,v: Vector[N]): Vector[N] =
     new result.data
-    for i in 0..<N:
-      result.data[i] = a*v.data[i]
-    #result.data[0..N-1] = v.data.mapIt(a*it)[0..N-1]
+    for i in v.low..v.high:
+      result[i] = a*v[i]
 
 proc `.*` *[N:static[int]] (v,w: Vector[N]): Vector[N] =
     new result.data
-    for i in 0..<N:
-      result.data[i] = v.data[i]*w.data[i]
+    for i in v.low..v.high:
+      result[i] = v[i]*w[i]
 
 
-proc `/.` *[N:static[int]] (a: float64,v: Vector[N]): Vector[N] =
-    assert( anyIt(v.data,it!=0.0) == true)
-    new result.data
-    result.data[0..N-1] = v.data.mapIt(a/it)[0..N-1]
-
-proc `./=`* [N:static[int]](v:var Vector[N],val:float) = 
-  assert(val!=0.0, "Div by zero")
-  for e in v.mitems: e/=val
-
-proc `./`* [N:static[int]](v: Vector[N],val:float): Vector[N] =
+proc `/`* [N:static[int]](v: Vector[N],val:float): Vector[N] =
   assert(val!=0.0, "Div by zero")
   new result.data
-  for i in 0..<N:
+  for i in v.low..v.high:
     result.data[i] = v.data[i]/val
-]#
+
+proc `./`* [N:static[int]](v,w: Vector[N]): Vector[N] =
+  new result.data
+  for i in v.low..v.high:
+    assert(w[i]!=0.0, "Division by zero")
+    result[i] = v[i]/w[i]
+
 when isMainModule: # Dirty testing
 
   var r : RowVector[3] = rowVec([1.0,2,3])
@@ -185,3 +158,5 @@ when isMainModule: # Dirty testing
 
   assert( norm(r) == 3.0 )
   assert( norm(rr) == 5.0 )
+
+  echo dot(r,r)
