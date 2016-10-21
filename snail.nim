@@ -1,1 +1,9 @@
-assert(false, "Please don't import snail directly, just import what you need from snail/<smth>")
+##[
+  Nothing to see here, have a look at submodules
+
+  Or examples TODO
+]##
+when defined nimdoc:
+  import snail/vector,snail/matrix,snail/linsys
+else:
+  assert(false, "Don't import snail directly, just import what you need. Eg: snail/matrix")

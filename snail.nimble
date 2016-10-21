@@ -18,5 +18,8 @@ task tests, "TODO":
 
 task builddocs, "Builds documentation and examples":
   #exec("nim js -o:tests/webtest.js  tests/webtest.nim")
-  echo "TODO
+  exec("nim doc2 -o:docs/index.html  snail.nim")
+  exec("nim doc2 -o:docs/snail/vector.html  snail/vector.nim")
+  exec("nim doc2 -o:docs/snail/matrix.html  snail/matrix.nim")
+  exec("nim doc2 -o:docs/snail/linsys.html  snail/linsys.nim")
   
