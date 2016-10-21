@@ -1,10 +1,1 @@
-import random,sequtils
-
-include private/types
-include private/prettyprint
-include private/arrayutils
-include private/operations
-include private/solver
-
-when isMainModule:
-  include tests/ops
+assert(false, "Please don't import snail directly, just import what you need from snail/<smth>")
