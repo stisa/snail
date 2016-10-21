@@ -44,6 +44,11 @@ proc `[]`*[N : static[int]](v: Vector[N], i:int): float {.inline.} = v.data[i]
 
 proc `[]=`*[N : static[int]](v: Vector[N], i:int, val: float) {.inline.} = v.data[i] = val 
 
+proc `==`*[N : static[int]](v,w: Vector[N]):bool =
+  for i,e in pairs(v.data[]):
+    if e != w.data[][i]: return false
+  result = true
+
 proc `$`*[N:static[int]] (v: ColVector[N]): string =
     result = "["
     if isNil(v.data): result.add("nil]\n")
@@ -164,7 +169,10 @@ when isMainModule: # Dirty testing
 
   assert( norm(r) == 3.0 )
   assert( norm(rtc) == 5.0 )
-
+  
+  a[0]=5.0
+  assert( a==rtc )
+  
   when defined js:
     echo r.*r
     echo a
