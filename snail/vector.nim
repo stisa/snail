@@ -103,7 +103,7 @@ proc dot *[N:static[int]] (v, w: Vector[N]): float =
     return sqrt(result)
 
 proc dot *[N:static[int]] (v:RowVector[N], w: ColVector[N]): float =
-    for i in v.low..v.high:
+    for i in vector.low(v)..vector.high(v):
       result += v[i]*w[i]
     return sqrt(result)
 
