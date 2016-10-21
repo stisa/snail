@@ -157,12 +157,18 @@ when isMainModule: # Dirty testing
   c[1] = 4.0
   assert( c[1] == 4.0 )
 
-  var rr = r.t
-  rr[0] = 5.0
-  assert( rr is ColVector == true and r is RowVector == true, "Transposing a row vector gives a col vector. The original row vector is not modified" )
-  assert( rr[0] == 5.0 and r[0] == 1.0, "Modifying the transposed vector does not afftect the original")
+  var rtc = r.t
+  rtc[0] = 5.0
+  assert( rtc is ColVector == true and r is RowVector == true, "Transposing a row vector gives a col vector. The original row vector is not modified" )
+  assert( rtc[0] == 5.0 and r[0] == 1.0, "Modifying the transposed vector does not afftect the original")
 
   assert( norm(r) == 3.0 )
-  assert( norm(rr) == 5.0 )
+  assert( norm(rtc) == 5.0 )
+
+  when defined js:
+    echo r.*r
+    echo a
+    echo c
+    echo rtc
 
   # TODO: test other ops
