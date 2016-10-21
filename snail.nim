@@ -1,5 +1,5 @@
 ##[
-  Nothing to see here, have a look at submodules
+  Nothing to see here, have a look at imports
 
   Or examples TODO
 ]##
