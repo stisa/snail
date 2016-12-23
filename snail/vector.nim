@@ -1,5 +1,8 @@
 from strutils import formatFloat,FloatFormatMode
 
+when defined openblas:
+  import nimblas
+
 type 
     RowVector* [N:static[int]] = object
       ## A row vector 
@@ -98,6 +101,9 @@ proc norm *[N:static[int]] (v: Vector[N]): float =
 
 # Vector dot product
 proc dot *[N:static[int]] (v, w: Vector[N]): float =
+  when defined nimblas:
+    nimblas.dot(N: N, X: addr v, INCX: 1, Y: addr w, INCY: 1)
+  else:
     for i in v.low..v.high:
       result += v[i]*w[i]
     return sqrt(result)
@@ -158,7 +164,7 @@ when isMainModule: # Dirty testing
   assert( a is ColVector == true )
   assert( r.len+c.len == 6 )
   assert( r[2] == 3.0 )
-  
+  assert( r*c == sqrt(14.0) )
   c[1] = 4.0
   assert( c[1] == 4.0 )
 
