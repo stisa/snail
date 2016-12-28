@@ -233,3 +233,4 @@ when isMainModule:
   assert(m*w==r)
   
   #echo m*v
+  echo(currentSourcePath & " passed")

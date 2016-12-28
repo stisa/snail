@@ -14,10 +14,13 @@ task bench, "TODO":
   echo "TODO"
 
 task test, "Run tests":
-  exec("nim c -r snail/vector.nim")
-  exec("nim c -r snail/matrix.nim")
-  exec("nim c -r snail/linsys.nim")
-
+  # Tests inside modules
+  exec("nim c -r --hints:off  snail/vector.nim")
+  exec("nim c -r --hints:off snail/matrix.nim")
+  exec("nim c -r --hints:off snail/linsys.nim")
+  # Tests inside tests folder
+  exec("nim c -r --hints:off tests/tlinsys.nim")
+  
 task builddocs, "Builds documentation and examples":
   #exec("nim js -o:tests/webtest.js  tests/webtest.nim")
   exec("nim doc2 -o:docs/index.html  snail.nim")

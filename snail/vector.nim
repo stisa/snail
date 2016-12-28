@@ -214,3 +214,4 @@ when isMainModule: # Dirty testing
     echo rtc
 
   # TODO: test other ops
+  echo(currentSourcePath & " passed")
