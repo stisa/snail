@@ -53,11 +53,11 @@ configuring external libraries etc. ( linalg also doesn't work on web, I think )
 Misc notes
 ----------
 - ~~Needs to be compiled with "--threads:on", TODO: fallback for when not threaded ( plus a warning? )~~
-
 - Needs more tests
 - Flesh out arrayutils
 - Check arrayutils.zip and improve different size array handling ( eg zip(N,M) where M<N or generally M!=N ) 
 - change name to SNAil? Simple Nim Algebra..i.. lib
-- rework the structure to remove `include`s
+- ~~rework the structure to remove `include`s~~
 - test everything
 - try a more functional approach for concatenation of operations?
+- use blas when avaliable/useful
