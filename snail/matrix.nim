@@ -8,7 +8,7 @@ type
     ]#
     Matrix* [N, M : static[int]] = object
         data *: ref array[N*M, float]
-    
+        p*: ptr float
     Array[N: static[int]] = array[N, float64] # hackhis, gives nicer code tho
     BiArray[N,M: static[int]] = array[N, array[M, float64]]
 
@@ -53,6 +53,7 @@ proc toMatrix* [K](arr: Array[K],N,M:static[int]): Matrix[N,M] =
   ##
   ## The array needs to have N*M or less elements
   new result.data
+  result.p = addr result.data[0]
   assert(N*M >= K)
   if N*M>K:
     for i in arr.low..arr.high: result.data[][i] = arr[i]
@@ -62,6 +63,7 @@ proc toMatrix* [K](arr: Array[K],N,M:static[int]): Matrix[N,M] =
 # matrix([2-D arr]) = Matrix[N,M]
 proc matrix* [N,M:static[int]](arr: BiArray[N,M]): Matrix[N,M] = 
     new result.data
+    result.p = addr result.data[0]
     #for i in arr.low..arr.high: result.data[][i*N..i*N+M] = arr[i]
     for i,r in arr.pairs:
       for j,c in r.pairs: result[i,j] = c
@@ -69,6 +71,7 @@ proc matrix* [N,M:static[int]](arr: BiArray[N,M]): Matrix[N,M] =
   proc randomMatrix* (N: static[int], M: static[int], max: float = 1): Matrix[N,M] =  
     #for i in 0..(N*M)-1: result.data[i] = random(max)
     new result.data
+    result.p = addr result.data[0]
     #for i in 0..(N*M)-1: result.data[i] = random(max)
     for i in mitems(result.data[]): i = random(max)
 ]#
@@ -79,6 +82,7 @@ proc row *[N,M : static[int]](m : Matrix[N,M], r: int) : RowVector[M]=
   ## Return a copy row r from the matrix
   assert(r<N, "The matrix has less rows than the requested row index")
   new result.data
+  result.p = addr result.data[0]
   for i in 0..<M: result.data[i] = m.data[r*m.N+i]
 
 proc overWriteRow *[N,M : static[int]](m :var Matrix[N,M], r: int,rowv:RowVector[M]) =
@@ -90,45 +94,57 @@ proc col *[N,M : static[int]](m : Matrix[N,M], c: int) : ColVector[N]=
   ## Return a copy of col c from the matrix
   assert(c<M, "The matrix has less cols than the requested col index")
   new result.data
+  result.p = addr result.data[0]
   for i in 0..<N: result.data[i] = m.data[i*m.N+c]
 
 proc `t`* [N,M:static[int]](m: Matrix[N,M]): Matrix[M,N] =
   new result.data
+  result.p = addr result.data[0]
   for i in m.low..m.high: result.data[][i] = m.data[][i]
 
 proc reshape* [N,M:static[int]](m: Matrix[N,M],U,V:static[int]): Matrix[U,V] =
   assert(N*M==U*V, "Matrix and its reshaping have different number of elements")
   new result.data
+  result.p = addr result.data[0]
   for i in m.low..m.high: result.data[][i] = m.data[][i]
 
 proc matMul* [N,M,V:static[int]](m: Matrix[N,M], w: Matrix[M,V]) :Matrix[N,V] =
   new result.data
+  result.p = addr result.data[0]
   ## Naive matrix multiplication
-  for r in 0..<N: # iter on rows of m
-    for c in 0..<V: # on cols of w
-      result[r,c] = dot(m.row(r),w.col(c))
+  when declared(nimblas):
+    #nimblas.copy(m.p, FIXME: deepcopy m into result
+    nimblas.gemm(101,111,111,N,V,K,1.0,m.p,N,w.p,K,0,nil,0)
+    result = m
+    discard
+  else:
+    for r in 0..<N: # iter on rows of m
+      for c in 0..<V: # on cols of w
+        result[r,c] = dot(m.row(r),w.col(c))
 
 proc `*`* [N,M,V:static[int]](m: Matrix[N,M],
   w: Matrix[M,V]) :Matrix[N,V] {.inline.} = matMul(m,w)
 
 proc vecMatMul* [N,M:static[int]](m: Matrix[N,M], v: ColVector[M]) :ColVector[N] =
   new result.data
+  result.p = addr result.data[0]
   for r in 0..<N: # iter on rows of m
     result[r] = dot(m.row(r),v) 
 
 proc vecMatMul* [N,M:static[int]](v: RowVector[N],m: Matrix[N,M]) :RowVector[M] =
   new result.data
+  result.p = addr result.data[0]
   for c in 0..<M: # iter on rows of m
     result[c] = dot(v,m.col(c)) 
-
-proc `*`* [N,M:static[int]](m: Matrix[N,M],
-  v: ColVector[M]) :ColVector[N] {.inline.} = vecMatMul(m,v)
+#FIXME error around here
+proc `*`* [N,M:static[int]](m: Matrix[N,M], v: ColVector[M]) :ColVector[N] {.inline.} = vecMatMul(m,v)
 
 proc `*`* [N,M:static[int]](v: RowVector[N],m: Matrix[N,M]) :RowVector[M] {.inline.} = vecMatMul(v,m)
 
 
 proc matAdd *[N,M:static[int]] (m,w: Matrix[N,M]): Matrix[N,M] = 
     new result.data
+    result.p = addr result.data[0]
     for i,e in m.data[].pairs:
       result.data[i] = e+w.data[i]
 # shorthand to^^
@@ -136,6 +152,7 @@ proc `+` *[N,M:static[int]] (m: Matrix[N,M], w: Matrix[N,M]): Matrix[N,M]{.inlin
 
 proc matSub *[N,M:static[int]] (m,w: Matrix[N,M]): Matrix[N,M] = 
     new result.data
+    result.p = addr result.data[0]
     for i,e in m.data[].pairs:
       result.data[i] = e-w.data[i]
 # shorthand to^^
@@ -143,6 +160,7 @@ proc `-` *[N,M:static[int]] (m: Matrix[N,M], w: Matrix[N,M]): Matrix[N,M]{.inlin
 
 proc elMatMul *[N,M:static[int]] (val:float,m: Matrix[N,M]): Matrix[N,M] = 
     new result.data
+    result.p = addr result.data[0]
     if val == 0.0: return # short circuit, the result is already 0 so no need to do it again
     for i,e in m.data[].pairs:
       result.data[i] = val*e
@@ -152,6 +170,7 @@ proc `.*` *[N,M:static[int]] (val:float,m: Matrix[N,M]): Matrix[N,M]{.inline.}= 
 proc elMatDiv *[N,M:static[int]] (m: Matrix[N,M],val:float): Matrix[N,M] = 
     assert(val!=0.0, "Division by zero")
     new result.data
+    result.p = addr result.data[0]
     for i,e in m.data[].pairs:
       result.data[i] = e/val
 # shorthand to^^
@@ -159,6 +178,7 @@ proc `./` *[N,M:static[int]] (m: Matrix[N,M],val:float): Matrix[N,M]{.inline.}= 
 
 proc elMatAdd *[N,M:static[int]] (m: Matrix[N,M],val:float): Matrix[N,M] = 
     new result.data
+    result.p = addr result.data[0]
     for i,e in m.data[].pairs:
       result.data[i] = e+val
 # shorthand to^^
@@ -166,6 +186,7 @@ proc `.+` *[N,M:static[int]] (m: Matrix[N,M],val:float): Matrix[N,M]{.inline.}= 
 
 proc elMatSub *[N,M:static[int]] (m: Matrix[N,M],val:float): Matrix[N,M] = 
     new result.data
+    result.p = addr result.data[0]
     for i,e in m.data[].pairs:
       result.data[i] = e-val
 # shorthand to^^

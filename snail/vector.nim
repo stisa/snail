@@ -10,7 +10,8 @@ type
       ## Example:
       ## [1.0, 2.0, 3.0]
       data*:ref array[N, float]
-    
+      p*: ptr float
+ 
     ColVector* [N:static[int]] = object
       ## A column vector 
       ## 
@@ -19,7 +20,7 @@ type
       ## |    \|2.0\|
       ## |    \|3.0]
       data*:ref array[N, float]
-    
+      p*: ptr float    
     Vector* [N:static[int]]= RowVector[N] | ColVector[N]
       ## A generic vector
 
@@ -29,11 +30,13 @@ proc rowVec*  [N:static[int]](arr: Array[N]): RowVector[N] =
   ## Create a new row vector, takes an array of floats
   new result.data
   result.data[] = arr
+  result.p = addr result.data[0]
 
 proc colVec*  [N:static[int]](arr: Array[N]): ColVector[N] =
   ## Create a new row vector, takes an array of floats
   new result.data
   result.data[] = arr
+  result.p = addr result.data[0]
 
 #[ Future ]
 proc randomVec* (N: static[int],max: float = 1): Vector[N] =  
@@ -91,54 +94,71 @@ proc pnorm *[N:static[int]] (v: Vector[N],p:Natural=1): float =
     result += abs(v[i]).pow(p.float)
   result = result.pow(1/p)
 
-proc enorm *[N:static[int]] (v: Vector[N]): float = pnorm(v,2)
+proc enorm *[N:static[int]] (v: Vector[N]): float =
   ## Euclidean norm: \|v\| = sqrt(sum ( \|x_i\|^2) )
+  when declared(nimblas):
+    return nimblas.nrm2(N, v.p, 1)
+  else:
+    pnorm(v,2)
 
-proc norm *[N:static[int]] (v: Vector[N]): float = 
+proc norm *[N:static[int]] (v: Vector[N]): float =
   ## Infinite norm: \|v\| = max_i of \|x_i\| 
-  for p in v.low..v.high: 
+  for p in v.low..v.high:
     if abs(v[p])>result: result = abs(v[p])
 
 # Vector dot product
 proc dot *[N:static[int]] (v, w: Vector[N]): float =
-  when defined nimblas:
-    nimblas.dot(N: N, X: addr v, INCX: 1, Y: addr w, INCY: 1)
+  when declared(nimblas):
+    return nimblas.dot( N, v.p, 1, w.p,  1)
   else:
     for i in v.low..v.high:
       result += v[i]*w[i]
-    return sqrt(result)
 
 proc dot *[N:static[int]] (v:RowVector[N], w: ColVector[N]): float =
+  when declared(nimblas):
+    return nimblas.dot(N, v.p, 1, w.p, 1)
+  else:
     for i in vector.low(v)..vector.high(v):
       result += v[i]*w[i]
-    return sqrt(result)
 
 proc `*` *[N:static[int]] (v, w: Vector[N]): float {.inline.}= dot(v,w)
 proc `*` *[N:static[int]] (v:RowVector[N], w: ColVector[N]): float = dot(v,w)
 
 # Sum two vectors
-proc add *[N:static[int]] (v, w: Vector[N]): Vector[N] = 
-    new result.data
+proc add *[N:static[int]] (v, w: Vector[N]): Vector[N] =
+  new result.data
+  result.p = addr result.data[0]
+  when declared(nimblas):
+    nimblas.copy(N,v.p,1,result.p,1)
+    nimblas.axpy(N,1,result.p,1,w.p,1)
+  else:
     for i in v.low..v.high:
       result[i] = v[i]+w[i]
 # shorthand to^^
 proc `+` *[N:static[int]] (v: Vector[N], w: Vector[N]): auto {.inline.}= add(v,w)
 
-proc sub *[N:static[int]] (v, w: Vector[N]): Vector[N] = 
-    new result.data
-    for i in v.low..v.high:
-      result[i] = v[i]+w[i]
+proc sub *[N:static[int]] (v, w: Vector[N]): Vector[N] =
+  new result.data
+  result.p = addr result.data[0]
+  for i in v.low..v.high:
+    result[i] = v[i]-w[i]
 # shorthand to^^
 proc `-` *[N:static[int]] (v: Vector[N], w: Vector[N]): auto {.inline.}= sub(v,w)
 
 
 proc `*` *[N:static[int]] (a: float64,v: Vector[N]): Vector[N] =
-    new result.data
+  new result.data
+  result.p = addr result.data[0]
+  when declared(nimblas):
+    nimblas.copy(N,v.p,1,result.p,1)
+    nimblas.scal(N, a, result.p, 1)
+  else:
     for i in v.low..v.high:
       result[i] = a*v[i]
 
 proc `.*` *[N:static[int]] (v,w: Vector[N]): Vector[N] =
     new result.data
+    result.p = addr result.data[0]
     for i in v.low..v.high:
       result[i] = v[i]*w[i]
 
@@ -146,11 +166,13 @@ proc `.*` *[N:static[int]] (v,w: Vector[N]): Vector[N] =
 proc `/`* [N:static[int]](v: Vector[N],val:float): Vector[N] =
   assert(val!=0.0, "Div by zero")
   new result.data
+  result.p = addr result.data[0]
   for i in v.low..v.high:
     result.data[i] = v.data[i]/val
 
 proc `./`* [N:static[int]](v,w: Vector[N]): Vector[N] =
   new result.data
+  result.p = addr result.data[0]
   for i in v.low..v.high:
     assert(w[i]!=0.0, "Division by zero")
     result[i] = v[i]/w[i]
@@ -164,7 +186,7 @@ when isMainModule: # Dirty testing
   assert( a is ColVector == true )
   assert( r.len+c.len == 6 )
   assert( r[2] == 3.0 )
-  assert( r*c == sqrt(14.0) )
+  assert( r*c == 14.0 )
   c[1] = 4.0
   assert( c[1] == 4.0 )
 
@@ -179,6 +201,12 @@ when isMainModule: # Dirty testing
   a[0]=5.0
   assert( a==rtc )
   
+  a = colVec([1.0,2,3])
+  assert(3.0*a == colVec([3.0,6,9]))
+  assert(a+a == colVec([2.0,4,6]))
+  assert(a-a == colVec([0.0,0,0]))
+  assert(a .* a == colVec([1.0,4.0,9.0]))
+  assert(a ./ a == colVec([1.0,1.0,1.0]))
   when defined js:
     echo r.*r
     echo a
