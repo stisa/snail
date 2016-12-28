@@ -1,5 +1,9 @@
 from vector import RowVector,ColVector,Vector,dot,`[]=`,`$`
 from strutils import formatFloat,FloatFormatMode
+
+when defined openblas:
+  import nimblas
+
 type 
     #[
     Matrix with fixed size, Rows*Columns
@@ -20,12 +24,12 @@ proc high(m: Matrix):int = m.data[].high
 proc `[]`*[N,M : static[int]](m : Matrix[N,M], i, j: int): float {.inline.}= 
   assert(i<N, "Row index out of bounds")
   assert(j<M, "Column index out of bounds")
-  m.data[i * N + j]
+  m.data[i * M + j]
 
 proc `[]=`*[N,M : static[int]](m : var Matrix[N,M], i, j: int, val: float) {.inline.}=
   assert(i<N, "Row index out of bounds")
   assert(j<M, "Column index out of bounds")
-  m.data[i * N + j] = val 
+  m.data[i * M + j] = val 
 
 proc `==`*[N,M : static[int]](m,w: Matrix[N,M]):bool =
   for i,e in pairs(m.data[]):
@@ -83,7 +87,7 @@ proc row *[N,M : static[int]](m : Matrix[N,M], r: int) : RowVector[M]=
   assert(r<N, "The matrix has less rows than the requested row index")
   new result.data
   result.p = addr result.data[0]
-  for i in 0..<M: result.data[i] = m.data[r*m.N+i]
+  for i in 0..<M: result.data[i] = m.data[r*m.M+i]
 
 proc overWriteRow *[N,M : static[int]](m :var Matrix[N,M], r: int,rowv:RowVector[M]) =
   ## Overwrite row r in the matrix m
@@ -95,7 +99,8 @@ proc col *[N,M : static[int]](m : Matrix[N,M], c: int) : ColVector[N]=
   assert(c<M, "The matrix has less cols than the requested col index")
   new result.data
   result.p = addr result.data[0]
-  for i in 0..<N: result.data[i] = m.data[i*m.N+c]
+  
+  for i in 0..<N: result.data[i] = m.data[i*m.M+c]
 
 proc `t`* [N,M:static[int]](m: Matrix[N,M]): Matrix[M,N] =
   new result.data
@@ -114,9 +119,7 @@ proc matMul* [N,M,V:static[int]](m: Matrix[N,M], w: Matrix[M,V]) :Matrix[N,V] =
   ## Naive matrix multiplication
   when declared(nimblas):
     #nimblas.copy(m.p, FIXME: deepcopy m into result
-    nimblas.gemm(101,111,111,N,V,K,1.0,m.p,N,w.p,K,0,nil,0)
-    result = m
-    discard
+    nimblas.gemm(rowMajor,noTranspose,noTranspose,N,V,M,1.0,m.p,M,w.p,V,0,result.p,V)
   else:
     for r in 0..<N: # iter on rows of m
       for c in 0..<V: # on cols of w
