@@ -13,8 +13,10 @@ requires "nim >= 0.14.0"
 task bench, "TODO":
   echo "TODO"
 
-task tests, "TODO":
-  echo "TODO"
+task test, "Run tests":
+  exec("nim c -r snail/vector.nim")
+  exec("nim c -r snail/matrix.nim")
+  exec("nim c -r snail/linsys.nim")
 
 task builddocs, "Builds documentation and examples":
   #exec("nim js -o:tests/webtest.js  tests/webtest.nim")

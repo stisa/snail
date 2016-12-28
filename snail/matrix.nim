@@ -122,8 +122,8 @@ proc matMul* [N,M,V:static[int]](m: Matrix[N,M], w: Matrix[M,V]) :Matrix[N,V] =
       for c in 0..<V: # on cols of w
         result[r,c] = dot(m.row(r),w.col(c))
 
-proc `*`* [N,M,V:static[int]](m: Matrix[N,M],
-  w: Matrix[M,V]) :Matrix[N,V] {.inline.} = matMul(m,w)
+template `*`* [N,M,V:static[int]](m: Matrix[N,M],
+  w: Matrix[M,V]) :Matrix[N,V] = matMul(m,w)
 
 proc vecMatMul* [N,M:static[int]](m: Matrix[N,M], v: ColVector[M]) :ColVector[N] =
   new result.data
@@ -137,9 +137,9 @@ proc vecMatMul* [N,M:static[int]](v: RowVector[N],m: Matrix[N,M]) :RowVector[M] 
   for c in 0..<M: # iter on rows of m
     result[c] = dot(v,m.col(c)) 
 #FIXME error around here
-proc `*`* [N,M:static[int]](m: Matrix[N,M], v: ColVector[M]) :ColVector[N] {.inline.} = vecMatMul(m,v)
+template `*`* [N,M:static[int]](m: Matrix[N,M], v: ColVector[M]) :ColVector[N] = vecMatMul(m,v)
 
-proc `*`* [N,M:static[int]](v: RowVector[N],m: Matrix[N,M]) :RowVector[M] {.inline.} = vecMatMul(v,m)
+template `*`* [N,M:static[int]](v: RowVector[N],m: Matrix[N,M]) :RowVector[M] = vecMatMul(v,m)
 
 
 proc matAdd *[N,M:static[int]] (m,w: Matrix[N,M]): Matrix[N,M] = 
