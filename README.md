@@ -22,6 +22,9 @@ echo x
 # |+0.33]
 ```
 
+Compile with `nim c -r -d:release test.nim` or `nim c -r -d:openblas test.nim` ( be sure to have openblas installed ).
+Bonus: `nim js -d:release test.nim` should work too!
+
 Documentation
 -------------
 
@@ -44,11 +47,11 @@ Other?? Linear regressions, finite differences...?
 On Perfomance of a naive algebra library
 ----------------------------------------
 
-On an i7 4710 ( laptop ) this library requires about **3.5s** to multiply two dense matrices 200x200.
-Note that no particular optimization has been done yet, and it is my intention to bring the time down.
+No particular optimization has been done yet, and it is my intention to increase the performance of the nim implementation.
+As a rough estimate, with `-d:openblas` multiplying two 100x100 matrices 100 times takes ~0.05s, while the nim implementation  
+with `-d:release` takes ~0.3s , so around a 7x difference. 
 
-For reference, the same operation using [linalg](https://github.com/unicredit/linear-algebra) takes about **0.004s**, so use that if you need something faster and are fine with
-configuring external libraries etc. ( linalg also doesn't work on web, I think )
+If you need something more complete and are fine with configuring external libraries etc. ( and don't need js support ) consider using [linalg](https://github.com/unicredit/linear-algebra).
 
 Misc notes
 ----------
