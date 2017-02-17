@@ -12,10 +12,13 @@ proc projection*(N:static[int],w,h:float):Matrix[N,N] =
     resarr[15] = 1
   result = resarr.toMatrix(N,N)
 
+proc projection*(w,h:float):Matrix[4,4]{.inline} =
+  projection(4,w,h)
+
 proc translation*(N:static[int],x,y:float=0,z:float=0):Matrix[N,N] =
-  var resarr : array[N*N,float]
-  doassert(N in {3,4})
+  doassert(N > 2 and N < 5, "be careful with implicit conversions from int to float")
  
+  var resarr : array[N*N,float]
   resarr[0] = 1
   resarr[N+1] = 1
   resarr[2*(N+1)] = 1
@@ -31,6 +34,9 @@ proc translation*(N:static[int],x,y:float=0,z:float=0):Matrix[N,N] =
 
   result = resarr.toMatrix(N,N)
 
+
+proc translation*(x,y:float=0,z:float=0):Matrix[4,4]{.inline} =
+  translation(4,x,y,z)
 
 proc rotation*(N:static[int],phi=0.0,theta:float=0):Matrix[N,N] =
   
@@ -51,13 +57,16 @@ proc rotation*(N:static[int],phi=0.0,theta:float=0):Matrix[N,N] =
   
   result = resarr.toMatrix(N,N)
 
+proc rotation*(phi=0.0,theta:float=0):Matrix[4,4]{.inline} =
+  rotation(4,phi,theta)
+
 when isMainModule:
-  var p:Matrix[4,4] = projection(4,2,2)
+  var p:Matrix[4,4] = projection(2,2)
 
   var t = translation(3,2,2)
-  var t2 = translation(4,2,2,2)
+  var t2 = translation(2.0,2,2)
   echo p
   echo t
   echo t2
-  echo rotation(4,90.0) 
+  echo rotation(90.0) 
 
