@@ -12,7 +12,7 @@ type
     ]#
     Matrix* [N, M : static[int]] = object
         data *: ref array[N*M, float]
-        p*: ptr float
+        when not defined(js):p*: ptr float
     Array[N: static[int]] = array[N, float64] # hackhis, gives nicer code tho
     BiArray[N,M: static[int]] = array[N, array[M, float64]]
 
@@ -57,7 +57,7 @@ proc toMatrix* [K](arr: Array[K],N,M:static[int]): Matrix[N,M] =
   ##
   ## The array needs to have N*M or less elements
   new result.data
-  result.p = addr result.data[0]
+  when not defined(js): result.p = addr result.data[0]
   assert(N*M >= K)
   if N*M>K:
     for i in arr.low..arr.high: result.data[][i] = arr[i]
@@ -67,8 +67,7 @@ proc toMatrix* [K](arr: Array[K],N,M:static[int]): Matrix[N,M] =
 # matrix([2-D arr]) = Matrix[N,M]
 proc matrix* [N,M:static[int]](arr: BiArray[N,M]): Matrix[N,M] = 
     new result.data
-    result.p = addr result.data[0]
-    #for i in arr.low..arr.high: result.data[][i*N..i*N+M] = arr[i]
+    when not defined(js): result.p = addr result.data[0]
     for i,r in arr.pairs:
       for j,c in r.pairs: result[i,j] = c
 #[ Future ]
@@ -82,7 +81,7 @@ proc matrix* [N,M:static[int]](arr: BiArray[N,M]): Matrix[N,M] =
 
 proc identity*(N:static[int]):Matrix[N,N]=
   new result.data
-  result.p = addr result.data[0]
+  when not defined(js):result.p = addr result.data[0]
   for i in 0..<N: result[i,i] = 1
 
 proc dims*[N,M:static[int]](m: Matrix[N,M]): tuple[rows:int,cols:int] {.inline.}= (N,M)
@@ -91,7 +90,7 @@ proc row *[N,M : static[int]](m : Matrix[N,M], r: int) : RowVector[M]=
   ## Return a copy row r from the matrix
   assert(r<N, "The matrix has less rows than the requested row index")
   new result.data
-  result.p = addr result.data[0]
+  when not defined(js):result.p = addr result.data[0]
   for i in 0..<M: result.data[i] = m.data[r*m.M+i]
 
 proc overWriteRow *[N,M : static[int]](m :var Matrix[N,M], r: int,rowv:RowVector[M]) =
@@ -103,24 +102,24 @@ proc col *[N,M : static[int]](m : Matrix[N,M], c: int) : ColVector[N]=
   ## Return a copy of col c from the matrix
   assert(c<M, "The matrix has less cols than the requested col index")
   new result.data
-  result.p = addr result.data[0]
+  when not defined(js):result.p = addr result.data[0]
   
   for i in 0..<N: result.data[i] = m.data[i*m.M+c]
 
 proc `t`* [N,M:static[int]](m: Matrix[N,M]): Matrix[M,N] =
   new result.data
-  result.p = addr result.data[0]
+  when not defined(js):result.p = addr result.data[0]
   for i in m.low..m.high: result.data[][i] = m.data[][i]
 
 proc reshape* [N,M:static[int]](m: Matrix[N,M],U,V:static[int]): Matrix[U,V] =
   assert(N*M==U*V, "Matrix and its reshaping have different number of elements")
   new result.data
-  result.p = addr result.data[0]
+  when not defined(js):result.p = addr result.data[0]
   for i in m.low..m.high: result.data[][i] = m.data[][i]
 
 proc matMul* [N,M,V:static[int]](m: Matrix[N,M], w: Matrix[M,V]) :Matrix[N,V] =
   new result.data
-  result.p = addr result.data[0]
+  when not defined(js):result.p = addr result.data[0]
   ## Naive matrix multiplication
   when declared(nimblas):
     #nimblas.copy(m.p, FIXME: deepcopy m into result
@@ -135,13 +134,13 @@ template `*`* [N,M,V:static[int]](m: Matrix[N,M],
 
 proc vecMatMul* [N,M:static[int]](m: Matrix[N,M], v: ColVector[M]) :ColVector[N] =
   new result.data
-  result.p = addr result.data[0]
+  when not defined(js):result.p = addr result.data[0]
   for r in 0..<N: # iter on rows of m
     result[r] = dot(m.row(r),v) 
 
 proc vecMatMul* [N,M:static[int]](v: RowVector[N],m: Matrix[N,M]) :RowVector[M] =
   new result.data
-  result.p = addr result.data[0]
+  when not defined(js):result.p = addr result.data[0]
   for c in 0..<M: # iter on rows of m
     result[c] = dot(v,m.col(c)) 
 #FIXME error around here
@@ -152,7 +151,7 @@ template `*`* [N,M:static[int]](v: RowVector[N],m: Matrix[N,M]) :RowVector[M] = 
 
 proc matAdd *[N,M:static[int]] (m,w: Matrix[N,M]): Matrix[N,M] = 
     new result.data
-    result.p = addr result.data[0]
+    when not defined(js):result.p = addr result.data[0]
     for i,e in m.data[].pairs:
       result.data[i] = e+w.data[i]
 # shorthand to^^
@@ -160,7 +159,7 @@ proc `+` *[N,M:static[int]] (m: Matrix[N,M], w: Matrix[N,M]): Matrix[N,M]{.inlin
 
 proc matSub *[N,M:static[int]] (m,w: Matrix[N,M]): Matrix[N,M] = 
     new result.data
-    result.p = addr result.data[0]
+    when not defined(js):result.p = addr result.data[0]
     for i,e in m.data[].pairs:
       result.data[i] = e-w.data[i]
 # shorthand to^^
@@ -168,7 +167,7 @@ proc `-` *[N,M:static[int]] (m: Matrix[N,M], w: Matrix[N,M]): Matrix[N,M]{.inlin
 
 proc elMatMul *[N,M:static[int]] (val:float,m: Matrix[N,M]): Matrix[N,M] = 
     new result.data
-    result.p = addr result.data[0]
+    when not defined(js):result.p = addr result.data[0]
     if val == 0.0: return # short circuit, the result is already 0 so no need to do it again
     for i,e in m.data[].pairs:
       result.data[i] = val*e
@@ -178,7 +177,7 @@ proc `.*` *[N,M:static[int]] (val:float,m: Matrix[N,M]): Matrix[N,M]{.inline.}= 
 proc elMatDiv *[N,M:static[int]] (m: Matrix[N,M],val:float): Matrix[N,M] = 
     assert(val!=0.0, "Division by zero")
     new result.data
-    result.p = addr result.data[0]
+    when not defined(js):result.p = addr result.data[0]
     for i,e in m.data[].pairs:
       result.data[i] = e/val
 # shorthand to^^
@@ -186,7 +185,7 @@ proc `./` *[N,M:static[int]] (m: Matrix[N,M],val:float): Matrix[N,M]{.inline.}= 
 
 proc elMatAdd *[N,M:static[int]] (m: Matrix[N,M],val:float): Matrix[N,M] = 
     new result.data
-    result.p = addr result.data[0]
+    when not defined(js):result.p = addr result.data[0]
     for i,e in m.data[].pairs:
       result.data[i] = e+val
 # shorthand to^^
@@ -194,7 +193,7 @@ proc `.+` *[N,M:static[int]] (m: Matrix[N,M],val:float): Matrix[N,M]{.inline.}= 
 
 proc elMatSub *[N,M:static[int]] (m: Matrix[N,M],val:float): Matrix[N,M] = 
     new result.data
-    result.p = addr result.data[0]
+    when not defined(js):result.p = addr result.data[0]
     for i,e in m.data[].pairs:
       result.data[i] = e-val
 # shorthand to^^

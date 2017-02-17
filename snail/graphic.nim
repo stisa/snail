@@ -9,6 +9,8 @@ proc projection*(N:static[int],w,h:float):Matrix[N,N] =
   resarr[N+1] = 2/h
   resarr[2*(N+1)] = 1
   when N == 4:
+    resarr[12] = -1
+    resarr[13] = 1
     resarr[15] = 1
   result = resarr.toMatrix(N,N)
 
