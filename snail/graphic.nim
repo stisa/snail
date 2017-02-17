@@ -6,11 +6,12 @@ proc projection*(N:static[int],w,h:float):Matrix[N,N] =
   var resarr : array[N*N,float]
   doassert(N in {3,4})
   resarr[0] = 2/w
-  resarr[N+1] = 2/h
-  resarr[2*(N+1)] = 1
+  resarr[N+1] = -2/h
+  resarr[2*(N+1)] = -2
   when N == 4:
-    resarr[12] = -1
-    resarr[13] = 1
+    resarr[3] = -1
+    resarr[7] = 1
+    resarr[11] = 0
     resarr[15] = 1
   result = resarr.toMatrix(N,N)
 
@@ -61,6 +62,23 @@ proc rotation*(N:static[int],phi=0.0,theta:float=0):Matrix[N,N] =
 
 proc rotation*(phi=0.0,theta:float=0):Matrix[4,4]{.inline} =
   rotation(4,phi,theta)
+
+proc scaling*(N:static[int],w,h:float=0):Matrix[N,N] =
+  doassert(N > 2 and N < 5, "be careful with implicit conversions from int to float")
+ 
+  var resarr : array[N*N,float]
+  resarr[0] = 1/w
+  resarr[N+1] = 1/h
+  resarr[2*(N+1)] = 0
+  
+  resarr[10] = 1
+  resarr[15] = 1
+
+  result = resarr.toMatrix(N,N)
+
+
+proc scaling*(w,h:float=0):Matrix[4,4]{.inline} =
+  scaling(4,w,h)
 
 when isMainModule:
   var p:Matrix[4,4] = projection(2,2)
