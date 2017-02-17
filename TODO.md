@@ -1,6 +1,7 @@
 TODO
 ====
 
+- investigate default arg value for procs taking static[int]
 - test everything
 - try a more functional approach for concatenation of operations?
 - ~~for matrix and vector, have a single file (each) implementing basic operations ( sum, multiplication, norms, etc )~~

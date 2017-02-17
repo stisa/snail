@@ -80,6 +80,11 @@ proc matrix* [N,M:static[int]](arr: BiArray[N,M]): Matrix[N,M] =
     for i in mitems(result.data[]): i = random(max)
 ]#
 
+proc identity*(N:static[int]):Matrix[N,N]=
+  new result.data
+  result.p = addr result.data[0]
+  for i in 0..<N: result[i,i] = 1
+
 proc dims*[N,M:static[int]](m: Matrix[N,M]): tuple[rows:int,cols:int] {.inline.}= (N,M)
 
 proc row *[N,M : static[int]](m : Matrix[N,M], r: int) : RowVector[M]=
