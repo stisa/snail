@@ -4,6 +4,8 @@ from strutils import formatFloat,FloatFormatMode
 when defined openblas:
   import nimblas
 
+const maxstack :int = 100
+
 type 
     #[
     Matrix with fixed size, Rows*Columns
@@ -11,7 +13,9 @@ type
                         | e f g |
     ]#
     Matrix* [N, M : static[int]] = object
+       # when N>maxstack:
         data *: ref array[N*M, float]
+       # else: data*: array[N*M,float]
         when not defined(js):p*: ptr float
     Array[N: static[int]] = array[N, float64] # hackhis, gives nicer code tho
     BiArray[N,M: static[int]] = array[N, array[M, float64]]
@@ -66,6 +70,7 @@ proc toMatrix* [K](arr: Array[K],N,M:static[int]): Matrix[N,M] =
 
 # matrix([2-D arr]) = Matrix[N,M]
 proc matrix* [N,M:static[int]](arr: BiArray[N,M]): Matrix[N,M] = 
+    #when N>maxstack:
     new result.data
     when not defined(js): result.p = addr result.data[0]
     for i,r in arr.pairs:
