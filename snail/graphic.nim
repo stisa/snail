@@ -7,11 +7,11 @@ proc projection*(N:static[int],w,h:float):Matrix[N,N] =
   doassert(N in {3,4})
   resarr[0] = 2/w
   resarr[N+1] = -2/h
-  resarr[2*(N+1)] = -2
+  resarr[2*(N+1)] = 1
   when N == 4:
-    resarr[3] = -1
-    resarr[7] = 1
-    resarr[11] = 0
+    resarr[12] = -1
+    resarr[13] = 1
+    resarr[14] = 1
     resarr[15] = 1
   result = resarr.toMatrix(N,N)
 
