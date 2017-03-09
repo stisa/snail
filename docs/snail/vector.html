@@ -1247,8 +1247,12 @@ function main() {
     title="`[]`[N: static[int]](v: Vector[N]; i: int): float"><wbr />`[]`<span class="attachedType" style="visibility:hidden">Vector</span></a></li>
   <li><a class="reference" href="#[]=,Vector[N],int,float"
     title="`[]=`[N: static[int]](v: Vector[N]; i: int; val: float)"><wbr />`[]=`<span class="attachedType" style="visibility:hidden">Vector</span></a></li>
+  <li><a class="reference" href="#eq,Vector[N],Vector[N],float"
+    title="eq[N: static[int]](v, w: Vector[N]; epsilon: float = Epsilon): bool"><wbr />eq<span class="attachedType" style="visibility:hidden">Vector</span></a></li>
   <li><a class="reference" href="#==,Vector[N],Vector[N]"
-    title="`==`[N: static[int]](v, w: Vector[N]): bool"><wbr />`==`<span class="attachedType" style="visibility:hidden">Vector</span></a></li>
+    title="`==`[N: static[int]](v, w: Vector[N]; epsilon = Epsilon): bool"><wbr />`==`<span class="attachedType" style="visibility:hidden">Vector</span></a></li>
+  <li><a class="reference" href="#===,Vector[N],Vector[N]"
+    title="`===`[N: static[int]](v, w: Vector[N]): bool"><wbr />`===`<span class="attachedType" style="visibility:hidden">Vector</span></a></li>
   <li><a class="reference" href="#$,ColVector[N]"
     title="`$`[N: static[int]](v: ColVector[N]): string"><wbr />`$`<span class="attachedType" style="visibility:hidden">ColVector</span></a></li>
   <li><a class="reference" href="#$,RowVector[N]"
@@ -1322,9 +1326,9 @@ function main() {
 <p>Example: [1.0, 2.0, 3.0]</p>
 
 &nbsp;&nbsp;<a
-href="/tree/master/snail/vector.nim#L7"
+href="/tree/master/snail/vector.nim#L9"
 class="link-seesrc" target="_blank">Source</a>
-<a href="/edit/devel/snail/vector.nim#L7" class="link-seesrc" target="_blank" >Edit</a>
+<a href="/edit/devel/snail/vector.nim#L9" class="link-seesrc" target="_blank" >Edit</a>
 
 </dd>
 <dt id="ColVector"><a name="ColVector"></a><pre><span class="Identifier">ColVector</span><span class="Other">[</span><span class="Identifier">N</span><span class="Other">]</span> <span class="Other">=</span> <span class="Keyword">object</span>
@@ -1336,18 +1340,18 @@ class="link-seesrc" target="_blank">Source</a>
 <p>Example:<p>[1.0|<br />|2.0|<br />|3.0]<br /></p></p>
 
 &nbsp;&nbsp;<a
-href="/tree/master/snail/vector.nim#L15"
+href="/tree/master/snail/vector.nim#L17"
 class="link-seesrc" target="_blank">Source</a>
-<a href="/edit/devel/snail/vector.nim#L15" class="link-seesrc" target="_blank" >Edit</a>
+<a href="/edit/devel/snail/vector.nim#L17" class="link-seesrc" target="_blank" >Edit</a>
 
 </dd>
 <dt id="Vector"><a name="Vector"></a><pre><span class="Identifier">Vector</span><span class="Other">[</span><span class="Identifier">N</span><span class="Other">]</span> <span class="Other">=</span> <span class="Identifier">RowVector</span><span class="Other">[</span><span class="Identifier">N</span><span class="Other">]</span> <span class="Operator">|</span> <span class="Identifier">ColVector</span><span class="Other">[</span><span class="Identifier">N</span><span class="Other">]</span></pre></dt>
 <dd>
 A generic vector
 &nbsp;&nbsp;<a
-href="/tree/master/snail/vector.nim#L25"
+href="/tree/master/snail/vector.nim#L27"
 class="link-seesrc" target="_blank">Source</a>
-<a href="/edit/devel/snail/vector.nim#L25" class="link-seesrc" target="_blank" >Edit</a>
+<a href="/edit/devel/snail/vector.nim#L27" class="link-seesrc" target="_blank" >Edit</a>
 
 </dd>
 
@@ -1359,84 +1363,84 @@ class="link-seesrc" target="_blank">Source</a>
 <dd>
 Create a new row vector, takes an array of floats
 &nbsp;&nbsp;<a
-href="/tree/master/snail/vector.nim#L30"
+href="/tree/master/snail/vector.nim#L32"
 class="link-seesrc" target="_blank">Source</a>
-<a href="/edit/devel/snail/vector.nim#L30" class="link-seesrc" target="_blank" >Edit</a>
+<a href="/edit/devel/snail/vector.nim#L32" class="link-seesrc" target="_blank" >Edit</a>
 
 </dd>
 <dt id="colVec"><a name="colVec,Array[N]"></a><pre><span class="Keyword">proc</span> <span class="Identifier">colVec</span><span class="Other">[</span><span class="Identifier">N</span><span class="Other">:</span> <span class="Keyword">static</span><span class="Other">[</span><span class="Identifier">int</span><span class="Other">]</span><span class="Other">]</span><span class="Other">(</span><span class="Identifier">arr</span><span class="Other">:</span> <span class="Identifier">Array</span><span class="Other">[</span><span class="Identifier">N</span><span class="Other">]</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">ColVector</span><span class="Other">[</span><span class="Identifier">N</span><span class="Other">]</span></pre></dt>
 <dd>
 Create a new row vector, takes an array of floats
 &nbsp;&nbsp;<a
-href="/tree/master/snail/vector.nim#L36"
+href="/tree/master/snail/vector.nim#L38"
 class="link-seesrc" target="_blank">Source</a>
-<a href="/edit/devel/snail/vector.nim#L36" class="link-seesrc" target="_blank" >Edit</a>
+<a href="/edit/devel/snail/vector.nim#L38" class="link-seesrc" target="_blank" >Edit</a>
 
 </dd>
 <dt id="len"><a name="len,Vector[N]"></a><pre><span class="Keyword">proc</span> <span class="Identifier">len</span><span class="Other">[</span><span class="Identifier">N</span><span class="Other">:</span> <span class="Keyword">static</span><span class="Other">[</span><span class="Identifier">int</span><span class="Other">]</span><span class="Other">]</span><span class="Other">(</span><span class="Identifier">v</span><span class="Other">:</span> <span class="Identifier">Vector</span><span class="Other">[</span><span class="Identifier">N</span><span class="Other">]</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">int</span></pre></dt>
 <dd>
-
-&nbsp;&nbsp;<a
-href="/tree/master/snail/vector.nim#L48"
-class="link-seesrc" target="_blank">Source</a>
-<a href="/edit/devel/snail/vector.nim#L48" class="link-seesrc" target="_blank" >Edit</a>
-
-</dd>
-<dt id="[]"><a name="[],Vector[N],int"></a><pre><span class="Keyword">proc</span> <span class="Identifier">`[]`</span><span class="Other">[</span><span class="Identifier">N</span><span class="Other">:</span> <span class="Keyword">static</span><span class="Other">[</span><span class="Identifier">int</span><span class="Other">]</span><span class="Other">]</span><span class="Other">(</span><span class="Identifier">v</span><span class="Other">:</span> <span class="Identifier">Vector</span><span class="Other">[</span><span class="Identifier">N</span><span class="Other">]</span><span class="Other">;</span> <span class="Identifier">i</span><span class="Other">:</span> <span class="Identifier">int</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">float</span> <span class="Other pragmabegin">{.</span><div class="pragma"><span class="Identifier">inline</span></div><span class="Other pragmaend">.}</span></pre></dt>
-<dd>
-
+The length of the vector. Read only.
 &nbsp;&nbsp;<a
 href="/tree/master/snail/vector.nim#L50"
 class="link-seesrc" target="_blank">Source</a>
 <a href="/edit/devel/snail/vector.nim#L50" class="link-seesrc" target="_blank" >Edit</a>
 
 </dd>
+<dt id="[]"><a name="[],Vector[N],int"></a><pre><span class="Keyword">proc</span> <span class="Identifier">`[]`</span><span class="Other">[</span><span class="Identifier">N</span><span class="Other">:</span> <span class="Keyword">static</span><span class="Other">[</span><span class="Identifier">int</span><span class="Other">]</span><span class="Other">]</span><span class="Other">(</span><span class="Identifier">v</span><span class="Other">:</span> <span class="Identifier">Vector</span><span class="Other">[</span><span class="Identifier">N</span><span class="Other">]</span><span class="Other">;</span> <span class="Identifier">i</span><span class="Other">:</span> <span class="Identifier">int</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">float</span> <span class="Other pragmabegin">{.</span><div class="pragma"><span class="Identifier">inline</span></div><span class="Other pragmaend">.}</span></pre></dt>
+<dd>
+
+&nbsp;&nbsp;<a
+href="/tree/master/snail/vector.nim#L53"
+class="link-seesrc" target="_blank">Source</a>
+<a href="/edit/devel/snail/vector.nim#L53" class="link-seesrc" target="_blank" >Edit</a>
+
+</dd>
 <dt id="[]="><a name="[]=,Vector[N],int,float"></a><pre><span class="Keyword">proc</span> <span class="Identifier">`[]=`</span><span class="Other">[</span><span class="Identifier">N</span><span class="Other">:</span> <span class="Keyword">static</span><span class="Other">[</span><span class="Identifier">int</span><span class="Other">]</span><span class="Other">]</span><span class="Other">(</span><span class="Identifier">v</span><span class="Other">:</span> <span class="Identifier">Vector</span><span class="Other">[</span><span class="Identifier">N</span><span class="Other">]</span><span class="Other">;</span> <span class="Identifier">i</span><span class="Other">:</span> <span class="Identifier">int</span><span class="Other">;</span> <span class="Identifier">val</span><span class="Other">:</span> <span class="Identifier">float</span><span class="Other">)</span> <span class="Other pragmabegin">{.</span><div class="pragma"><span class="Identifier">inline</span></div><span class="Other pragmaend">.}</span></pre></dt>
 <dd>
 
 &nbsp;&nbsp;<a
-href="/tree/master/snail/vector.nim#L52"
+href="/tree/master/snail/vector.nim#L55"
 class="link-seesrc" target="_blank">Source</a>
-<a href="/edit/devel/snail/vector.nim#L52" class="link-seesrc" target="_blank" >Edit</a>
+<a href="/edit/devel/snail/vector.nim#L55" class="link-seesrc" target="_blank" >Edit</a>
 
 </dd>
-<dt id="=="><a name="==,Vector[N],Vector[N]"></a><pre><span class="Keyword">proc</span> <span class="Identifier">`==`</span><span class="Other">[</span><span class="Identifier">N</span><span class="Other">:</span> <span class="Keyword">static</span><span class="Other">[</span><span class="Identifier">int</span><span class="Other">]</span><span class="Other">]</span><span class="Other">(</span><span class="Identifier">v</span><span class="Other">,</span> <span class="Identifier">w</span><span class="Other">:</span> <span class="Identifier">Vector</span><span class="Other">[</span><span class="Identifier">N</span><span class="Other">]</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">bool</span></pre></dt>
+<dt id="eq"><a name="eq,Vector[N],Vector[N],float"></a><pre><span class="Keyword">proc</span> <span class="Identifier">eq</span><span class="Other">[</span><span class="Identifier">N</span><span class="Other">:</span> <span class="Keyword">static</span><span class="Other">[</span><span class="Identifier">int</span><span class="Other">]</span><span class="Other">]</span><span class="Other">(</span><span class="Identifier">v</span><span class="Other">,</span> <span class="Identifier">w</span><span class="Other">:</span> <span class="Identifier">Vector</span><span class="Other">[</span><span class="Identifier">N</span><span class="Other">]</span><span class="Other">;</span> <span class="Identifier">epsilon</span><span class="Other">:</span> <span class="Identifier">float</span> <span class="Other">=</span> <span class="Identifier">Epsilon</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">bool</span></pre></dt>
+<dd>
+Equal up to epsilon
+&nbsp;&nbsp;<a
+href="/tree/master/snail/vector.nim#L57"
+class="link-seesrc" target="_blank">Source</a>
+<a href="/edit/devel/snail/vector.nim#L57" class="link-seesrc" target="_blank" >Edit</a>
+
+</dd>
+<dt id="=="><a name="==,Vector[N],Vector[N]"></a><pre><span class="Keyword">proc</span> <span class="Identifier">`==`</span><span class="Other">[</span><span class="Identifier">N</span><span class="Other">:</span> <span class="Keyword">static</span><span class="Other">[</span><span class="Identifier">int</span><span class="Other">]</span><span class="Other">]</span><span class="Other">(</span><span class="Identifier">v</span><span class="Other">,</span> <span class="Identifier">w</span><span class="Other">:</span> <span class="Identifier">Vector</span><span class="Other">[</span><span class="Identifier">N</span><span class="Other">]</span><span class="Other">;</span> <span class="Identifier">epsilon</span> <span class="Other">=</span> <span class="Identifier">Epsilon</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">bool</span> <span class="Other pragmabegin">{.</span><div class="pragma"><span class="Identifier">inline</span></div><span class="Other pragmaend">.}</span></pre></dt>
 <dd>
 
 &nbsp;&nbsp;<a
-href="/tree/master/snail/vector.nim#L54"
+href="/tree/master/snail/vector.nim#L64"
 class="link-seesrc" target="_blank">Source</a>
-<a href="/edit/devel/snail/vector.nim#L54" class="link-seesrc" target="_blank" >Edit</a>
+<a href="/edit/devel/snail/vector.nim#L64" class="link-seesrc" target="_blank" >Edit</a>
+
+</dd>
+<dt id="==="><a name="===,Vector[N],Vector[N]"></a><pre><span class="Keyword">proc</span> <span class="Identifier">`===`</span><span class="Other">[</span><span class="Identifier">N</span><span class="Other">:</span> <span class="Keyword">static</span><span class="Other">[</span><span class="Identifier">int</span><span class="Other">]</span><span class="Other">]</span><span class="Other">(</span><span class="Identifier">v</span><span class="Other">,</span> <span class="Identifier">w</span><span class="Other">:</span> <span class="Identifier">Vector</span><span class="Other">[</span><span class="Identifier">N</span><span class="Other">]</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">bool</span></pre></dt>
+<dd>
+Exact equality.
+&nbsp;&nbsp;<a
+href="/tree/master/snail/vector.nim#L67"
+class="link-seesrc" target="_blank">Source</a>
+<a href="/edit/devel/snail/vector.nim#L67" class="link-seesrc" target="_blank" >Edit</a>
 
 </dd>
 <dt id="$"><a name="$,ColVector[N]"></a><pre><span class="Keyword">proc</span> <span class="Identifier">`$`</span><span class="Other">[</span><span class="Identifier">N</span><span class="Other">:</span> <span class="Keyword">static</span><span class="Other">[</span><span class="Identifier">int</span><span class="Other">]</span><span class="Other">]</span><span class="Other">(</span><span class="Identifier">v</span><span class="Other">:</span> <span class="Identifier">ColVector</span><span class="Other">[</span><span class="Identifier">N</span><span class="Other">]</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">string</span></pre></dt>
 <dd>
 
 &nbsp;&nbsp;<a
-href="/tree/master/snail/vector.nim#L59"
+href="/tree/master/snail/vector.nim#L73"
 class="link-seesrc" target="_blank">Source</a>
-<a href="/edit/devel/snail/vector.nim#L59" class="link-seesrc" target="_blank" >Edit</a>
+<a href="/edit/devel/snail/vector.nim#L73" class="link-seesrc" target="_blank" >Edit</a>
 
 </dd>
 <dt id="$"><a name="$,RowVector[N]"></a><pre><span class="Keyword">proc</span> <span class="Identifier">`$`</span><span class="Other">[</span><span class="Identifier">N</span><span class="Other">:</span> <span class="Keyword">static</span><span class="Other">[</span><span class="Identifier">int</span><span class="Other">]</span><span class="Other">]</span><span class="Other">(</span><span class="Identifier">v</span><span class="Other">:</span> <span class="Identifier">RowVector</span><span class="Other">[</span><span class="Identifier">N</span><span class="Other">]</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">string</span></pre></dt>
-<dd>
-
-&nbsp;&nbsp;<a
-href="/tree/master/snail/vector.nim#L70"
-class="link-seesrc" target="_blank">Source</a>
-<a href="/edit/devel/snail/vector.nim#L70" class="link-seesrc" target="_blank" >Edit</a>
-
-</dd>
-<dt id="low"><a name="low,ColVector"></a><pre><span class="Keyword">proc</span> <span class="Identifier">low</span><span class="Other">[</span><span class="Identifier">ColVector</span><span class="Other">]</span><span class="Other">(</span><span class="Identifier">v</span><span class="Other">:</span> <span class="Identifier">ColVector</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">int</span></pre></dt>
-<dd>
-
-&nbsp;&nbsp;<a
-href="/tree/master/snail/vector.nim#L83"
-class="link-seesrc" target="_blank">Source</a>
-<a href="/edit/devel/snail/vector.nim#L83" class="link-seesrc" target="_blank" >Edit</a>
-
-</dd>
-<dt id="high"><a name="high,ColVector"></a><pre><span class="Keyword">proc</span> <span class="Identifier">high</span><span class="Other">[</span><span class="Identifier">ColVector</span><span class="Other">]</span><span class="Other">(</span><span class="Identifier">v</span><span class="Other">:</span> <span class="Identifier">ColVector</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">int</span></pre></dt>
 <dd>
 
 &nbsp;&nbsp;<a
@@ -1445,175 +1449,193 @@ class="link-seesrc" target="_blank">Source</a>
 <a href="/edit/devel/snail/vector.nim#L84" class="link-seesrc" target="_blank" >Edit</a>
 
 </dd>
-<dt id="low"><a name="low,RowVector"></a><pre><span class="Keyword">proc</span> <span class="Identifier">low</span><span class="Other">[</span><span class="Identifier">RowVector</span><span class="Other">]</span><span class="Other">(</span><span class="Identifier">v</span><span class="Other">:</span> <span class="Identifier">RowVector</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">int</span></pre></dt>
+<dt id="low"><a name="low,ColVector"></a><pre><span class="Keyword">proc</span> <span class="Identifier">low</span><span class="Other">[</span><span class="Identifier">ColVector</span><span class="Other">]</span><span class="Other">(</span><span class="Identifier">v</span><span class="Other">:</span> <span class="Identifier">ColVector</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">int</span></pre></dt>
 <dd>
 
 &nbsp;&nbsp;<a
-href="/tree/master/snail/vector.nim#L85"
+href="/tree/master/snail/vector.nim#L97"
 class="link-seesrc" target="_blank">Source</a>
-<a href="/edit/devel/snail/vector.nim#L85" class="link-seesrc" target="_blank" >Edit</a>
+<a href="/edit/devel/snail/vector.nim#L97" class="link-seesrc" target="_blank" >Edit</a>
 
 </dd>
-<dt id="high"><a name="high,RowVector"></a><pre><span class="Keyword">proc</span> <span class="Identifier">high</span><span class="Other">[</span><span class="Identifier">RowVector</span><span class="Other">]</span><span class="Other">(</span><span class="Identifier">v</span><span class="Other">:</span> <span class="Identifier">RowVector</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">int</span></pre></dt>
+<dt id="high"><a name="high,ColVector"></a><pre><span class="Keyword">proc</span> <span class="Identifier">high</span><span class="Other">[</span><span class="Identifier">ColVector</span><span class="Other">]</span><span class="Other">(</span><span class="Identifier">v</span><span class="Other">:</span> <span class="Identifier">ColVector</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">int</span></pre></dt>
 <dd>
 
-&nbsp;&nbsp;<a
-href="/tree/master/snail/vector.nim#L86"
-class="link-seesrc" target="_blank">Source</a>
-<a href="/edit/devel/snail/vector.nim#L86" class="link-seesrc" target="_blank" >Edit</a>
-
-</dd>
-<dt id="t"><a name="t,ColVector[N]"></a><pre><span class="Keyword">proc</span> <span class="Identifier">t</span><span class="Other">[</span><span class="Identifier">N</span><span class="Other">:</span> <span class="Keyword">static</span><span class="Other">[</span><span class="Identifier">int</span><span class="Other">]</span><span class="Other">]</span><span class="Other">(</span><span class="Identifier">v</span><span class="Other">:</span> <span class="Identifier">ColVector</span><span class="Other">[</span><span class="Identifier">N</span><span class="Other">]</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">RowVector</span><span class="Other">[</span><span class="Identifier">N</span><span class="Other">]</span></pre></dt>
-<dd>
-
-&nbsp;&nbsp;<a
-href="/tree/master/snail/vector.nim#L88"
-class="link-seesrc" target="_blank">Source</a>
-<a href="/edit/devel/snail/vector.nim#L88" class="link-seesrc" target="_blank" >Edit</a>
-
-</dd>
-<dt id="t"><a name="t,RowVector[N]"></a><pre><span class="Keyword">proc</span> <span class="Identifier">t</span><span class="Other">[</span><span class="Identifier">N</span><span class="Other">:</span> <span class="Keyword">static</span><span class="Other">[</span><span class="Identifier">int</span><span class="Other">]</span><span class="Other">]</span><span class="Other">(</span><span class="Identifier">v</span><span class="Other">:</span> <span class="Identifier">RowVector</span><span class="Other">[</span><span class="Identifier">N</span><span class="Other">]</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">ColVector</span><span class="Other">[</span><span class="Identifier">N</span><span class="Other">]</span></pre></dt>
-<dd>
-
-&nbsp;&nbsp;<a
-href="/tree/master/snail/vector.nim#L89"
-class="link-seesrc" target="_blank">Source</a>
-<a href="/edit/devel/snail/vector.nim#L89" class="link-seesrc" target="_blank" >Edit</a>
-
-</dd>
-<dt id="pnorm"><a name="pnorm,Vector[N],Natural"></a><pre><span class="Keyword">proc</span> <span class="Identifier">pnorm</span><span class="Other">[</span><span class="Identifier">N</span><span class="Other">:</span> <span class="Keyword">static</span><span class="Other">[</span><span class="Identifier">int</span><span class="Other">]</span><span class="Other">]</span><span class="Other">(</span><span class="Identifier">v</span><span class="Other">:</span> <span class="Identifier">Vector</span><span class="Other">[</span><span class="Identifier">N</span><span class="Other">]</span><span class="Other">;</span> <span class="Identifier">p</span><span class="Other">:</span> <span class="Identifier">Natural</span> <span class="Other">=</span> <span class="DecNumber">1</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">float</span></pre></dt>
-<dd>
-P norm: |v| = p-root(sum ( |x_i|^p) )
-&nbsp;&nbsp;<a
-href="/tree/master/snail/vector.nim#L91"
-class="link-seesrc" target="_blank">Source</a>
-<a href="/edit/devel/snail/vector.nim#L91" class="link-seesrc" target="_blank" >Edit</a>
-
-</dd>
-<dt id="enorm"><a name="enorm,Vector[N]"></a><pre><span class="Keyword">proc</span> <span class="Identifier">enorm</span><span class="Other">[</span><span class="Identifier">N</span><span class="Other">:</span> <span class="Keyword">static</span><span class="Other">[</span><span class="Identifier">int</span><span class="Other">]</span><span class="Other">]</span><span class="Other">(</span><span class="Identifier">v</span><span class="Other">:</span> <span class="Identifier">Vector</span><span class="Other">[</span><span class="Identifier">N</span><span class="Other">]</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">float</span></pre></dt>
-<dd>
-Euclidean norm: |v| = sqrt(sum ( |x_i|^2) )
 &nbsp;&nbsp;<a
 href="/tree/master/snail/vector.nim#L98"
 class="link-seesrc" target="_blank">Source</a>
 <a href="/edit/devel/snail/vector.nim#L98" class="link-seesrc" target="_blank" >Edit</a>
 
 </dd>
+<dt id="low"><a name="low,RowVector"></a><pre><span class="Keyword">proc</span> <span class="Identifier">low</span><span class="Other">[</span><span class="Identifier">RowVector</span><span class="Other">]</span><span class="Other">(</span><span class="Identifier">v</span><span class="Other">:</span> <span class="Identifier">RowVector</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">int</span></pre></dt>
+<dd>
+
+&nbsp;&nbsp;<a
+href="/tree/master/snail/vector.nim#L99"
+class="link-seesrc" target="_blank">Source</a>
+<a href="/edit/devel/snail/vector.nim#L99" class="link-seesrc" target="_blank" >Edit</a>
+
+</dd>
+<dt id="high"><a name="high,RowVector"></a><pre><span class="Keyword">proc</span> <span class="Identifier">high</span><span class="Other">[</span><span class="Identifier">RowVector</span><span class="Other">]</span><span class="Other">(</span><span class="Identifier">v</span><span class="Other">:</span> <span class="Identifier">RowVector</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">int</span></pre></dt>
+<dd>
+
+&nbsp;&nbsp;<a
+href="/tree/master/snail/vector.nim#L100"
+class="link-seesrc" target="_blank">Source</a>
+<a href="/edit/devel/snail/vector.nim#L100" class="link-seesrc" target="_blank" >Edit</a>
+
+</dd>
+<dt id="t"><a name="t,ColVector[N]"></a><pre><span class="Keyword">proc</span> <span class="Identifier">t</span><span class="Other">[</span><span class="Identifier">N</span><span class="Other">:</span> <span class="Keyword">static</span><span class="Other">[</span><span class="Identifier">int</span><span class="Other">]</span><span class="Other">]</span><span class="Other">(</span><span class="Identifier">v</span><span class="Other">:</span> <span class="Identifier">ColVector</span><span class="Other">[</span><span class="Identifier">N</span><span class="Other">]</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">RowVector</span><span class="Other">[</span><span class="Identifier">N</span><span class="Other">]</span></pre></dt>
+<dd>
+Transpose the vector ( col -&gt; row )
+&nbsp;&nbsp;<a
+href="/tree/master/snail/vector.nim#L102"
+class="link-seesrc" target="_blank">Source</a>
+<a href="/edit/devel/snail/vector.nim#L102" class="link-seesrc" target="_blank" >Edit</a>
+
+</dd>
+<dt id="t"><a name="t,RowVector[N]"></a><pre><span class="Keyword">proc</span> <span class="Identifier">t</span><span class="Other">[</span><span class="Identifier">N</span><span class="Other">:</span> <span class="Keyword">static</span><span class="Other">[</span><span class="Identifier">int</span><span class="Other">]</span><span class="Other">]</span><span class="Other">(</span><span class="Identifier">v</span><span class="Other">:</span> <span class="Identifier">RowVector</span><span class="Other">[</span><span class="Identifier">N</span><span class="Other">]</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">ColVector</span><span class="Other">[</span><span class="Identifier">N</span><span class="Other">]</span></pre></dt>
+<dd>
+Transpose the vector ( row -&gt; col )
+&nbsp;&nbsp;<a
+href="/tree/master/snail/vector.nim#L104"
+class="link-seesrc" target="_blank">Source</a>
+<a href="/edit/devel/snail/vector.nim#L104" class="link-seesrc" target="_blank" >Edit</a>
+
+</dd>
+<dt id="pnorm"><a name="pnorm,Vector[N],Natural"></a><pre><span class="Keyword">proc</span> <span class="Identifier">pnorm</span><span class="Other">[</span><span class="Identifier">N</span><span class="Other">:</span> <span class="Keyword">static</span><span class="Other">[</span><span class="Identifier">int</span><span class="Other">]</span><span class="Other">]</span><span class="Other">(</span><span class="Identifier">v</span><span class="Other">:</span> <span class="Identifier">Vector</span><span class="Other">[</span><span class="Identifier">N</span><span class="Other">]</span><span class="Other">;</span> <span class="Identifier">p</span><span class="Other">:</span> <span class="Identifier">Natural</span> <span class="Other">=</span> <span class="DecNumber">1</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">float</span></pre></dt>
+<dd>
+P norm: |v| = p-root(sum ( |x_i|^p) )
+&nbsp;&nbsp;<a
+href="/tree/master/snail/vector.nim#L106"
+class="link-seesrc" target="_blank">Source</a>
+<a href="/edit/devel/snail/vector.nim#L106" class="link-seesrc" target="_blank" >Edit</a>
+
+</dd>
+<dt id="enorm"><a name="enorm,Vector[N]"></a><pre><span class="Keyword">proc</span> <span class="Identifier">enorm</span><span class="Other">[</span><span class="Identifier">N</span><span class="Other">:</span> <span class="Keyword">static</span><span class="Other">[</span><span class="Identifier">int</span><span class="Other">]</span><span class="Other">]</span><span class="Other">(</span><span class="Identifier">v</span><span class="Other">:</span> <span class="Identifier">Vector</span><span class="Other">[</span><span class="Identifier">N</span><span class="Other">]</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">float</span></pre></dt>
+<dd>
+Euclidean norm: |v| = sqrt(sum ( |x_i|^2) )
+&nbsp;&nbsp;<a
+href="/tree/master/snail/vector.nim#L113"
+class="link-seesrc" target="_blank">Source</a>
+<a href="/edit/devel/snail/vector.nim#L113" class="link-seesrc" target="_blank" >Edit</a>
+
+</dd>
 <dt id="norm"><a name="norm,Vector[N]"></a><pre><span class="Keyword">proc</span> <span class="Identifier">norm</span><span class="Other">[</span><span class="Identifier">N</span><span class="Other">:</span> <span class="Keyword">static</span><span class="Other">[</span><span class="Identifier">int</span><span class="Other">]</span><span class="Other">]</span><span class="Other">(</span><span class="Identifier">v</span><span class="Other">:</span> <span class="Identifier">Vector</span><span class="Other">[</span><span class="Identifier">N</span><span class="Other">]</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">float</span></pre></dt>
 <dd>
 Infinite norm: |v| = max_i of |x_i| 
 &nbsp;&nbsp;<a
-href="/tree/master/snail/vector.nim#L105"
+href="/tree/master/snail/vector.nim#L120"
 class="link-seesrc" target="_blank">Source</a>
-<a href="/edit/devel/snail/vector.nim#L105" class="link-seesrc" target="_blank" >Edit</a>
+<a href="/edit/devel/snail/vector.nim#L120" class="link-seesrc" target="_blank" >Edit</a>
 
 </dd>
 <dt id="dot"><a name="dot,Vector[N],Vector[N]"></a><pre><span class="Keyword">proc</span> <span class="Identifier">dot</span><span class="Other">[</span><span class="Identifier">N</span><span class="Other">:</span> <span class="Keyword">static</span><span class="Other">[</span><span class="Identifier">int</span><span class="Other">]</span><span class="Other">]</span><span class="Other">(</span><span class="Identifier">v</span><span class="Other">,</span> <span class="Identifier">w</span><span class="Other">:</span> <span class="Identifier">Vector</span><span class="Other">[</span><span class="Identifier">N</span><span class="Other">]</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">float</span></pre></dt>
 <dd>
-
-&nbsp;&nbsp;<a
-href="/tree/master/snail/vector.nim#L111"
-class="link-seesrc" target="_blank">Source</a>
-<a href="/edit/devel/snail/vector.nim#L111" class="link-seesrc" target="_blank" >Edit</a>
-
-</dd>
-<dt id="dot"><a name="dot,RowVector[N],ColVector[N]"></a><pre><span class="Keyword">proc</span> <span class="Identifier">dot</span><span class="Other">[</span><span class="Identifier">N</span><span class="Other">:</span> <span class="Keyword">static</span><span class="Other">[</span><span class="Identifier">int</span><span class="Other">]</span><span class="Other">]</span><span class="Other">(</span><span class="Identifier">v</span><span class="Other">:</span> <span class="Identifier">RowVector</span><span class="Other">[</span><span class="Identifier">N</span><span class="Other">]</span><span class="Other">;</span> <span class="Identifier">w</span><span class="Other">:</span> <span class="Identifier">ColVector</span><span class="Other">[</span><span class="Identifier">N</span><span class="Other">]</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">float</span></pre></dt>
-<dd>
-
-&nbsp;&nbsp;<a
-href="/tree/master/snail/vector.nim#L118"
-class="link-seesrc" target="_blank">Source</a>
-<a href="/edit/devel/snail/vector.nim#L118" class="link-seesrc" target="_blank" >Edit</a>
-
-</dd>
-<dt id="*"><a name="*,Vector[N],Vector[N]"></a><pre><span class="Keyword">proc</span> <span class="Identifier">`*`</span><span class="Other">[</span><span class="Identifier">N</span><span class="Other">:</span> <span class="Keyword">static</span><span class="Other">[</span><span class="Identifier">int</span><span class="Other">]</span><span class="Other">]</span><span class="Other">(</span><span class="Identifier">v</span><span class="Other">,</span> <span class="Identifier">w</span><span class="Other">:</span> <span class="Identifier">Vector</span><span class="Other">[</span><span class="Identifier">N</span><span class="Other">]</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">float</span> <span class="Other pragmabegin">{.</span><div class="pragma"><span class="Identifier">inline</span></div><span class="Other pragmaend">.}</span></pre></dt>
-<dd>
-
+Vector dot product. Can use openblas.  
 &nbsp;&nbsp;<a
 href="/tree/master/snail/vector.nim#L125"
 class="link-seesrc" target="_blank">Source</a>
 <a href="/edit/devel/snail/vector.nim#L125" class="link-seesrc" target="_blank" >Edit</a>
 
 </dd>
-<dt id="*"><a name="*,RowVector[N],ColVector[N]"></a><pre><span class="Keyword">proc</span> <span class="Identifier">`*`</span><span class="Other">[</span><span class="Identifier">N</span><span class="Other">:</span> <span class="Keyword">static</span><span class="Other">[</span><span class="Identifier">int</span><span class="Other">]</span><span class="Other">]</span><span class="Other">(</span><span class="Identifier">v</span><span class="Other">:</span> <span class="Identifier">RowVector</span><span class="Other">[</span><span class="Identifier">N</span><span class="Other">]</span><span class="Other">;</span> <span class="Identifier">w</span><span class="Other">:</span> <span class="Identifier">ColVector</span><span class="Other">[</span><span class="Identifier">N</span><span class="Other">]</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">float</span></pre></dt>
+<dt id="dot"><a name="dot,RowVector[N],ColVector[N]"></a><pre><span class="Keyword">proc</span> <span class="Identifier">dot</span><span class="Other">[</span><span class="Identifier">N</span><span class="Other">:</span> <span class="Keyword">static</span><span class="Other">[</span><span class="Identifier">int</span><span class="Other">]</span><span class="Other">]</span><span class="Other">(</span><span class="Identifier">v</span><span class="Other">:</span> <span class="Identifier">RowVector</span><span class="Other">[</span><span class="Identifier">N</span><span class="Other">]</span><span class="Other">;</span> <span class="Identifier">w</span><span class="Other">:</span> <span class="Identifier">ColVector</span><span class="Other">[</span><span class="Identifier">N</span><span class="Other">]</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">float</span></pre></dt>
 <dd>
-
+Vector dot product. Can use openblas.
 &nbsp;&nbsp;<a
-href="/tree/master/snail/vector.nim#L126"
+href="/tree/master/snail/vector.nim#L133"
 class="link-seesrc" target="_blank">Source</a>
-<a href="/edit/devel/snail/vector.nim#L126" class="link-seesrc" target="_blank" >Edit</a>
+<a href="/edit/devel/snail/vector.nim#L133" class="link-seesrc" target="_blank" >Edit</a>
 
 </dd>
-<dt id="add"><a name="add,Vector[N],Vector[N]"></a><pre><span class="Keyword">proc</span> <span class="Identifier">add</span><span class="Other">[</span><span class="Identifier">N</span><span class="Other">:</span> <span class="Keyword">static</span><span class="Other">[</span><span class="Identifier">int</span><span class="Other">]</span><span class="Other">]</span><span class="Other">(</span><span class="Identifier">v</span><span class="Other">,</span> <span class="Identifier">w</span><span class="Other">:</span> <span class="Identifier">Vector</span><span class="Other">[</span><span class="Identifier">N</span><span class="Other">]</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">Vector</span><span class="Other">[</span><span class="Identifier">N</span><span class="Other">]</span></pre></dt>
+<dt id="*"><a name="*,Vector[N],Vector[N]"></a><pre><span class="Keyword">proc</span> <span class="Identifier">`*`</span><span class="Other">[</span><span class="Identifier">N</span><span class="Other">:</span> <span class="Keyword">static</span><span class="Other">[</span><span class="Identifier">int</span><span class="Other">]</span><span class="Other">]</span><span class="Other">(</span><span class="Identifier">v</span><span class="Other">,</span> <span class="Identifier">w</span><span class="Other">:</span> <span class="Identifier">Vector</span><span class="Other">[</span><span class="Identifier">N</span><span class="Other">]</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">float</span> <span class="Other pragmabegin">{.</span><div class="pragma"><span class="Identifier">inline</span></div><span class="Other pragmaend">.}</span></pre></dt>
 <dd>
-
-&nbsp;&nbsp;<a
-href="/tree/master/snail/vector.nim#L129"
-class="link-seesrc" target="_blank">Source</a>
-<a href="/edit/devel/snail/vector.nim#L129" class="link-seesrc" target="_blank" >Edit</a>
-
-</dd>
-<dt id="+"><a name="+,Vector[N],Vector[N]"></a><pre><span class="Keyword">proc</span> <span class="Identifier">`+`</span><span class="Other">[</span><span class="Identifier">N</span><span class="Other">:</span> <span class="Keyword">static</span><span class="Other">[</span><span class="Identifier">int</span><span class="Other">]</span><span class="Other">]</span><span class="Other">(</span><span class="Identifier">v</span><span class="Other">:</span> <span class="Identifier">Vector</span><span class="Other">[</span><span class="Identifier">N</span><span class="Other">]</span><span class="Other">;</span> <span class="Identifier">w</span><span class="Other">:</span> <span class="Identifier">Vector</span><span class="Other">[</span><span class="Identifier">N</span><span class="Other">]</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">auto</span> <span class="Other pragmabegin">{.</span><div class="pragma"><span class="Identifier">inline</span></div><span class="Other pragmaend">.}</span></pre></dt>
-<dd>
-
-&nbsp;&nbsp;<a
-href="/tree/master/snail/vector.nim#L139"
-class="link-seesrc" target="_blank">Source</a>
-<a href="/edit/devel/snail/vector.nim#L139" class="link-seesrc" target="_blank" >Edit</a>
-
-</dd>
-<dt id="sub"><a name="sub,Vector[N],Vector[N]"></a><pre><span class="Keyword">proc</span> <span class="Identifier">sub</span><span class="Other">[</span><span class="Identifier">N</span><span class="Other">:</span> <span class="Keyword">static</span><span class="Other">[</span><span class="Identifier">int</span><span class="Other">]</span><span class="Other">]</span><span class="Other">(</span><span class="Identifier">v</span><span class="Other">,</span> <span class="Identifier">w</span><span class="Other">:</span> <span class="Identifier">Vector</span><span class="Other">[</span><span class="Identifier">N</span><span class="Other">]</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">Vector</span><span class="Other">[</span><span class="Identifier">N</span><span class="Other">]</span></pre></dt>
-<dd>
-
+shorthand for <cite>dot</cite>
 &nbsp;&nbsp;<a
 href="/tree/master/snail/vector.nim#L141"
 class="link-seesrc" target="_blank">Source</a>
 <a href="/edit/devel/snail/vector.nim#L141" class="link-seesrc" target="_blank" >Edit</a>
 
 </dd>
-<dt id="-"><a name="-,Vector[N],Vector[N]"></a><pre><span class="Keyword">proc</span> <span class="Identifier">`-`</span><span class="Other">[</span><span class="Identifier">N</span><span class="Other">:</span> <span class="Keyword">static</span><span class="Other">[</span><span class="Identifier">int</span><span class="Other">]</span><span class="Other">]</span><span class="Other">(</span><span class="Identifier">v</span><span class="Other">:</span> <span class="Identifier">Vector</span><span class="Other">[</span><span class="Identifier">N</span><span class="Other">]</span><span class="Other">;</span> <span class="Identifier">w</span><span class="Other">:</span> <span class="Identifier">Vector</span><span class="Other">[</span><span class="Identifier">N</span><span class="Other">]</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">auto</span> <span class="Other pragmabegin">{.</span><div class="pragma"><span class="Identifier">inline</span></div><span class="Other pragmaend">.}</span></pre></dt>
+<dt id="*"><a name="*,RowVector[N],ColVector[N]"></a><pre><span class="Keyword">proc</span> <span class="Identifier">`*`</span><span class="Other">[</span><span class="Identifier">N</span><span class="Other">:</span> <span class="Keyword">static</span><span class="Other">[</span><span class="Identifier">int</span><span class="Other">]</span><span class="Other">]</span><span class="Other">(</span><span class="Identifier">v</span><span class="Other">:</span> <span class="Identifier">RowVector</span><span class="Other">[</span><span class="Identifier">N</span><span class="Other">]</span><span class="Other">;</span> <span class="Identifier">w</span><span class="Other">:</span> <span class="Identifier">ColVector</span><span class="Other">[</span><span class="Identifier">N</span><span class="Other">]</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">float</span></pre></dt>
+<dd>
+shorthand for <cite>dot</cite>
+&nbsp;&nbsp;<a
+href="/tree/master/snail/vector.nim#L143"
+class="link-seesrc" target="_blank">Source</a>
+<a href="/edit/devel/snail/vector.nim#L143" class="link-seesrc" target="_blank" >Edit</a>
+
+</dd>
+<dt id="add"><a name="add,Vector[N],Vector[N]"></a><pre><span class="Keyword">proc</span> <span class="Identifier">add</span><span class="Other">[</span><span class="Identifier">N</span><span class="Other">:</span> <span class="Keyword">static</span><span class="Other">[</span><span class="Identifier">int</span><span class="Other">]</span><span class="Other">]</span><span class="Other">(</span><span class="Identifier">v</span><span class="Other">,</span> <span class="Identifier">w</span><span class="Other">:</span> <span class="Identifier">Vector</span><span class="Other">[</span><span class="Identifier">N</span><span class="Other">]</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">Vector</span><span class="Other">[</span><span class="Identifier">N</span><span class="Other">]</span></pre></dt>
 <dd>
 
 &nbsp;&nbsp;<a
-href="/tree/master/snail/vector.nim#L147"
+href="/tree/master/snail/vector.nim#L146"
 class="link-seesrc" target="_blank">Source</a>
-<a href="/edit/devel/snail/vector.nim#L147" class="link-seesrc" target="_blank" >Edit</a>
+<a href="/edit/devel/snail/vector.nim#L146" class="link-seesrc" target="_blank" >Edit</a>
 
 </dd>
-<dt id="*"><a name="*,float64,Vector[N]"></a><pre><span class="Keyword">proc</span> <span class="Identifier">`*`</span><span class="Other">[</span><span class="Identifier">N</span><span class="Other">:</span> <span class="Keyword">static</span><span class="Other">[</span><span class="Identifier">int</span><span class="Other">]</span><span class="Other">]</span><span class="Other">(</span><span class="Identifier">a</span><span class="Other">:</span> <span class="Identifier">float64</span><span class="Other">;</span> <span class="Identifier">v</span><span class="Other">:</span> <span class="Identifier">Vector</span><span class="Other">[</span><span class="Identifier">N</span><span class="Other">]</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">Vector</span><span class="Other">[</span><span class="Identifier">N</span><span class="Other">]</span></pre></dt>
+<dt id="+"><a name="+,Vector[N],Vector[N]"></a><pre><span class="Keyword">proc</span> <span class="Identifier">`+`</span><span class="Other">[</span><span class="Identifier">N</span><span class="Other">:</span> <span class="Keyword">static</span><span class="Other">[</span><span class="Identifier">int</span><span class="Other">]</span><span class="Other">]</span><span class="Other">(</span><span class="Identifier">v</span><span class="Other">:</span> <span class="Identifier">Vector</span><span class="Other">[</span><span class="Identifier">N</span><span class="Other">]</span><span class="Other">;</span> <span class="Identifier">w</span><span class="Other">:</span> <span class="Identifier">Vector</span><span class="Other">[</span><span class="Identifier">N</span><span class="Other">]</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">auto</span> <span class="Other pragmabegin">{.</span><div class="pragma"><span class="Identifier">inline</span></div><span class="Other pragmaend">.}</span></pre></dt>
 <dd>
-
+shorthand to add
 &nbsp;&nbsp;<a
-href="/tree/master/snail/vector.nim#L150"
+href="/tree/master/snail/vector.nim#L157"
 class="link-seesrc" target="_blank">Source</a>
-<a href="/edit/devel/snail/vector.nim#L150" class="link-seesrc" target="_blank" >Edit</a>
+<a href="/edit/devel/snail/vector.nim#L157" class="link-seesrc" target="_blank" >Edit</a>
 
 </dd>
-<dt id=".*"><a name=".*,Vector[N],Vector[N]"></a><pre><span class="Keyword">proc</span> <span class="Identifier">`.*`</span><span class="Other">[</span><span class="Identifier">N</span><span class="Other">:</span> <span class="Keyword">static</span><span class="Other">[</span><span class="Identifier">int</span><span class="Other">]</span><span class="Other">]</span><span class="Other">(</span><span class="Identifier">v</span><span class="Other">,</span> <span class="Identifier">w</span><span class="Other">:</span> <span class="Identifier">Vector</span><span class="Other">[</span><span class="Identifier">N</span><span class="Other">]</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">Vector</span><span class="Other">[</span><span class="Identifier">N</span><span class="Other">]</span></pre></dt>
+<dt id="sub"><a name="sub,Vector[N],Vector[N]"></a><pre><span class="Keyword">proc</span> <span class="Identifier">sub</span><span class="Other">[</span><span class="Identifier">N</span><span class="Other">:</span> <span class="Keyword">static</span><span class="Other">[</span><span class="Identifier">int</span><span class="Other">]</span><span class="Other">]</span><span class="Other">(</span><span class="Identifier">v</span><span class="Other">,</span> <span class="Identifier">w</span><span class="Other">:</span> <span class="Identifier">Vector</span><span class="Other">[</span><span class="Identifier">N</span><span class="Other">]</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">Vector</span><span class="Other">[</span><span class="Identifier">N</span><span class="Other">]</span></pre></dt>
 <dd>
-
+Subtract two vectors.
 &nbsp;&nbsp;<a
 href="/tree/master/snail/vector.nim#L160"
 class="link-seesrc" target="_blank">Source</a>
 <a href="/edit/devel/snail/vector.nim#L160" class="link-seesrc" target="_blank" >Edit</a>
 
 </dd>
-<dt id="/"><a name="/,Vector[N],float"></a><pre><span class="Keyword">proc</span> <span class="Identifier">`/`</span><span class="Other">[</span><span class="Identifier">N</span><span class="Other">:</span> <span class="Keyword">static</span><span class="Other">[</span><span class="Identifier">int</span><span class="Other">]</span><span class="Other">]</span><span class="Other">(</span><span class="Identifier">v</span><span class="Other">:</span> <span class="Identifier">Vector</span><span class="Other">[</span><span class="Identifier">N</span><span class="Other">]</span><span class="Other">;</span> <span class="Identifier">val</span><span class="Other">:</span> <span class="Identifier">float</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">Vector</span><span class="Other">[</span><span class="Identifier">N</span><span class="Other">]</span></pre></dt>
+<dt id="-"><a name="-,Vector[N],Vector[N]"></a><pre><span class="Keyword">proc</span> <span class="Identifier">`-`</span><span class="Other">[</span><span class="Identifier">N</span><span class="Other">:</span> <span class="Keyword">static</span><span class="Other">[</span><span class="Identifier">int</span><span class="Other">]</span><span class="Other">]</span><span class="Other">(</span><span class="Identifier">v</span><span class="Other">:</span> <span class="Identifier">Vector</span><span class="Other">[</span><span class="Identifier">N</span><span class="Other">]</span><span class="Other">;</span> <span class="Identifier">w</span><span class="Other">:</span> <span class="Identifier">Vector</span><span class="Other">[</span><span class="Identifier">N</span><span class="Other">]</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">auto</span> <span class="Other pragmabegin">{.</span><div class="pragma"><span class="Identifier">inline</span></div><span class="Other pragmaend">.}</span></pre></dt>
 <dd>
-
+shorthand to <cite>sub</cite>
 &nbsp;&nbsp;<a
 href="/tree/master/snail/vector.nim#L167"
 class="link-seesrc" target="_blank">Source</a>
 <a href="/edit/devel/snail/vector.nim#L167" class="link-seesrc" target="_blank" >Edit</a>
 
 </dd>
+<dt id="*"><a name="*,float64,Vector[N]"></a><pre><span class="Keyword">proc</span> <span class="Identifier">`*`</span><span class="Other">[</span><span class="Identifier">N</span><span class="Other">:</span> <span class="Keyword">static</span><span class="Other">[</span><span class="Identifier">int</span><span class="Other">]</span><span class="Other">]</span><span class="Other">(</span><span class="Identifier">a</span><span class="Other">:</span> <span class="Identifier">float64</span><span class="Other">;</span> <span class="Identifier">v</span><span class="Other">:</span> <span class="Identifier">Vector</span><span class="Other">[</span><span class="Identifier">N</span><span class="Other">]</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">Vector</span><span class="Other">[</span><span class="Identifier">N</span><span class="Other">]</span></pre></dt>
+<dd>
+scalar times vector. Can use openblas
+&nbsp;&nbsp;<a
+href="/tree/master/snail/vector.nim#L170"
+class="link-seesrc" target="_blank">Source</a>
+<a href="/edit/devel/snail/vector.nim#L170" class="link-seesrc" target="_blank" >Edit</a>
+
+</dd>
+<dt id=".*"><a name=".*,Vector[N],Vector[N]"></a><pre><span class="Keyword">proc</span> <span class="Identifier">`.*`</span><span class="Other">[</span><span class="Identifier">N</span><span class="Other">:</span> <span class="Keyword">static</span><span class="Other">[</span><span class="Identifier">int</span><span class="Other">]</span><span class="Other">]</span><span class="Other">(</span><span class="Identifier">v</span><span class="Other">,</span> <span class="Identifier">w</span><span class="Other">:</span> <span class="Identifier">Vector</span><span class="Other">[</span><span class="Identifier">N</span><span class="Other">]</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">Vector</span><span class="Other">[</span><span class="Identifier">N</span><span class="Other">]</span></pre></dt>
+<dd>
+Elementwise vector product. 
+&nbsp;&nbsp;<a
+href="/tree/master/snail/vector.nim#L181"
+class="link-seesrc" target="_blank">Source</a>
+<a href="/edit/devel/snail/vector.nim#L181" class="link-seesrc" target="_blank" >Edit</a>
+
+</dd>
+<dt id="/"><a name="/,Vector[N],float"></a><pre><span class="Keyword">proc</span> <span class="Identifier">`/`</span><span class="Other">[</span><span class="Identifier">N</span><span class="Other">:</span> <span class="Keyword">static</span><span class="Other">[</span><span class="Identifier">int</span><span class="Other">]</span><span class="Other">]</span><span class="Other">(</span><span class="Identifier">v</span><span class="Other">:</span> <span class="Identifier">Vector</span><span class="Other">[</span><span class="Identifier">N</span><span class="Other">]</span><span class="Other">;</span> <span class="Identifier">val</span><span class="Other">:</span> <span class="Identifier">float</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">Vector</span><span class="Other">[</span><span class="Identifier">N</span><span class="Other">]</span></pre></dt>
+<dd>
+Vector divided by val
+&nbsp;&nbsp;<a
+href="/tree/master/snail/vector.nim#L189"
+class="link-seesrc" target="_blank">Source</a>
+<a href="/edit/devel/snail/vector.nim#L189" class="link-seesrc" target="_blank" >Edit</a>
+
+</dd>
 <dt id="./"><a name="./,Vector[N],Vector[N]"></a><pre><span class="Keyword">proc</span> <span class="Identifier">`./`</span><span class="Other">[</span><span class="Identifier">N</span><span class="Other">:</span> <span class="Keyword">static</span><span class="Other">[</span><span class="Identifier">int</span><span class="Other">]</span><span class="Other">]</span><span class="Other">(</span><span class="Identifier">v</span><span class="Other">,</span> <span class="Identifier">w</span><span class="Other">:</span> <span class="Identifier">Vector</span><span class="Other">[</span><span class="Identifier">N</span><span class="Other">]</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">Vector</span><span class="Other">[</span><span class="Identifier">N</span><span class="Other">]</span></pre></dt>
 <dd>
-
+Vector elementwise division
 &nbsp;&nbsp;<a
-href="/tree/master/snail/vector.nim#L174"
+href="/tree/master/snail/vector.nim#L197"
 class="link-seesrc" target="_blank">Source</a>
-<a href="/edit/devel/snail/vector.nim#L174" class="link-seesrc" target="_blank" >Edit</a>
+<a href="/edit/devel/snail/vector.nim#L197" class="link-seesrc" target="_blank" >Edit</a>
 
 </dd>
 
@@ -1626,7 +1648,7 @@ class="link-seesrc" target="_blank">Source</a>
       <div class="twelve-columns footer">
         <span class="nim-sprite"></span>
         <br/>
-        <small>Made with Nim. Generated: 2017-03-09 14:34:14 UTC</small>
+        <small>Made with Nim. Generated: 2017-03-09 19:00:05 UTC</small>
       </div>
     </div>
   </div>

@@ -1,9 +1,9 @@
 ##[
-  Kitchen sink, have a look at imports
+  This module exports everything except `graphic.nim`.
 
-  Or examples TODO
+  For documentation, look at the imports
 ]##
-import snail/vector, snail/matrix,snail/linsys
+import snail/vector, snail/matrix,snail/linsys,snail/graphic
 
 export vector,matrix,linsys
   

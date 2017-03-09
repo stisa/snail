@@ -10,6 +10,8 @@ license       = "MIT"
 
 requires "nim >= 0.14.0"
 
+requires "nimblas" # Require it even if we may not use it, as nimble doesn't have optional deps for now.
+
 import ospaths,strutils
 
 task bench, "TODO":
@@ -30,12 +32,12 @@ task jstests, "Builds js tests":
         exec "nim js --verbosity:0 --hints:off -o:" & file.changefileext("js") & " " & file
         jslist.add(jsrc % [file.changefileext("js")])
     writefile("index.html", "<html><body>$1</body></html>" % [jslist])
-    
+  echo "DONE - serve /tests with some webserver and load index.html to run."
 
 task docs, "Builds documentation":
   mkDir("docs"/"snail")
   exec "nim doc2 --verbosity:0 --hints:off -o:docs/index.html  snail.nim"
   for file in listfiles("snail"):
-    echo "> "&file
     if splitfile(file).ext == ".nim":
       exec "nim doc2 --verbosity:0 --hints:off -o:" & "docs" /../ file.changefileext("html") & " " & file
+  echo "DONE - Look inside /docs, possibly serve it to a browser."

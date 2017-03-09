@@ -48,6 +48,7 @@ proc randomVec* (N: static[int],max: float = 1): Vector[N] =
 ]#
 
 proc len*[N: static[int]](v: Vector[N]): int = N
+  ## The length of the vector. Read only.
 
 proc `[]`*[N : static[int]](v: Vector[N], i:int): float {.inline.} = v.data[i]
 
@@ -64,6 +65,7 @@ proc `==`*[N : static[int]](v,w: Vector[N],epsilon=Epsilon):bool {.inline.} =
   eq(v,w,epsilon)
 
 proc `===`*[N : static[int]](v,w: Vector[N]):bool =
+  ## Exact equality.
   for i,e in pairs(v.data[]):
     if e != w.data[][i]: return false
   result = true
@@ -98,11 +100,12 @@ proc low*(v: RowVector):int = v.data[].low # TODO
 proc high*(v: RowVector):int = v.data[].high
 
 proc `t`* [N:static[int]] (v: ColVector[N]):RowVector[N] = rowVec(v.data[])
+  ## Transpose the vector ( col -> row )
 proc `t`* [N:static[int]] (v: RowVector[N]):ColVector[N] = colVec(v.data[])
-
+  ## Transpose the vector ( row -> col )
 proc pnorm *[N:static[int]] (v: Vector[N],p:Natural=1): float =
-  assert(p>=1)
   ## P norm: \|v\| = p-root(sum ( \|x_i\|^p) )
+  assert(p>=1)
   for i in v.low..v.high:
     result += abs(v[i]).pow(p.float)
   result = result.pow(1/p)
@@ -119,8 +122,8 @@ proc norm *[N:static[int]] (v: Vector[N]): float =
   for p in v.low..v.high:
     if abs(v[p])>result: result = abs(v[p])
 
-# Vector dot product
 proc dot *[N:static[int]] (v, w: Vector[N]): float =
+  ## Vector dot product. Can use openblas.  
   when declared(nimblas):
     return nimblas.dot( N, v.p, 1, w.p,  1)
   else:
@@ -128,6 +131,7 @@ proc dot *[N:static[int]] (v, w: Vector[N]): float =
       result += v[i]*w[i]
 
 proc dot *[N:static[int]] (v:RowVector[N], w: ColVector[N]): float =
+  ## Vector dot product. Can use openblas.
   when declared(nimblas):
     return nimblas.dot(N, v.p, 1, w.p, 1)
   else:
@@ -135,10 +139,12 @@ proc dot *[N:static[int]] (v:RowVector[N], w: ColVector[N]): float =
       result += v[i]*w[i]
 
 proc `*` *[N:static[int]] (v, w: Vector[N]): float {.inline.}= dot(v,w)
+  ## shorthand for `dot`
 proc `*` *[N:static[int]] (v:RowVector[N], w: ColVector[N]): float = dot(v,w)
+  ## shorthand for `dot`
 
-# Sum two vectors
 proc add *[N:static[int]] (v, w: Vector[N]): Vector[N] =
+  # Sum two vectors. Can use openblas
   new result.data
   when not defined js: result.p = addr result.data[0]
   when declared(nimblas):
@@ -147,19 +153,22 @@ proc add *[N:static[int]] (v, w: Vector[N]): Vector[N] =
   else:
     for i in v.low..v.high:
       result[i] = v[i]+w[i]
-# shorthand to^^
+
 proc `+` *[N:static[int]] (v: Vector[N], w: Vector[N]): auto {.inline.}= add(v,w)
+  ## shorthand to add
 
 proc sub *[N:static[int]] (v, w: Vector[N]): Vector[N] =
+  ## Subtract two vectors.
   new result.data
   when not defined js: result.p = addr result.data[0]
   for i in v.low..v.high:
     result[i] = v[i]-w[i]
-# shorthand to^^
-proc `-` *[N:static[int]] (v: Vector[N], w: Vector[N]): auto {.inline.}= sub(v,w)
 
+proc `-` *[N:static[int]] (v: Vector[N], w: Vector[N]): auto {.inline.}= sub(v,w)
+  ## shorthand to `sub`
 
 proc `*` *[N:static[int]] (a: float64,v: Vector[N]): Vector[N] =
+  ## scalar times vector. Can use openblas
   new result.data
   when not defined js: result.p = addr result.data[0]
   when declared(nimblas):
@@ -170,6 +179,7 @@ proc `*` *[N:static[int]] (a: float64,v: Vector[N]): Vector[N] =
       result[i] = a*v[i]
 
 proc `.*` *[N:static[int]] (v,w: Vector[N]): Vector[N] =
+    ## Elementwise vector product. 
     new result.data
     when not defined js: result.p = addr result.data[0]
     for i in v.low..v.high:
@@ -177,6 +187,7 @@ proc `.*` *[N:static[int]] (v,w: Vector[N]): Vector[N] =
 
 
 proc `/`* [N:static[int]](v: Vector[N],val:float): Vector[N] =
+  ## Vector divided by val
   assert(val!=0.0, "Div by zero")
   new result.data
   when not defined js: result.p = addr result.data[0]
@@ -184,47 +195,9 @@ proc `/`* [N:static[int]](v: Vector[N],val:float): Vector[N] =
     result.data[i] = v.data[i]/val
 
 proc `./`* [N:static[int]](v,w: Vector[N]): Vector[N] =
+  ## Vector elementwise division
   new result.data
   when not defined js: result.p = addr result.data[0]
   for i in v.low..v.high:
     assert(w[i]!=0.0, "Division by zero")
     result[i] = v[i]/w[i]
-
-when isMainModule: # Dirty testing
-
-  var r : RowVector[3] = rowVec([1.0,2,3])
-  var c : ColVector[3] = colVec([1.0,2,3])
-  var a : Vector[3] = colVec([1.0,2,3])
-
-  assert( a is ColVector == true )
-  assert( r.len+c.len == 6 )
-  assert( r[2] == 3.0 )
-  assert( r*c == 14.0 )
-  c[1] = 4.0
-  assert( c[1] == 4.0 )
-
-  var rtc = r.t
-  rtc[0] = 5.0
-  assert( rtc is ColVector == true and r is RowVector == true, "Transposing a row vector gives a col vector. The original row vector is not modified" )
-  assert( rtc[0] == 5.0 and r[0] == 1.0, "Modifying the transposed vector does not afftect the original")
-
-  assert( norm(r) == 3.0 )
-  assert( norm(rtc) == 5.0 )
-  
-  a[0]=5.0
-  assert( a==rtc )
-  
-  a = colVec([1.0,2,3])
-  assert(3.0*a == colVec([3.0,6,9]))
-  assert(a+a == colVec([2.0,4,6]))
-  assert(a-a == colVec([0.0,0,0]))
-  assert(a .* a == colVec([1.0,4.0,9.0]))
-  assert(a ./ a == colVec([1.0,1.0,1.0]))
-  when defined js:
-    echo r.*r
-    echo a
-    echo c
-    echo rtc
-
-  # TODO: test other ops
-  echo(currentSourcePath & " passed")

@@ -1235,8 +1235,12 @@ function main() {
     title="`[]`[N, M: static[int]](m: Matrix[N, M]; i, j: int): float"><wbr />`[]`<span class="attachedType" style="visibility:hidden">Matrix</span></a></li>
   <li><a class="reference" href="#[]=,Matrix[N,M],int,int,float"
     title="`[]=`[N, M: static[int]](m: var Matrix[N, M]; i, j: int; val: float)"><wbr />`[]=`<span class="attachedType" style="visibility:hidden">Matrix</span></a></li>
-  <li><a class="reference" href="#==,Matrix[N,M],Matrix[N,M]"
-    title="`==`[N, M: static[int]](m, w: Matrix[N, M]): bool"><wbr />`==`<span class="attachedType" style="visibility:hidden">Matrix</span></a></li>
+  <li><a class="reference" href="#eq,Matrix[N,M],Matrix[N,M],float"
+    title="eq[N, M: static[int]](m, w: Matrix[N, M]; epsilon: float = Epsilon): bool"><wbr />eq<span class="attachedType" style="visibility:hidden">Matrix</span></a></li>
+  <li><a class="reference" href="#==,Matrix[N,M],Matrix[N,M],float"
+    title="`==`[N, M: static[int]](m, w: Matrix[N, M]; epsilon: float = Epsilon): bool"><wbr />`==`<span class="attachedType" style="visibility:hidden">Matrix</span></a></li>
+  <li><a class="reference" href="#===,Matrix[N,M],Matrix[N,M]"
+    title="`===`[N, M: static[int]](m, w: Matrix[N, M]): bool"><wbr />`===`<span class="attachedType" style="visibility:hidden">Matrix</span></a></li>
   <li><a class="reference" href="#$,Matrix[N,M]"
     title="`$`[N, M: static[int]](m: Matrix[N, M]): string"><wbr />`$`<span class="attachedType" style="visibility:hidden">Matrix</span></a></li>
   <li><a class="reference" href="#toMatrix,Array[K],,"
@@ -1324,7 +1328,7 @@ function main() {
   <div class="section" id="6">
 <h1><a class="toc-backref" href="#6">Imports</a></h1>
 <dl class="item">
-<a class="reference external" href="vector.html">vector</a>, <a class="reference external" href="strutils.html">strutils</a>, <a class="reference external" href="vector.html">vector</a>
+<a class="reference external" href="vector.html">vector</a>, <a class="reference external" href="strutils.html">strutils</a>
 </dl></div>
 <div class="section" id="7">
 <h1><a class="toc-backref" href="#7">Types</a></h1>
@@ -1336,9 +1340,9 @@ function main() {
 <dd>
 
 &nbsp;&nbsp;<a
-href="/tree/master/snail/matrix.nim#L15"
+href="/tree/master/snail/matrix.nim#L16"
 class="link-seesrc" target="_blank">Source</a>
-<a href="/edit/devel/snail/matrix.nim#L15" class="link-seesrc" target="_blank" >Edit</a>
+<a href="/edit/devel/snail/matrix.nim#L16" class="link-seesrc" target="_blank" >Edit</a>
 
 </dd>
 
@@ -1350,36 +1354,54 @@ class="link-seesrc" target="_blank">Source</a>
 <dd>
 
 &nbsp;&nbsp;<a
-href="/tree/master/snail/matrix.nim#L28"
+href="/tree/master/snail/matrix.nim#L29"
 class="link-seesrc" target="_blank">Source</a>
-<a href="/edit/devel/snail/matrix.nim#L28" class="link-seesrc" target="_blank" >Edit</a>
+<a href="/edit/devel/snail/matrix.nim#L29" class="link-seesrc" target="_blank" >Edit</a>
 
 </dd>
 <dt id="[]="><a name="[]=,Matrix[N,M],int,int,float"></a><pre><span class="Keyword">proc</span> <span class="Identifier">`[]=`</span><span class="Other">[</span><span class="Identifier">N</span><span class="Other">,</span> <span class="Identifier">M</span><span class="Other">:</span> <span class="Keyword">static</span><span class="Other">[</span><span class="Identifier">int</span><span class="Other">]</span><span class="Other">]</span><span class="Other">(</span><span class="Identifier">m</span><span class="Other">:</span> <span class="Keyword">var</span> <span class="Identifier">Matrix</span><span class="Other">[</span><span class="Identifier">N</span><span class="Other">,</span> <span class="Identifier">M</span><span class="Other">]</span><span class="Other">;</span> <span class="Identifier">i</span><span class="Other">,</span> <span class="Identifier">j</span><span class="Other">:</span> <span class="Identifier">int</span><span class="Other">;</span> <span class="Identifier">val</span><span class="Other">:</span> <span class="Identifier">float</span><span class="Other">)</span> <span class="Other pragmabegin">{.</span><div class="pragma"><span class="Identifier">inline</span></div><span class="Other pragmaend">.}</span></pre></dt>
 <dd>
 
 &nbsp;&nbsp;<a
-href="/tree/master/snail/matrix.nim#L33"
+href="/tree/master/snail/matrix.nim#L34"
 class="link-seesrc" target="_blank">Source</a>
-<a href="/edit/devel/snail/matrix.nim#L33" class="link-seesrc" target="_blank" >Edit</a>
+<a href="/edit/devel/snail/matrix.nim#L34" class="link-seesrc" target="_blank" >Edit</a>
 
 </dd>
-<dt id="=="><a name="==,Matrix[N,M],Matrix[N,M]"></a><pre><span class="Keyword">proc</span> <span class="Identifier">`==`</span><span class="Other">[</span><span class="Identifier">N</span><span class="Other">,</span> <span class="Identifier">M</span><span class="Other">:</span> <span class="Keyword">static</span><span class="Other">[</span><span class="Identifier">int</span><span class="Other">]</span><span class="Other">]</span><span class="Other">(</span><span class="Identifier">m</span><span class="Other">,</span> <span class="Identifier">w</span><span class="Other">:</span> <span class="Identifier">Matrix</span><span class="Other">[</span><span class="Identifier">N</span><span class="Other">,</span> <span class="Identifier">M</span><span class="Other">]</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">bool</span></pre></dt>
+<dt id="eq"><a name="eq,Matrix[N,M],Matrix[N,M],float"></a><pre><span class="Keyword">proc</span> <span class="Identifier">eq</span><span class="Other">[</span><span class="Identifier">N</span><span class="Other">,</span> <span class="Identifier">M</span><span class="Other">:</span> <span class="Keyword">static</span><span class="Other">[</span><span class="Identifier">int</span><span class="Other">]</span><span class="Other">]</span><span class="Other">(</span><span class="Identifier">m</span><span class="Other">,</span> <span class="Identifier">w</span><span class="Other">:</span> <span class="Identifier">Matrix</span><span class="Other">[</span><span class="Identifier">N</span><span class="Other">,</span> <span class="Identifier">M</span><span class="Other">]</span><span class="Other">;</span> <span class="Identifier">epsilon</span><span class="Other">:</span> <span class="Identifier">float</span> <span class="Other">=</span> <span class="Identifier">Epsilon</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">bool</span></pre></dt>
 <dd>
-
+Equality up to epsilon precision.
 &nbsp;&nbsp;<a
-href="/tree/master/snail/matrix.nim#L38"
+href="/tree/master/snail/matrix.nim#L39"
 class="link-seesrc" target="_blank">Source</a>
-<a href="/edit/devel/snail/matrix.nim#L38" class="link-seesrc" target="_blank" >Edit</a>
+<a href="/edit/devel/snail/matrix.nim#L39" class="link-seesrc" target="_blank" >Edit</a>
+
+</dd>
+<dt id="=="><a name="==,Matrix[N,M],Matrix[N,M],float"></a><pre><span class="Keyword">proc</span> <span class="Identifier">`==`</span><span class="Other">[</span><span class="Identifier">N</span><span class="Other">,</span> <span class="Identifier">M</span><span class="Other">:</span> <span class="Keyword">static</span><span class="Other">[</span><span class="Identifier">int</span><span class="Other">]</span><span class="Other">]</span><span class="Other">(</span><span class="Identifier">m</span><span class="Other">,</span> <span class="Identifier">w</span><span class="Other">:</span> <span class="Identifier">Matrix</span><span class="Other">[</span><span class="Identifier">N</span><span class="Other">,</span> <span class="Identifier">M</span><span class="Other">]</span><span class="Other">;</span> <span class="Identifier">epsilon</span><span class="Other">:</span> <span class="Identifier">float</span> <span class="Other">=</span> <span class="Identifier">Epsilon</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">bool</span> <span class="Other pragmabegin">{.</span><div class="pragma"><span class="Identifier">inline</span></div><span class="Other pragmaend">.}</span></pre></dt>
+<dd>
+ALias for <cite>eq</cite>
+&nbsp;&nbsp;<a
+href="/tree/master/snail/matrix.nim#L46"
+class="link-seesrc" target="_blank">Source</a>
+<a href="/edit/devel/snail/matrix.nim#L46" class="link-seesrc" target="_blank" >Edit</a>
+
+</dd>
+<dt id="==="><a name="===,Matrix[N,M],Matrix[N,M]"></a><pre><span class="Keyword">proc</span> <span class="Identifier">`===`</span><span class="Other">[</span><span class="Identifier">N</span><span class="Other">,</span> <span class="Identifier">M</span><span class="Other">:</span> <span class="Keyword">static</span><span class="Other">[</span><span class="Identifier">int</span><span class="Other">]</span><span class="Other">]</span><span class="Other">(</span><span class="Identifier">m</span><span class="Other">,</span> <span class="Identifier">w</span><span class="Other">:</span> <span class="Identifier">Matrix</span><span class="Other">[</span><span class="Identifier">N</span><span class="Other">,</span> <span class="Identifier">M</span><span class="Other">]</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">bool</span></pre></dt>
+<dd>
+Exact equality. Beware floating point errors.
+&nbsp;&nbsp;<a
+href="/tree/master/snail/matrix.nim#L50"
+class="link-seesrc" target="_blank">Source</a>
+<a href="/edit/devel/snail/matrix.nim#L50" class="link-seesrc" target="_blank" >Edit</a>
 
 </dd>
 <dt id="$"><a name="$,Matrix[N,M]"></a><pre><span class="Keyword">proc</span> <span class="Identifier">`$`</span><span class="Other">[</span><span class="Identifier">N</span><span class="Other">,</span> <span class="Identifier">M</span><span class="Other">:</span> <span class="Keyword">static</span><span class="Other">[</span><span class="Identifier">int</span><span class="Other">]</span><span class="Other">]</span><span class="Other">(</span><span class="Identifier">m</span><span class="Other">:</span> <span class="Identifier">Matrix</span><span class="Other">[</span><span class="Identifier">N</span><span class="Other">,</span> <span class="Identifier">M</span><span class="Other">]</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">string</span></pre></dt>
 <dd>
 
 &nbsp;&nbsp;<a
-href="/tree/master/snail/matrix.nim#L43"
+href="/tree/master/snail/matrix.nim#L57"
 class="link-seesrc" target="_blank">Source</a>
-<a href="/edit/devel/snail/matrix.nim#L43" class="link-seesrc" target="_blank" >Edit</a>
+<a href="/edit/devel/snail/matrix.nim#L57" class="link-seesrc" target="_blank" >Edit</a>
 
 </dd>
 <dt id="toMatrix"><a name="toMatrix,Array[K],,"></a><pre><span class="Keyword">proc</span> <span class="Identifier">toMatrix</span><span class="Other">[</span><span class="Identifier">K</span><span class="Other">]</span><span class="Other">(</span><span class="Identifier">arr</span><span class="Other">:</span> <span class="Identifier">Array</span><span class="Other">[</span><span class="Identifier">K</span><span class="Other">]</span><span class="Other">;</span> <span class="Identifier">N</span><span class="Other">,</span> <span class="Identifier">M</span><span class="Other">:</span> <span class="Keyword">static</span><span class="Other">[</span><span class="Identifier">int</span><span class="Other">]</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">Matrix</span><span class="Other">[</span><span class="Identifier">N</span><span class="Other">,</span> <span class="Identifier">M</span><span class="Other">]</span></pre></dt>
@@ -1389,263 +1411,263 @@ class="link-seesrc" target="_blank">Source</a>
 <p>The array needs to have N*M or less elements</p>
 
 &nbsp;&nbsp;<a
-href="/tree/master/snail/matrix.nim#L56"
+href="/tree/master/snail/matrix.nim#L70"
 class="link-seesrc" target="_blank">Source</a>
-<a href="/edit/devel/snail/matrix.nim#L56" class="link-seesrc" target="_blank" >Edit</a>
+<a href="/edit/devel/snail/matrix.nim#L70" class="link-seesrc" target="_blank" >Edit</a>
 
 </dd>
 <dt id="matrix"><a name="matrix,BiArray[N,M]"></a><pre><span class="Keyword">proc</span> <span class="Identifier">matrix</span><span class="Other">[</span><span class="Identifier">N</span><span class="Other">,</span> <span class="Identifier">M</span><span class="Other">:</span> <span class="Keyword">static</span><span class="Other">[</span><span class="Identifier">int</span><span class="Other">]</span><span class="Other">]</span><span class="Other">(</span><span class="Identifier">arr</span><span class="Other">:</span> <span class="Identifier">BiArray</span><span class="Other">[</span><span class="Identifier">N</span><span class="Other">,</span> <span class="Identifier">M</span><span class="Other">]</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">Matrix</span><span class="Other">[</span><span class="Identifier">N</span><span class="Other">,</span> <span class="Identifier">M</span><span class="Other">]</span></pre></dt>
 <dd>
-
+Create a matrix from a 2-D array of floats.
 &nbsp;&nbsp;<a
-href="/tree/master/snail/matrix.nim#L72"
+href="/tree/master/snail/matrix.nim#L86"
 class="link-seesrc" target="_blank">Source</a>
-<a href="/edit/devel/snail/matrix.nim#L72" class="link-seesrc" target="_blank" >Edit</a>
+<a href="/edit/devel/snail/matrix.nim#L86" class="link-seesrc" target="_blank" >Edit</a>
 
 </dd>
 <dt id="identity"><a name="identity,"></a><pre><span class="Keyword">proc</span> <span class="Identifier">identity</span><span class="Other">[</span><span class="Other">]</span><span class="Other">(</span><span class="Identifier">N</span><span class="Other">:</span> <span class="Keyword">static</span><span class="Other">[</span><span class="Identifier">int</span><span class="Other">]</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">Matrix</span><span class="Other">[</span><span class="Identifier">N</span><span class="Other">,</span> <span class="Identifier">N</span><span class="Other">]</span></pre></dt>
 <dd>
-
+Return the identity matrix with dimension NxN
 &nbsp;&nbsp;<a
-href="/tree/master/snail/matrix.nim#L87"
+href="/tree/master/snail/matrix.nim#L102"
 class="link-seesrc" target="_blank">Source</a>
-<a href="/edit/devel/snail/matrix.nim#L87" class="link-seesrc" target="_blank" >Edit</a>
+<a href="/edit/devel/snail/matrix.nim#L102" class="link-seesrc" target="_blank" >Edit</a>
 
 </dd>
 <dt id="dims"><a name="dims,Matrix[N,M]"></a><pre><span class="Keyword">proc</span> <span class="Identifier">dims</span><span class="Other">[</span><span class="Identifier">N</span><span class="Other">,</span> <span class="Identifier">M</span><span class="Other">:</span> <span class="Keyword">static</span><span class="Other">[</span><span class="Identifier">int</span><span class="Other">]</span><span class="Other">]</span><span class="Other">(</span><span class="Identifier">m</span><span class="Other">:</span> <span class="Identifier">Matrix</span><span class="Other">[</span><span class="Identifier">N</span><span class="Other">,</span> <span class="Identifier">M</span><span class="Other">]</span><span class="Other">)</span><span class="Other">:</span> <span class="Keyword">tuple</span><span class="Other">[</span><span class="Identifier">rows</span><span class="Other">:</span> <span class="Identifier">int</span><span class="Other">,</span> <span class="Identifier">cols</span><span class="Other">:</span> <span class="Identifier">int</span><span class="Other">]</span> <span class="Other pragmabegin">{.</span><div class="pragma"><span class="Identifier">inline</span></div><span class="Other pragmaend">.}</span></pre></dt>
 <dd>
-
+Return the dimension of a matrix as a tuple of ints (rows,cols)
 &nbsp;&nbsp;<a
-href="/tree/master/snail/matrix.nim#L92"
+href="/tree/master/snail/matrix.nim#L108"
 class="link-seesrc" target="_blank">Source</a>
-<a href="/edit/devel/snail/matrix.nim#L92" class="link-seesrc" target="_blank" >Edit</a>
+<a href="/edit/devel/snail/matrix.nim#L108" class="link-seesrc" target="_blank" >Edit</a>
 
 </dd>
 <dt id="row"><a name="row,Matrix[N,M],int"></a><pre><span class="Keyword">proc</span> <span class="Identifier">row</span><span class="Other">[</span><span class="Identifier">N</span><span class="Other">,</span> <span class="Identifier">M</span><span class="Other">:</span> <span class="Keyword">static</span><span class="Other">[</span><span class="Identifier">int</span><span class="Other">]</span><span class="Other">]</span><span class="Other">(</span><span class="Identifier">m</span><span class="Other">:</span> <span class="Identifier">Matrix</span><span class="Other">[</span><span class="Identifier">N</span><span class="Other">,</span> <span class="Identifier">M</span><span class="Other">]</span><span class="Other">;</span> <span class="Identifier">r</span><span class="Other">:</span> <span class="Identifier">int</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">RowVector</span><span class="Other">[</span><span class="Identifier">M</span><span class="Other">]</span></pre></dt>
 <dd>
-Return a copy row r from the matrix
+Return a copy of row <cite>r</cite> from the matrix as a rowvector
 &nbsp;&nbsp;<a
-href="/tree/master/snail/matrix.nim#L94"
+href="/tree/master/snail/matrix.nim#L111"
 class="link-seesrc" target="_blank">Source</a>
-<a href="/edit/devel/snail/matrix.nim#L94" class="link-seesrc" target="_blank" >Edit</a>
+<a href="/edit/devel/snail/matrix.nim#L111" class="link-seesrc" target="_blank" >Edit</a>
 
 </dd>
 <dt id="overWriteRow"><a name="overWriteRow,Matrix[N,M],int,RowVector[M]"></a><pre><span class="Keyword">proc</span> <span class="Identifier">overWriteRow</span><span class="Other">[</span><span class="Identifier">N</span><span class="Other">,</span> <span class="Identifier">M</span><span class="Other">:</span> <span class="Keyword">static</span><span class="Other">[</span><span class="Identifier">int</span><span class="Other">]</span><span class="Other">]</span><span class="Other">(</span><span class="Identifier">m</span><span class="Other">:</span> <span class="Keyword">var</span> <span class="Identifier">Matrix</span><span class="Other">[</span><span class="Identifier">N</span><span class="Other">,</span> <span class="Identifier">M</span><span class="Other">]</span><span class="Other">;</span> <span class="Identifier">r</span><span class="Other">:</span> <span class="Identifier">int</span><span class="Other">;</span> <span class="Identifier">rowv</span><span class="Other">:</span> <span class="Identifier">RowVector</span><span class="Other">[</span><span class="Identifier">M</span><span class="Other">]</span><span class="Other">)</span></pre></dt>
 <dd>
-Overwrite row r in the matrix m
+Overwrite row r in the matrix m ( r needs to be a row vector )
 &nbsp;&nbsp;<a
-href="/tree/master/snail/matrix.nim#L101"
+href="/tree/master/snail/matrix.nim#L118"
 class="link-seesrc" target="_blank">Source</a>
-<a href="/edit/devel/snail/matrix.nim#L101" class="link-seesrc" target="_blank" >Edit</a>
+<a href="/edit/devel/snail/matrix.nim#L118" class="link-seesrc" target="_blank" >Edit</a>
 
 </dd>
 <dt id="col"><a name="col,Matrix[N,M],int"></a><pre><span class="Keyword">proc</span> <span class="Identifier">col</span><span class="Other">[</span><span class="Identifier">N</span><span class="Other">,</span> <span class="Identifier">M</span><span class="Other">:</span> <span class="Keyword">static</span><span class="Other">[</span><span class="Identifier">int</span><span class="Other">]</span><span class="Other">]</span><span class="Other">(</span><span class="Identifier">m</span><span class="Other">:</span> <span class="Identifier">Matrix</span><span class="Other">[</span><span class="Identifier">N</span><span class="Other">,</span> <span class="Identifier">M</span><span class="Other">]</span><span class="Other">;</span> <span class="Identifier">c</span><span class="Other">:</span> <span class="Identifier">int</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">ColVector</span><span class="Other">[</span><span class="Identifier">N</span><span class="Other">]</span></pre></dt>
 <dd>
-Return a copy of col c from the matrix
+Return a copy of col c from the matrix as a colvector
 &nbsp;&nbsp;<a
-href="/tree/master/snail/matrix.nim#L106"
+href="/tree/master/snail/matrix.nim#L123"
 class="link-seesrc" target="_blank">Source</a>
-<a href="/edit/devel/snail/matrix.nim#L106" class="link-seesrc" target="_blank" >Edit</a>
+<a href="/edit/devel/snail/matrix.nim#L123" class="link-seesrc" target="_blank" >Edit</a>
 
 </dd>
 <dt id="t"><a name="t,Matrix[N,M]"></a><pre><span class="Keyword">proc</span> <span class="Identifier">t</span><span class="Other">[</span><span class="Identifier">N</span><span class="Other">,</span> <span class="Identifier">M</span><span class="Other">:</span> <span class="Keyword">static</span><span class="Other">[</span><span class="Identifier">int</span><span class="Other">]</span><span class="Other">]</span><span class="Other">(</span><span class="Identifier">m</span><span class="Other">:</span> <span class="Identifier">Matrix</span><span class="Other">[</span><span class="Identifier">N</span><span class="Other">,</span> <span class="Identifier">M</span><span class="Other">]</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">Matrix</span><span class="Other">[</span><span class="Identifier">M</span><span class="Other">,</span> <span class="Identifier">N</span><span class="Other">]</span></pre></dt>
 <dd>
-
+Transpose the matrix.
 &nbsp;&nbsp;<a
-href="/tree/master/snail/matrix.nim#L114"
+href="/tree/master/snail/matrix.nim#L131"
 class="link-seesrc" target="_blank">Source</a>
-<a href="/edit/devel/snail/matrix.nim#L114" class="link-seesrc" target="_blank" >Edit</a>
+<a href="/edit/devel/snail/matrix.nim#L131" class="link-seesrc" target="_blank" >Edit</a>
 
 </dd>
 <dt id="reshape"><a name="reshape,Matrix[N,M],,"></a><pre><span class="Keyword">proc</span> <span class="Identifier">reshape</span><span class="Other">[</span><span class="Identifier">N</span><span class="Other">,</span> <span class="Identifier">M</span><span class="Other">:</span> <span class="Keyword">static</span><span class="Other">[</span><span class="Identifier">int</span><span class="Other">]</span><span class="Other">]</span><span class="Other">(</span><span class="Identifier">m</span><span class="Other">:</span> <span class="Identifier">Matrix</span><span class="Other">[</span><span class="Identifier">N</span><span class="Other">,</span> <span class="Identifier">M</span><span class="Other">]</span><span class="Other">;</span> <span class="Identifier">U</span><span class="Other">,</span> <span class="Identifier">V</span><span class="Other">:</span> <span class="Keyword">static</span><span class="Other">[</span><span class="Identifier">int</span><span class="Other">]</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">Matrix</span><span class="Other">[</span><span class="Identifier">U</span><span class="Other">,</span> <span class="Identifier">V</span><span class="Other">]</span></pre></dt>
 <dd>
-
+Return a new matrix with dims (U,V) from a matrix with dims (N,M)
 &nbsp;&nbsp;<a
-href="/tree/master/snail/matrix.nim#L119"
+href="/tree/master/snail/matrix.nim#L137"
 class="link-seesrc" target="_blank">Source</a>
-<a href="/edit/devel/snail/matrix.nim#L119" class="link-seesrc" target="_blank" >Edit</a>
+<a href="/edit/devel/snail/matrix.nim#L137" class="link-seesrc" target="_blank" >Edit</a>
 
 </dd>
 <dt id="matMul"><a name="matMul,Matrix[N,M],Matrix[M,V]"></a><pre><span class="Keyword">proc</span> <span class="Identifier">matMul</span><span class="Other">[</span><span class="Identifier">N</span><span class="Other">,</span> <span class="Identifier">M</span><span class="Other">,</span> <span class="Identifier">V</span><span class="Other">:</span> <span class="Keyword">static</span><span class="Other">[</span><span class="Identifier">int</span><span class="Other">]</span><span class="Other">]</span><span class="Other">(</span><span class="Identifier">m</span><span class="Other">:</span> <span class="Identifier">Matrix</span><span class="Other">[</span><span class="Identifier">N</span><span class="Other">,</span> <span class="Identifier">M</span><span class="Other">]</span><span class="Other">;</span> <span class="Identifier">w</span><span class="Other">:</span> <span class="Identifier">Matrix</span><span class="Other">[</span><span class="Identifier">M</span><span class="Other">,</span> <span class="Identifier">V</span><span class="Other">]</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">Matrix</span><span class="Other">[</span><span class="Identifier">N</span><span class="Other">,</span> <span class="Identifier">V</span><span class="Other">]</span></pre></dt>
 <dd>
-Naive matrix multiplication
+Matrix-Matrix multiplication. Can use openblas. The nim implementation is a naive double loop, for now.
 &nbsp;&nbsp;<a
-href="/tree/master/snail/matrix.nim#L125"
+href="/tree/master/snail/matrix.nim#L144"
 class="link-seesrc" target="_blank">Source</a>
-<a href="/edit/devel/snail/matrix.nim#L125" class="link-seesrc" target="_blank" >Edit</a>
+<a href="/edit/devel/snail/matrix.nim#L144" class="link-seesrc" target="_blank" >Edit</a>
 
 </dd>
 <dt id="vecMatMul"><a name="vecMatMul,Matrix[N,M],ColVector[M]"></a><pre><span class="Keyword">proc</span> <span class="Identifier">vecMatMul</span><span class="Other">[</span><span class="Identifier">N</span><span class="Other">,</span> <span class="Identifier">M</span><span class="Other">:</span> <span class="Keyword">static</span><span class="Other">[</span><span class="Identifier">int</span><span class="Other">]</span><span class="Other">]</span><span class="Other">(</span><span class="Identifier">m</span><span class="Other">:</span> <span class="Identifier">Matrix</span><span class="Other">[</span><span class="Identifier">N</span><span class="Other">,</span> <span class="Identifier">M</span><span class="Other">]</span><span class="Other">;</span> <span class="Identifier">v</span><span class="Other">:</span> <span class="Identifier">ColVector</span><span class="Other">[</span><span class="Identifier">M</span><span class="Other">]</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">ColVector</span><span class="Other">[</span><span class="Identifier">N</span><span class="Other">]</span></pre></dt>
 <dd>
-
+Matrix-vector multiplication. The vector needs to be a column vector. Return a column vector.
 &nbsp;&nbsp;<a
-href="/tree/master/snail/matrix.nim#L140"
+href="/tree/master/snail/matrix.nim#L161"
 class="link-seesrc" target="_blank">Source</a>
-<a href="/edit/devel/snail/matrix.nim#L140" class="link-seesrc" target="_blank" >Edit</a>
+<a href="/edit/devel/snail/matrix.nim#L161" class="link-seesrc" target="_blank" >Edit</a>
 
 </dd>
 <dt id="vecMatMul"><a name="vecMatMul,RowVector[N],Matrix[N,M]"></a><pre><span class="Keyword">proc</span> <span class="Identifier">vecMatMul</span><span class="Other">[</span><span class="Identifier">N</span><span class="Other">,</span> <span class="Identifier">M</span><span class="Other">:</span> <span class="Keyword">static</span><span class="Other">[</span><span class="Identifier">int</span><span class="Other">]</span><span class="Other">]</span><span class="Other">(</span><span class="Identifier">v</span><span class="Other">:</span> <span class="Identifier">RowVector</span><span class="Other">[</span><span class="Identifier">N</span><span class="Other">]</span><span class="Other">;</span> <span class="Identifier">m</span><span class="Other">:</span> <span class="Identifier">Matrix</span><span class="Other">[</span><span class="Identifier">N</span><span class="Other">,</span> <span class="Identifier">M</span><span class="Other">]</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">RowVector</span><span class="Other">[</span><span class="Identifier">M</span><span class="Other">]</span></pre></dt>
 <dd>
-
+vector-matrix multiplication. Vector needs to be a row vector. Return a row vector.
 &nbsp;&nbsp;<a
-href="/tree/master/snail/matrix.nim#L146"
+href="/tree/master/snail/matrix.nim#L170"
 class="link-seesrc" target="_blank">Source</a>
-<a href="/edit/devel/snail/matrix.nim#L146" class="link-seesrc" target="_blank" >Edit</a>
+<a href="/edit/devel/snail/matrix.nim#L170" class="link-seesrc" target="_blank" >Edit</a>
 
 </dd>
 <dt id="matAdd"><a name="matAdd,Matrix[N,M],Matrix[N,M]"></a><pre><span class="Keyword">proc</span> <span class="Identifier">matAdd</span><span class="Other">[</span><span class="Identifier">N</span><span class="Other">,</span> <span class="Identifier">M</span><span class="Other">:</span> <span class="Keyword">static</span><span class="Other">[</span><span class="Identifier">int</span><span class="Other">]</span><span class="Other">]</span><span class="Other">(</span><span class="Identifier">m</span><span class="Other">,</span> <span class="Identifier">w</span><span class="Other">:</span> <span class="Identifier">Matrix</span><span class="Other">[</span><span class="Identifier">N</span><span class="Other">,</span> <span class="Identifier">M</span><span class="Other">]</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">Matrix</span><span class="Other">[</span><span class="Identifier">N</span><span class="Other">,</span> <span class="Identifier">M</span><span class="Other">]</span></pre></dt>
 <dd>
-
+Add two matrices with same dimensions. 
 &nbsp;&nbsp;<a
-href="/tree/master/snail/matrix.nim#L157"
+href="/tree/master/snail/matrix.nim#L186"
 class="link-seesrc" target="_blank">Source</a>
-<a href="/edit/devel/snail/matrix.nim#L157" class="link-seesrc" target="_blank" >Edit</a>
+<a href="/edit/devel/snail/matrix.nim#L186" class="link-seesrc" target="_blank" >Edit</a>
 
 </dd>
 <dt id="+"><a name="+,Matrix[N,M],Matrix[N,M]"></a><pre><span class="Keyword">proc</span> <span class="Identifier">`+`</span><span class="Other">[</span><span class="Identifier">N</span><span class="Other">,</span> <span class="Identifier">M</span><span class="Other">:</span> <span class="Keyword">static</span><span class="Other">[</span><span class="Identifier">int</span><span class="Other">]</span><span class="Other">]</span><span class="Other">(</span><span class="Identifier">m</span><span class="Other">:</span> <span class="Identifier">Matrix</span><span class="Other">[</span><span class="Identifier">N</span><span class="Other">,</span> <span class="Identifier">M</span><span class="Other">]</span><span class="Other">;</span> <span class="Identifier">w</span><span class="Other">:</span> <span class="Identifier">Matrix</span><span class="Other">[</span><span class="Identifier">N</span><span class="Other">,</span> <span class="Identifier">M</span><span class="Other">]</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">Matrix</span><span class="Other">[</span><span class="Identifier">N</span><span class="Other">,</span> <span class="Identifier">M</span><span class="Other">]</span> <span class="Other pragmabegin">{.</span><div class="pragma"><span class="Identifier">inline</span></div><span class="Other pragmaend">.}</span></pre></dt>
 <dd>
-
+Shorthand for matadd
 &nbsp;&nbsp;<a
-href="/tree/master/snail/matrix.nim#L163"
+href="/tree/master/snail/matrix.nim#L192"
 class="link-seesrc" target="_blank">Source</a>
-<a href="/edit/devel/snail/matrix.nim#L163" class="link-seesrc" target="_blank" >Edit</a>
+<a href="/edit/devel/snail/matrix.nim#L192" class="link-seesrc" target="_blank" >Edit</a>
 
 </dd>
 <dt id="matSub"><a name="matSub,Matrix[N,M],Matrix[N,M]"></a><pre><span class="Keyword">proc</span> <span class="Identifier">matSub</span><span class="Other">[</span><span class="Identifier">N</span><span class="Other">,</span> <span class="Identifier">M</span><span class="Other">:</span> <span class="Keyword">static</span><span class="Other">[</span><span class="Identifier">int</span><span class="Other">]</span><span class="Other">]</span><span class="Other">(</span><span class="Identifier">m</span><span class="Other">,</span> <span class="Identifier">w</span><span class="Other">:</span> <span class="Identifier">Matrix</span><span class="Other">[</span><span class="Identifier">N</span><span class="Other">,</span> <span class="Identifier">M</span><span class="Other">]</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">Matrix</span><span class="Other">[</span><span class="Identifier">N</span><span class="Other">,</span> <span class="Identifier">M</span><span class="Other">]</span></pre></dt>
 <dd>
-
+Subtract two matrices with same dimensions. 
 &nbsp;&nbsp;<a
-href="/tree/master/snail/matrix.nim#L165"
+href="/tree/master/snail/matrix.nim#L195"
 class="link-seesrc" target="_blank">Source</a>
-<a href="/edit/devel/snail/matrix.nim#L165" class="link-seesrc" target="_blank" >Edit</a>
+<a href="/edit/devel/snail/matrix.nim#L195" class="link-seesrc" target="_blank" >Edit</a>
 
 </dd>
 <dt id="-"><a name="-,Matrix[N,M],Matrix[N,M]"></a><pre><span class="Keyword">proc</span> <span class="Identifier">`-`</span><span class="Other">[</span><span class="Identifier">N</span><span class="Other">,</span> <span class="Identifier">M</span><span class="Other">:</span> <span class="Keyword">static</span><span class="Other">[</span><span class="Identifier">int</span><span class="Other">]</span><span class="Other">]</span><span class="Other">(</span><span class="Identifier">m</span><span class="Other">:</span> <span class="Identifier">Matrix</span><span class="Other">[</span><span class="Identifier">N</span><span class="Other">,</span> <span class="Identifier">M</span><span class="Other">]</span><span class="Other">;</span> <span class="Identifier">w</span><span class="Other">:</span> <span class="Identifier">Matrix</span><span class="Other">[</span><span class="Identifier">N</span><span class="Other">,</span> <span class="Identifier">M</span><span class="Other">]</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">Matrix</span><span class="Other">[</span><span class="Identifier">N</span><span class="Other">,</span> <span class="Identifier">M</span><span class="Other">]</span> <span class="Other pragmabegin">{.</span><div class="pragma"><span class="Identifier">inline</span></div><span class="Other pragmaend">.}</span></pre></dt>
 <dd>
-
+shorthand to matsub
 &nbsp;&nbsp;<a
-href="/tree/master/snail/matrix.nim#L171"
+href="/tree/master/snail/matrix.nim#L201"
 class="link-seesrc" target="_blank">Source</a>
-<a href="/edit/devel/snail/matrix.nim#L171" class="link-seesrc" target="_blank" >Edit</a>
+<a href="/edit/devel/snail/matrix.nim#L201" class="link-seesrc" target="_blank" >Edit</a>
 
 </dd>
 <dt id="elMatMul"><a name="elMatMul,float,Matrix[N,M]"></a><pre><span class="Keyword">proc</span> <span class="Identifier">elMatMul</span><span class="Other">[</span><span class="Identifier">N</span><span class="Other">,</span> <span class="Identifier">M</span><span class="Other">:</span> <span class="Keyword">static</span><span class="Other">[</span><span class="Identifier">int</span><span class="Other">]</span><span class="Other">]</span><span class="Other">(</span><span class="Identifier">val</span><span class="Other">:</span> <span class="Identifier">float</span><span class="Other">;</span> <span class="Identifier">m</span><span class="Other">:</span> <span class="Identifier">Matrix</span><span class="Other">[</span><span class="Identifier">N</span><span class="Other">,</span> <span class="Identifier">M</span><span class="Other">]</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">Matrix</span><span class="Other">[</span><span class="Identifier">N</span><span class="Other">,</span> <span class="Identifier">M</span><span class="Other">]</span></pre></dt>
 <dd>
-
+Multiply every element in matrix by a float.
 &nbsp;&nbsp;<a
-href="/tree/master/snail/matrix.nim#L173"
+href="/tree/master/snail/matrix.nim#L204"
 class="link-seesrc" target="_blank">Source</a>
-<a href="/edit/devel/snail/matrix.nim#L173" class="link-seesrc" target="_blank" >Edit</a>
+<a href="/edit/devel/snail/matrix.nim#L204" class="link-seesrc" target="_blank" >Edit</a>
 
 </dd>
 <dt id=".*"><a name=".*,float,Matrix[N,M]"></a><pre><span class="Keyword">proc</span> <span class="Identifier">`.*`</span><span class="Other">[</span><span class="Identifier">N</span><span class="Other">,</span> <span class="Identifier">M</span><span class="Other">:</span> <span class="Keyword">static</span><span class="Other">[</span><span class="Identifier">int</span><span class="Other">]</span><span class="Other">]</span><span class="Other">(</span><span class="Identifier">val</span><span class="Other">:</span> <span class="Identifier">float</span><span class="Other">;</span> <span class="Identifier">m</span><span class="Other">:</span> <span class="Identifier">Matrix</span><span class="Other">[</span><span class="Identifier">N</span><span class="Other">,</span> <span class="Identifier">M</span><span class="Other">]</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">Matrix</span><span class="Other">[</span><span class="Identifier">N</span><span class="Other">,</span> <span class="Identifier">M</span><span class="Other">]</span> <span class="Other pragmabegin">{.</span><div class="pragma"><span class="Identifier">inline</span></div><span class="Other pragmaend">.}</span></pre></dt>
 <dd>
-
+shorthand to elMatMul
 &nbsp;&nbsp;<a
-href="/tree/master/snail/matrix.nim#L180"
+href="/tree/master/snail/matrix.nim#L212"
 class="link-seesrc" target="_blank">Source</a>
-<a href="/edit/devel/snail/matrix.nim#L180" class="link-seesrc" target="_blank" >Edit</a>
+<a href="/edit/devel/snail/matrix.nim#L212" class="link-seesrc" target="_blank" >Edit</a>
 
 </dd>
 <dt id="elMatDiv"><a name="elMatDiv,Matrix[N,M],float"></a><pre><span class="Keyword">proc</span> <span class="Identifier">elMatDiv</span><span class="Other">[</span><span class="Identifier">N</span><span class="Other">,</span> <span class="Identifier">M</span><span class="Other">:</span> <span class="Keyword">static</span><span class="Other">[</span><span class="Identifier">int</span><span class="Other">]</span><span class="Other">]</span><span class="Other">(</span><span class="Identifier">m</span><span class="Other">:</span> <span class="Identifier">Matrix</span><span class="Other">[</span><span class="Identifier">N</span><span class="Other">,</span> <span class="Identifier">M</span><span class="Other">]</span><span class="Other">;</span> <span class="Identifier">val</span><span class="Other">:</span> <span class="Identifier">float</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">Matrix</span><span class="Other">[</span><span class="Identifier">N</span><span class="Other">,</span> <span class="Identifier">M</span><span class="Other">]</span></pre></dt>
 <dd>
-
+Divide every element in matrix by a float.
 &nbsp;&nbsp;<a
-href="/tree/master/snail/matrix.nim#L182"
+href="/tree/master/snail/matrix.nim#L214"
 class="link-seesrc" target="_blank">Source</a>
-<a href="/edit/devel/snail/matrix.nim#L182" class="link-seesrc" target="_blank" >Edit</a>
+<a href="/edit/devel/snail/matrix.nim#L214" class="link-seesrc" target="_blank" >Edit</a>
 
 </dd>
 <dt id="./"><a name="./,Matrix[N,M],float"></a><pre><span class="Keyword">proc</span> <span class="Identifier">`./`</span><span class="Other">[</span><span class="Identifier">N</span><span class="Other">,</span> <span class="Identifier">M</span><span class="Other">:</span> <span class="Keyword">static</span><span class="Other">[</span><span class="Identifier">int</span><span class="Other">]</span><span class="Other">]</span><span class="Other">(</span><span class="Identifier">m</span><span class="Other">:</span> <span class="Identifier">Matrix</span><span class="Other">[</span><span class="Identifier">N</span><span class="Other">,</span> <span class="Identifier">M</span><span class="Other">]</span><span class="Other">;</span> <span class="Identifier">val</span><span class="Other">:</span> <span class="Identifier">float</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">Matrix</span><span class="Other">[</span><span class="Identifier">N</span><span class="Other">,</span> <span class="Identifier">M</span><span class="Other">]</span> <span class="Other pragmabegin">{.</span><div class="pragma"><span class="Identifier">inline</span></div><span class="Other pragmaend">.}</span></pre></dt>
 <dd>
-
+shorthand to elMatDiv
 &nbsp;&nbsp;<a
-href="/tree/master/snail/matrix.nim#L189"
+href="/tree/master/snail/matrix.nim#L221"
 class="link-seesrc" target="_blank">Source</a>
-<a href="/edit/devel/snail/matrix.nim#L189" class="link-seesrc" target="_blank" >Edit</a>
+<a href="/edit/devel/snail/matrix.nim#L221" class="link-seesrc" target="_blank" >Edit</a>
 
 </dd>
 <dt id="elMatAdd"><a name="elMatAdd,Matrix[N,M],float"></a><pre><span class="Keyword">proc</span> <span class="Identifier">elMatAdd</span><span class="Other">[</span><span class="Identifier">N</span><span class="Other">,</span> <span class="Identifier">M</span><span class="Other">:</span> <span class="Keyword">static</span><span class="Other">[</span><span class="Identifier">int</span><span class="Other">]</span><span class="Other">]</span><span class="Other">(</span><span class="Identifier">m</span><span class="Other">:</span> <span class="Identifier">Matrix</span><span class="Other">[</span><span class="Identifier">N</span><span class="Other">,</span> <span class="Identifier">M</span><span class="Other">]</span><span class="Other">;</span> <span class="Identifier">val</span><span class="Other">:</span> <span class="Identifier">float</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">Matrix</span><span class="Other">[</span><span class="Identifier">N</span><span class="Other">,</span> <span class="Identifier">M</span><span class="Other">]</span></pre></dt>
 <dd>
 
 &nbsp;&nbsp;<a
-href="/tree/master/snail/matrix.nim#L191"
+href="/tree/master/snail/matrix.nim#L224"
 class="link-seesrc" target="_blank">Source</a>
-<a href="/edit/devel/snail/matrix.nim#L191" class="link-seesrc" target="_blank" >Edit</a>
+<a href="/edit/devel/snail/matrix.nim#L224" class="link-seesrc" target="_blank" >Edit</a>
 
 </dd>
 <dt id=".+"><a name=".+,Matrix[N,M],float"></a><pre><span class="Keyword">proc</span> <span class="Identifier">`.+`</span><span class="Other">[</span><span class="Identifier">N</span><span class="Other">,</span> <span class="Identifier">M</span><span class="Other">:</span> <span class="Keyword">static</span><span class="Other">[</span><span class="Identifier">int</span><span class="Other">]</span><span class="Other">]</span><span class="Other">(</span><span class="Identifier">m</span><span class="Other">:</span> <span class="Identifier">Matrix</span><span class="Other">[</span><span class="Identifier">N</span><span class="Other">,</span> <span class="Identifier">M</span><span class="Other">]</span><span class="Other">;</span> <span class="Identifier">val</span><span class="Other">:</span> <span class="Identifier">float</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">Matrix</span><span class="Other">[</span><span class="Identifier">N</span><span class="Other">,</span> <span class="Identifier">M</span><span class="Other">]</span> <span class="Other pragmabegin">{.</span><div class="pragma"><span class="Identifier">inline</span></div><span class="Other pragmaend">.}</span></pre></dt>
 <dd>
-
+shorthand to elMatAdd
 &nbsp;&nbsp;<a
-href="/tree/master/snail/matrix.nim#L197"
+href="/tree/master/snail/matrix.nim#L230"
 class="link-seesrc" target="_blank">Source</a>
-<a href="/edit/devel/snail/matrix.nim#L197" class="link-seesrc" target="_blank" >Edit</a>
+<a href="/edit/devel/snail/matrix.nim#L230" class="link-seesrc" target="_blank" >Edit</a>
 
 </dd>
 <dt id="elMatSub"><a name="elMatSub,Matrix[N,M],float"></a><pre><span class="Keyword">proc</span> <span class="Identifier">elMatSub</span><span class="Other">[</span><span class="Identifier">N</span><span class="Other">,</span> <span class="Identifier">M</span><span class="Other">:</span> <span class="Keyword">static</span><span class="Other">[</span><span class="Identifier">int</span><span class="Other">]</span><span class="Other">]</span><span class="Other">(</span><span class="Identifier">m</span><span class="Other">:</span> <span class="Identifier">Matrix</span><span class="Other">[</span><span class="Identifier">N</span><span class="Other">,</span> <span class="Identifier">M</span><span class="Other">]</span><span class="Other">;</span> <span class="Identifier">val</span><span class="Other">:</span> <span class="Identifier">float</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">Matrix</span><span class="Other">[</span><span class="Identifier">N</span><span class="Other">,</span> <span class="Identifier">M</span><span class="Other">]</span></pre></dt>
 <dd>
 
 &nbsp;&nbsp;<a
-href="/tree/master/snail/matrix.nim#L199"
+href="/tree/master/snail/matrix.nim#L232"
 class="link-seesrc" target="_blank">Source</a>
-<a href="/edit/devel/snail/matrix.nim#L199" class="link-seesrc" target="_blank" >Edit</a>
+<a href="/edit/devel/snail/matrix.nim#L232" class="link-seesrc" target="_blank" >Edit</a>
 
 </dd>
 <dt id=".-"><a name=".-,Matrix[N,M],float"></a><pre><span class="Keyword">proc</span> <span class="Identifier">`.-`</span><span class="Other">[</span><span class="Identifier">N</span><span class="Other">,</span> <span class="Identifier">M</span><span class="Other">:</span> <span class="Keyword">static</span><span class="Other">[</span><span class="Identifier">int</span><span class="Other">]</span><span class="Other">]</span><span class="Other">(</span><span class="Identifier">m</span><span class="Other">:</span> <span class="Identifier">Matrix</span><span class="Other">[</span><span class="Identifier">N</span><span class="Other">,</span> <span class="Identifier">M</span><span class="Other">]</span><span class="Other">;</span> <span class="Identifier">val</span><span class="Other">:</span> <span class="Identifier">float</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">Matrix</span><span class="Other">[</span><span class="Identifier">N</span><span class="Other">,</span> <span class="Identifier">M</span><span class="Other">]</span> <span class="Other pragmabegin">{.</span><div class="pragma"><span class="Identifier">inline</span></div><span class="Other pragmaend">.}</span></pre></dt>
 <dd>
-
+shorthand to elMatSub
 &nbsp;&nbsp;<a
-href="/tree/master/snail/matrix.nim#L205"
+href="/tree/master/snail/matrix.nim#L237"
 class="link-seesrc" target="_blank">Source</a>
-<a href="/edit/devel/snail/matrix.nim#L205" class="link-seesrc" target="_blank" >Edit</a>
+<a href="/edit/devel/snail/matrix.nim#L237" class="link-seesrc" target="_blank" >Edit</a>
 
 </dd>
 <dt id="subtractVecFromRow"><a name="subtractVecFromRow,Matrix[N,M],int,RowVector[M],float"></a><pre><span class="Keyword">proc</span> <span class="Identifier">subtractVecFromRow</span><span class="Other">[</span><span class="Identifier">N</span><span class="Other">,</span> <span class="Identifier">M</span><span class="Other">:</span> <span class="Keyword">static</span><span class="Other">[</span><span class="Identifier">int</span><span class="Other">]</span><span class="Other">]</span><span class="Other">(</span><span class="Identifier">A</span><span class="Other">:</span> <span class="Keyword">var</span> <span class="Identifier">Matrix</span><span class="Other">[</span><span class="Identifier">N</span><span class="Other">,</span> <span class="Identifier">M</span><span class="Other">]</span><span class="Other">;</span> <span class="Identifier">row</span><span class="Other">:</span> <span class="Identifier">int</span><span class="Other">;</span>
                                         <span class="Identifier">vec</span><span class="Other">:</span> <span class="Identifier">RowVector</span><span class="Other">[</span><span class="Identifier">M</span><span class="Other">]</span><span class="Other">;</span> <span class="Identifier">times</span><span class="Other">:</span> <span class="Identifier">float</span> <span class="Other">=</span> <span class="FloatNumber">1.0'f64</span><span class="Other">)</span></pre></dt>
 <dd>
-
+Subtract in place a vector from a matrix row, can also specify how many times to subtract.
 &nbsp;&nbsp;<a
-href="/tree/master/snail/matrix.nim#L207"
+href="/tree/master/snail/matrix.nim#L240"
 class="link-seesrc" target="_blank">Source</a>
-<a href="/edit/devel/snail/matrix.nim#L207" class="link-seesrc" target="_blank" >Edit</a>
+<a href="/edit/devel/snail/matrix.nim#L240" class="link-seesrc" target="_blank" >Edit</a>
 
 </dd>
 <dt id="subtractVecFromCol"><a name="subtractVecFromCol,Matrix[N,M],int,ColVector[N],float"></a><pre><span class="Keyword">proc</span> <span class="Identifier">subtractVecFromCol</span><span class="Other">[</span><span class="Identifier">N</span><span class="Other">,</span> <span class="Identifier">M</span><span class="Other">:</span> <span class="Keyword">static</span><span class="Other">[</span><span class="Identifier">int</span><span class="Other">]</span><span class="Other">]</span><span class="Other">(</span><span class="Identifier">A</span><span class="Other">:</span> <span class="Keyword">var</span> <span class="Identifier">Matrix</span><span class="Other">[</span><span class="Identifier">N</span><span class="Other">,</span> <span class="Identifier">M</span><span class="Other">]</span><span class="Other">;</span> <span class="Identifier">col</span><span class="Other">:</span> <span class="Identifier">int</span><span class="Other">;</span>
                                         <span class="Identifier">vec</span><span class="Other">:</span> <span class="Identifier">ColVector</span><span class="Other">[</span><span class="Identifier">N</span><span class="Other">]</span><span class="Other">;</span> <span class="Identifier">times</span><span class="Other">:</span> <span class="Identifier">float</span> <span class="Other">=</span> <span class="FloatNumber">1.0'f64</span><span class="Other">)</span></pre></dt>
 <dd>
-
+Same as subtractVecFromRow, but for cols.
 &nbsp;&nbsp;<a
-href="/tree/master/snail/matrix.nim#L211"
+href="/tree/master/snail/matrix.nim#L245"
 class="link-seesrc" target="_blank">Source</a>
-<a href="/edit/devel/snail/matrix.nim#L211" class="link-seesrc" target="_blank" >Edit</a>
+<a href="/edit/devel/snail/matrix.nim#L245" class="link-seesrc" target="_blank" >Edit</a>
 
 </dd>
 <dt id="divRowBy"><a name="divRowBy,Matrix[N,M],int,float"></a><pre><span class="Keyword">proc</span> <span class="Identifier">divRowBy</span><span class="Other">[</span><span class="Identifier">N</span><span class="Other">,</span> <span class="Identifier">M</span><span class="Other">:</span> <span class="Keyword">static</span><span class="Other">[</span><span class="Identifier">int</span><span class="Other">]</span><span class="Other">]</span><span class="Other">(</span><span class="Identifier">A</span><span class="Other">:</span> <span class="Keyword">var</span> <span class="Identifier">Matrix</span><span class="Other">[</span><span class="Identifier">N</span><span class="Other">,</span> <span class="Identifier">M</span><span class="Other">]</span><span class="Other">;</span> <span class="Identifier">row</span><span class="Other">:</span> <span class="Identifier">int</span><span class="Other">;</span> <span class="Identifier">val</span><span class="Other">:</span> <span class="Identifier">float</span><span class="Other">)</span></pre></dt>
 <dd>
-
+Divide a row in a matrix by a float. Modifies the matrix in place
 &nbsp;&nbsp;<a
-href="/tree/master/snail/matrix.nim#L215"
+href="/tree/master/snail/matrix.nim#L250"
 class="link-seesrc" target="_blank">Source</a>
-<a href="/edit/devel/snail/matrix.nim#L215" class="link-seesrc" target="_blank" >Edit</a>
+<a href="/edit/devel/snail/matrix.nim#L250" class="link-seesrc" target="_blank" >Edit</a>
 
 </dd>
 <dt id="divColBy"><a name="divColBy,Matrix[N,M],int,float"></a><pre><span class="Keyword">proc</span> <span class="Identifier">divColBy</span><span class="Other">[</span><span class="Identifier">N</span><span class="Other">,</span> <span class="Identifier">M</span><span class="Other">:</span> <span class="Keyword">static</span><span class="Other">[</span><span class="Identifier">int</span><span class="Other">]</span><span class="Other">]</span><span class="Other">(</span><span class="Identifier">A</span><span class="Other">:</span> <span class="Keyword">var</span> <span class="Identifier">Matrix</span><span class="Other">[</span><span class="Identifier">N</span><span class="Other">,</span> <span class="Identifier">M</span><span class="Other">]</span><span class="Other">;</span> <span class="Identifier">col</span><span class="Other">:</span> <span class="Identifier">int</span><span class="Other">;</span> <span class="Identifier">val</span><span class="Other">:</span> <span class="Identifier">float</span><span class="Other">)</span></pre></dt>
 <dd>
-
+Divide a col in a matrix by a float. Modifies the matrix in place
 &nbsp;&nbsp;<a
-href="/tree/master/snail/matrix.nim#L219"
+href="/tree/master/snail/matrix.nim#L255"
 class="link-seesrc" target="_blank">Source</a>
-<a href="/edit/devel/snail/matrix.nim#L219" class="link-seesrc" target="_blank" >Edit</a>
+<a href="/edit/devel/snail/matrix.nim#L255" class="link-seesrc" target="_blank" >Edit</a>
 
 </dd>
 <dt id="norm"><a name="norm,Matrix[N,M]"></a><pre><span class="Keyword">proc</span> <span class="Identifier">norm</span><span class="Other">[</span><span class="Identifier">N</span><span class="Other">,</span> <span class="Identifier">M</span><span class="Other">:</span> <span class="Keyword">static</span><span class="Other">[</span><span class="Identifier">int</span><span class="Other">]</span><span class="Other">]</span><span class="Other">(</span><span class="Identifier">m</span><span class="Other">:</span> <span class="Identifier">Matrix</span><span class="Other">[</span><span class="Identifier">N</span><span class="Other">,</span> <span class="Identifier">M</span><span class="Other">]</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">float</span></pre></dt>
 <dd>
 
 &nbsp;&nbsp;<a
-href="/tree/master/snail/matrix.nim#L222"
+href="/tree/master/snail/matrix.nim#L259"
 class="link-seesrc" target="_blank">Source</a>
-<a href="/edit/devel/snail/matrix.nim#L222" class="link-seesrc" target="_blank" >Edit</a>
+<a href="/edit/devel/snail/matrix.nim#L259" class="link-seesrc" target="_blank" >Edit</a>
 
 </dd>
 
@@ -1655,29 +1677,29 @@ class="link-seesrc" target="_blank">Source</a>
 <dl class="item">
 <dt id="*"><a name="*.t,Matrix[N,M],Matrix[M,V]"></a><pre><span class="Keyword">template</span> <span class="Identifier">`*`</span><span class="Other">[</span><span class="Identifier">N</span><span class="Other">,</span> <span class="Identifier">M</span><span class="Other">,</span> <span class="Identifier">V</span><span class="Other">]</span><span class="Other">(</span><span class="Identifier">m</span><span class="Other">:</span> <span class="Identifier">Matrix</span><span class="Other">[</span><span class="Identifier">N</span><span class="Other">,</span> <span class="Identifier">M</span><span class="Other">]</span><span class="Other">;</span> <span class="Identifier">w</span><span class="Other">:</span> <span class="Identifier">Matrix</span><span class="Other">[</span><span class="Identifier">M</span><span class="Other">,</span> <span class="Identifier">V</span><span class="Other">]</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">Matrix</span><span class="Other">[</span><span class="Identifier">N</span><span class="Other">,</span> <span class="Identifier">V</span><span class="Other">]</span></pre></dt>
 <dd>
-
+Shorthand for matmul
 &nbsp;&nbsp;<a
-href="/tree/master/snail/matrix.nim#L137"
+href="/tree/master/snail/matrix.nim#L158"
 class="link-seesrc" target="_blank">Source</a>
-<a href="/edit/devel/snail/matrix.nim#L137" class="link-seesrc" target="_blank" >Edit</a>
+<a href="/edit/devel/snail/matrix.nim#L158" class="link-seesrc" target="_blank" >Edit</a>
 
 </dd>
 <dt id="*"><a name="*.t,Matrix[N,M],ColVector[M]"></a><pre><span class="Keyword">template</span> <span class="Identifier">`*`</span><span class="Other">[</span><span class="Identifier">N</span><span class="Other">,</span> <span class="Identifier">M</span><span class="Other">]</span><span class="Other">(</span><span class="Identifier">m</span><span class="Other">:</span> <span class="Identifier">Matrix</span><span class="Other">[</span><span class="Identifier">N</span><span class="Other">,</span> <span class="Identifier">M</span><span class="Other">]</span><span class="Other">;</span> <span class="Identifier">v</span><span class="Other">:</span> <span class="Identifier">ColVector</span><span class="Other">[</span><span class="Identifier">M</span><span class="Other">]</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">ColVector</span><span class="Other">[</span><span class="Identifier">N</span><span class="Other">]</span></pre></dt>
 <dd>
-
+Shorthand for vecmatmul
 &nbsp;&nbsp;<a
-href="/tree/master/snail/matrix.nim#L152"
+href="/tree/master/snail/matrix.nim#L180"
 class="link-seesrc" target="_blank">Source</a>
-<a href="/edit/devel/snail/matrix.nim#L152" class="link-seesrc" target="_blank" >Edit</a>
+<a href="/edit/devel/snail/matrix.nim#L180" class="link-seesrc" target="_blank" >Edit</a>
 
 </dd>
 <dt id="*"><a name="*.t,RowVector[N],Matrix[N,M]"></a><pre><span class="Keyword">template</span> <span class="Identifier">`*`</span><span class="Other">[</span><span class="Identifier">N</span><span class="Other">,</span> <span class="Identifier">M</span><span class="Other">]</span><span class="Other">(</span><span class="Identifier">v</span><span class="Other">:</span> <span class="Identifier">RowVector</span><span class="Other">[</span><span class="Identifier">N</span><span class="Other">]</span><span class="Other">;</span> <span class="Identifier">m</span><span class="Other">:</span> <span class="Identifier">Matrix</span><span class="Other">[</span><span class="Identifier">N</span><span class="Other">,</span> <span class="Identifier">M</span><span class="Other">]</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">RowVector</span><span class="Other">[</span><span class="Identifier">M</span><span class="Other">]</span></pre></dt>
 <dd>
-
+Shorthand for vecmatmul
 &nbsp;&nbsp;<a
-href="/tree/master/snail/matrix.nim#L154"
+href="/tree/master/snail/matrix.nim#L183"
 class="link-seesrc" target="_blank">Source</a>
-<a href="/edit/devel/snail/matrix.nim#L154" class="link-seesrc" target="_blank" >Edit</a>
+<a href="/edit/devel/snail/matrix.nim#L183" class="link-seesrc" target="_blank" >Edit</a>
 
 </dd>
 
@@ -1690,7 +1712,7 @@ class="link-seesrc" target="_blank">Source</a>
       <div class="twelve-columns footer">
         <span class="nim-sprite"></span>
         <br/>
-        <small>Made with Nim. Generated: 2017-03-09 14:34:14 UTC</small>
+        <small>Made with Nim. Generated: 2017-03-09 19:00:05 UTC</small>
       </div>
     </div>
   </div>
