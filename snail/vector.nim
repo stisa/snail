@@ -3,6 +3,8 @@ from strutils import formatFloat,FloatFormatMode
 when defined openblas:
   import nimblas
 
+const Epsilon = 1.0e-6
+
 type 
     RowVector* [N:static[int]] = object
       ## A row vector 
@@ -51,7 +53,17 @@ proc `[]`*[N : static[int]](v: Vector[N], i:int): float {.inline.} = v.data[i]
 
 proc `[]=`*[N : static[int]](v: Vector[N], i:int, val: float) {.inline.} = v.data[i] = val 
 
-proc `==`*[N : static[int]](v,w: Vector[N]):bool =
+proc eq*[N : static[int]](v,w: Vector[N],epsilon:float=Epsilon):bool =
+  ## Equal up to epsilon
+  let wdata = w.data[]
+  for i,e in pairs(v.data[]):
+    if abs(e - wdata[i])>epsilon: return false
+  result = true
+
+proc `==`*[N : static[int]](v,w: Vector[N],epsilon=Epsilon):bool {.inline.} =
+  eq(v,w,epsilon)
+
+proc `===`*[N : static[int]](v,w: Vector[N]):bool =
   for i,e in pairs(v.data[]):
     if e != w.data[][i]: return false
   result = true

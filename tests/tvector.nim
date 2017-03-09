@@ -10,6 +10,12 @@ suite "Tests for snail/vector":
   test "Vector can be Col or Row":
     check( a is ColVector == true )
     check( r is RowVector == true )
+  test "Exact equality":
+    check(a === c)
+  test "Equal up to 1.0e-6":
+    check(a==c)
+  test "Equal up to 1.0e-3":
+    check(eq(a,c,1.0e-3))
   test "Row + Column not allowed":
     check( compiles(r+c) == false )
   test "Array access":

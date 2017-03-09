@@ -11,8 +11,13 @@ suite "Tests for snail/matrix":
   var cv: ColVector[2] = colVec([1.0,1])
   var rv: RowVector[2] = rowVec([1.0,1.0])
 
-  test "Equality":
+  test "Exact Equality":
+    check(m===w)
+  test "Equal up to 1.0e-6":
     check(m==w)
+  test "Equal up to 1.0e-3":
+    check(eq(m,w,10e-3))
+  test "Dimensions":
     check(dims(m) == (2,2))
   test "Extracting rows and columns":
     check(m.row(1) == rowVec([1.0,0]))

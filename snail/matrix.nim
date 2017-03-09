@@ -4,7 +4,8 @@ from strutils import formatFloat,FloatFormatMode
 when defined openblas:
   import nimblas
 
-const maxstack :int = 100
+#const maxstack :int = 100
+const Epsilon :float = 1.0e-6 #TODO: implement {.floatdefine.}
 
 type 
     #[
@@ -35,11 +36,24 @@ proc `[]=`*[N,M : static[int]](m : var Matrix[N,M], i, j: int, val: float) {.inl
   assert(j<M, "Column index out of bounds")
   m.data[i * M + j] = val 
 
-proc `==`*[N,M : static[int]](m,w: Matrix[N,M]):bool =
+proc eq*[N,M : static[int]](m,w: Matrix[N,M], epsilon:float = Epsilon):bool =
+  ## Equality up to epsilon precision.
+  let wdata = w.data[]
   for i,e in pairs(m.data[]):
-    if e != w.data[][i]: return false
+    if abs(e - wdata[i])>epsilon: return false
   result = true
-        
+
+proc `==`*[N,M : static[int]](m,w: Matrix[N,M], epsilon:float = Epsilon):bool {.inline} =
+  ## ALias for `eq`
+  eq(m,w,epsilon)
+
+proc `===`*[N,M : static[int]](m,w: Matrix[N,M]):bool =
+  ## Exact equality. Beware floating point errors.
+  let wdata = w.data[]
+  for i,e in pairs(m.data[]):
+    if e != wdata[i]: return false
+  result = true
+
 proc `$`*[N,M:static[int]] (m: Matrix[N,M]): string =
   result = "["
   if isNil(m.data): result.add("nil]\n")
