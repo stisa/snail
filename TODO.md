@@ -1,6 +1,6 @@
 TODO
 ====
-
+- allow overriding epsilon value, need to move it to a common package?
 - investigate default arg value for procs taking static[int]
 - test everything
 - try a more functional approach for concatenation of operations?

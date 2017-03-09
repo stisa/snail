@@ -39,8 +39,10 @@ proc ppge*[N:static[int]](A: Matrix[N,N],b:ColVector[N]):ColVector[N] =
   ## Uses Gaussian Elimination with partial pivoting
   var tempA = A
   when not defined js:
-    deepCopy(result, b)  
+    deepCopy(result, b)
+    result.p = addr result.data[0]
     deepCopy(tempA,A)
+    tempA.p = addr tempA.data[0]
   else:
     result = b
   for i in 0..<N: # Iterate over rows
