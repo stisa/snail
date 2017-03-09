@@ -3,7 +3,7 @@
 
   Or examples TODO
 ]##
-import snail/[vector,matrix,linsys]
+import snail/vector, snail/matrix,snail/linsys
 
 export vector,matrix,linsys
   

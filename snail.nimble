@@ -20,11 +20,13 @@ task test, "Run tests":
   exec("nim c -r --hints:off snail/linsys.nim")
   # Tests inside tests folder
   exec("nim c -r --hints:off tests/tlinsys.nim")
-  
-task builddocs, "Builds documentation and examples":
-  #exec("nim js -o:tests/webtest.js  tests/webtest.nim")
-  exec("nim doc2 -o:docs/index.html  snail.nim")
-  exec("nim doc2 -o:docs/snail/vector.html  snail/vector.nim")
-  exec("nim doc2 -o:docs/snail/matrix.html  snail/matrix.nim")
-  exec("nim doc2 -o:docs/snail/linsys.html  snail/linsys.nim")
-  
+
+import ospaths
+
+task docs, "Builds documentation and examples":
+  mkDir("docs"/"snail")
+  exec "nim doc2 -o:docs/index.html  snail.nim"
+  for file in listfiles("snail"):
+    echo "> "&file
+    if splitfile(file).ext == ".nim":
+      exec "nim doc2 -o:" & "docs" /../ file.changefileext("html") & " " & file

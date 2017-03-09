@@ -5,3 +5,6 @@ private/*.exe
 *.txt
 bench.nim
 *.log
+t.js
+*.html
+!docs/*.html

@@ -1,5 +1,4 @@
-import ../snail/matrix,../snail/vector # So we can use matrices and vectors
-from ../snail/linsys import ppge
+import ../snail
 
 proc `\`[N:static[int]](m:Matrix[N,N],v:ColVector[N]):Vector[N] = ppge(m,v) # So we can match matlab syntax
 
