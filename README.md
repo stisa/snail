@@ -29,8 +29,13 @@ Documentation
 
 Nim-generated docs [here](http://stisa.space/snail)
 
-If you have nimble and nim installed, run `nimble docs` in the dir with `snail.nimble` to generate docs.
-`nimble tests` runs the tests, located in `/tests/`. (uh)
+Nimble tasks
+--------------
+If you have nimble and nim installed, run `nimble <taskname>` in the dir with `snail.nimble` to exec the corresponding task.
+
+- `nimble tests`: runs the tests from  [/tests](tests).
+- `nimble jstests`: builds the tests from [/tests](tests). It also generates a `index.html`file that runs all tests.
+- `nimble docs`: generates the docs in [/docs](docs) using `nim docs2`.
 
 Future structure
 -----------------

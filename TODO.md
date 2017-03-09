@@ -1,5 +1,6 @@
 TODO
 ====
+- make nimble shut up about tests
 - allow overriding epsilon value, need to move it to a common package?
 - investigate default arg value for procs taking static[int]
 - test everything
