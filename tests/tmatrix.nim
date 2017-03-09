@@ -1,4 +1,3 @@
-from strutils import formatFloat,FloatFormatMode
 import ../snail/vector
 import ../snail/matrix
 
