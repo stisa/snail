@@ -10,7 +10,7 @@ type
       ## Example:
       ## [1.0, 2.0, 3.0]
       data*:ref array[N, float]
-      p*: ptr float
+      when not defined(js):p*: ptr float
  
     ColVector* [N:static[int]] = object
       ## A column vector 
@@ -20,7 +20,8 @@ type
       ## |    \|2.0\|
       ## |    \|3.0]
       data*:ref array[N, float]
-      p*: ptr float    
+      when not defined(js):p*: ptr float
+
     Vector* [N:static[int]]= RowVector[N] | ColVector[N]
       ## A generic vector
 
@@ -36,7 +37,7 @@ proc colVec*  [N:static[int]](arr: Array[N]): ColVector[N] =
   ## Create a new row vector, takes an array of floats
   new result.data
   result.data[] = arr
-  result.p = addr result.data[0]
+  when not defined js: result.p = addr result.data[0]
 
 #[ Future ]
 proc randomVec* (N: static[int],max: float = 1): Vector[N] =  
@@ -127,7 +128,7 @@ proc `*` *[N:static[int]] (v:RowVector[N], w: ColVector[N]): float = dot(v,w)
 # Sum two vectors
 proc add *[N:static[int]] (v, w: Vector[N]): Vector[N] =
   new result.data
-  result.p = addr result.data[0]
+  when not defined js: result.p = addr result.data[0]
   when declared(nimblas):
     nimblas.copy(N,v.p,1,result.p,1)
     nimblas.axpy(N,1,result.p,1,w.p,1)
@@ -139,7 +140,7 @@ proc `+` *[N:static[int]] (v: Vector[N], w: Vector[N]): auto {.inline.}= add(v,w
 
 proc sub *[N:static[int]] (v, w: Vector[N]): Vector[N] =
   new result.data
-  result.p = addr result.data[0]
+  when not defined js: result.p = addr result.data[0]
   for i in v.low..v.high:
     result[i] = v[i]-w[i]
 # shorthand to^^
@@ -148,7 +149,7 @@ proc `-` *[N:static[int]] (v: Vector[N], w: Vector[N]): auto {.inline.}= sub(v,w
 
 proc `*` *[N:static[int]] (a: float64,v: Vector[N]): Vector[N] =
   new result.data
-  result.p = addr result.data[0]
+  when not defined js: result.p = addr result.data[0]
   when declared(nimblas):
     nimblas.copy(N,v.p,1,result.p,1)
     nimblas.scal(N, a, result.p, 1)
@@ -158,7 +159,7 @@ proc `*` *[N:static[int]] (a: float64,v: Vector[N]): Vector[N] =
 
 proc `.*` *[N:static[int]] (v,w: Vector[N]): Vector[N] =
     new result.data
-    result.p = addr result.data[0]
+    when not defined js: result.p = addr result.data[0]
     for i in v.low..v.high:
       result[i] = v[i]*w[i]
 
@@ -166,13 +167,13 @@ proc `.*` *[N:static[int]] (v,w: Vector[N]): Vector[N] =
 proc `/`* [N:static[int]](v: Vector[N],val:float): Vector[N] =
   assert(val!=0.0, "Div by zero")
   new result.data
-  result.p = addr result.data[0]
+  when not defined js: result.p = addr result.data[0]
   for i in v.low..v.high:
     result.data[i] = v.data[i]/val
 
 proc `./`* [N:static[int]](v,w: Vector[N]): Vector[N] =
   new result.data
-  result.p = addr result.data[0]
+  when not defined js: result.p = addr result.data[0]
   for i in v.low..v.high:
     assert(w[i]!=0.0, "Division by zero")
     result[i] = v[i]/w[i]

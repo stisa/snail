@@ -1,4 +1,5 @@
 import matrix,vector
+
 proc findRowWithMaxInCol*[N,M:static[int]](A: Matrix[N,M],col:int):int =
   assert(col<M)
   var last_max = A[0,col]
