@@ -10,23 +10,21 @@ license       = "MIT"
 
 requires "nim >= 0.14.0"
 
+import ospaths
+
 task bench, "TODO":
   echo "TODO"
 
-task test, "Run tests":
-  # Tests inside modules
-  exec("nim c -r --hints:off  snail/vector.nim")
-  exec("nim c -r --hints:off snail/matrix.nim")
-  exec("nim c -r --hints:off snail/linsys.nim")
-  # Tests inside tests folder
-  exec("nim c -r --hints:off tests/tlinsys.nim")
-
-import ospaths
+task tests, "Run tests":
+  withdir "tests":
+    for file in listfiles("."):
+      if splitfile(file).ext == ".nim":
+        exec "nim c -r --verbosity:0 --hints:off " & file
 
 task docs, "Builds documentation and examples":
   mkDir("docs"/"snail")
-  exec "nim doc2 -o:docs/index.html  snail.nim"
+  exec "nim doc2 --verbosity:0 --hints:off -o:docs/index.html  snail.nim"
   for file in listfiles("snail"):
     echo "> "&file
     if splitfile(file).ext == ".nim":
-      exec "nim doc2 -o:" & "docs" /../ file.changefileext("html") & " " & file
+      exec "nim doc2 --verbosity:0 --hints:off -o:" & "docs" /../ file.changefileext("html") & " " & file
