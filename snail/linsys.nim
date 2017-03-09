@@ -41,7 +41,8 @@ proc ppge*[N:static[int]](A: Matrix[N,N],b:ColVector[N]):ColVector[N] =
   when not defined js:
     deepCopy(result, b)  
     deepCopy(tempA,A)
-
+  else:
+    result = b
   for i in 0..<N: # Iterate over rows
     if i!=N-1: # Don't swap on the last iteration, it's already row echelon
       let imx = tempA.findRowWithMaxInCol(i)
