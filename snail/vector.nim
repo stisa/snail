@@ -201,3 +201,26 @@ proc `./`* [N:static[int]](v,w: Vector[N]): Vector[N] =
   for i in v.low..v.high:
     assert(w[i]!=0.0, "Division by zero")
     result[i] = v[i]/w[i]
+
+proc ones*(N:static[int]):RowVector[N] =
+  ## Construct a vector of N 1s
+  new result.data
+  when not defined js: result.p = addr result.data[0]
+  for v in result.data[].mitems:
+    v = 1.0
+
+proc ones*(N:static[int]):ColVector[N] =
+  new result.data
+  when not defined js: result.p = addr result.data[0]
+  for v in result.data[].mitems:
+    v = 1.0
+
+proc zeros*(N:static[int]):RowVector[N] =
+  ## Construct a vector of N 0s
+  new result.data
+  when not defined js: result.p = addr result.data[0]
+  
+proc zeros*(N:static[int]):ColVector[N] =
+  new result.data
+  when not defined js: result.p = addr result.data[0]
+  
