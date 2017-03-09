@@ -31,7 +31,7 @@ proc rowVec*  [N:static[int]](arr: Array[N]): RowVector[N] =
   ## Create a new row vector, takes an array of floats
   new result.data
   result.data[] = arr
-  result.p = addr result.data[0]
+  when not defined js: result.p = addr result.data[0]
 
 proc colVec*  [N:static[int]](arr: Array[N]): ColVector[N] =
   ## Create a new row vector, takes an array of floats
