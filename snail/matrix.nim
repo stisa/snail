@@ -18,8 +18,8 @@ type
         data *: ref array[N*M, float]
        # else: data*: array[N*M,float]
         when not defined(js):p*: ptr float
-    Array[N: static[int]] = array[N, float64] # hackhis, gives nicer code tho
-    BiArray[N,M: static[int]] = array[N, array[M, float64]]
+    Array[N: static[int]] = array[N, float] # hackhis, gives nicer code tho
+    BiArray[N,M: static[int]] = array[N, array[M, float]]
 
 
 proc low(m: Matrix):int = m.data[].low
