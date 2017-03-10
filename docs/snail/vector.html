@@ -1299,6 +1299,24 @@ function main() {
     title="`&#x2F;`[N: static[int]](v: Vector[N]; val: float): Vector[N]"><wbr />`/`<span class="attachedType" style="visibility:hidden">Vector</span></a></li>
   <li><a class="reference" href="#./,Vector[N],Vector[N]"
     title="`.&#x2F;`[N: static[int]](v, w: Vector[N]): Vector[N]"><wbr />`./`<span class="attachedType" style="visibility:hidden">Vector</span></a></li>
+  <li><a class="reference" href="#rowones,"
+    title="rowones[](N: static[int]): RowVector[N]"><wbr />rowones<span class="attachedType" style="visibility:hidden">RowVector</span></a></li>
+  <li><a class="reference" href="#rowzeros,"
+    title="rowzeros[](N: static[int]): RowVector[N]"><wbr />rowzeros<span class="attachedType" style="visibility:hidden">RowVector</span></a></li>
+
+  </ul>
+</li>
+<li>
+  <a class="reference reference-toplevel" href="#14" id="64">Iterators</a>
+  <ul class="simple simple-toc-section">
+      <li><a class="reference" href="#items.i,Vector[N]"
+    title="items[N: static[int]](a: Vector[N]): float"><wbr />items<span class="attachedType" style="visibility:hidden">Vector</span></a></li>
+  <li><a class="reference" href="#mitems.i,Vector[N]"
+    title="mitems[N: static[int]](a: var Vector[N]): var float"><wbr />mitems<span class="attachedType" style="visibility:hidden">Vector</span></a></li>
+  <li><a class="reference" href="#pairs.i,Vector[N]"
+    title="pairs[N: static[int]](a: Vector[N]): tuple[key: int, val: float]"><wbr />pairs<span class="attachedType" style="visibility:hidden">Vector</span></a></li>
+  <li><a class="reference" href="#mpairs.i,Vector[N]"
+    title="mpairs[N: static[int]](a: var Vector[N]): tuple[key: int, val: var float]"><wbr />mpairs<span class="attachedType" style="visibility:hidden">Vector</span></a></li>
 
   </ul>
 </li>
@@ -1638,6 +1656,66 @@ class="link-seesrc" target="_blank">Source</a>
 <a href="/edit/devel/snail/vector.nim#L197" class="link-seesrc" target="_blank" >Edit</a>
 
 </dd>
+<dt id="rowones"><a name="rowones,"></a><pre><span class="Keyword">proc</span> <span class="Identifier">rowones</span><span class="Other">[</span><span class="Other">]</span><span class="Other">(</span><span class="Identifier">N</span><span class="Other">:</span> <span class="Keyword">static</span><span class="Other">[</span><span class="Identifier">int</span><span class="Other">]</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">RowVector</span><span class="Other">[</span><span class="Identifier">N</span><span class="Other">]</span></pre></dt>
+<dd>
+Construct a vector of N 1s
+&nbsp;&nbsp;<a
+href="/tree/master/snail/vector.nim#L205"
+class="link-seesrc" target="_blank">Source</a>
+<a href="/edit/devel/snail/vector.nim#L205" class="link-seesrc" target="_blank" >Edit</a>
+
+</dd>
+<dt id="rowzeros"><a name="rowzeros,"></a><pre><span class="Keyword">proc</span> <span class="Identifier">rowzeros</span><span class="Other">[</span><span class="Other">]</span><span class="Other">(</span><span class="Identifier">N</span><span class="Other">:</span> <span class="Keyword">static</span><span class="Other">[</span><span class="Identifier">int</span><span class="Other">]</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">RowVector</span><span class="Other">[</span><span class="Identifier">N</span><span class="Other">]</span></pre></dt>
+<dd>
+Construct a vector of N 0s
+&nbsp;&nbsp;<a
+href="/tree/master/snail/vector.nim#L212"
+class="link-seesrc" target="_blank">Source</a>
+<a href="/edit/devel/snail/vector.nim#L212" class="link-seesrc" target="_blank" >Edit</a>
+
+</dd>
+
+</dl></div>
+<div class="section" id="14">
+<h1><a class="toc-backref" href="#14">Iterators</a></h1>
+<dl class="item">
+<dt id="items"><a name="items.i,Vector[N]"></a><pre><span class="Keyword">iterator</span> <span class="Identifier">items</span><span class="Other">[</span><span class="Identifier">N</span><span class="Other">:</span> <span class="Keyword">static</span><span class="Other">[</span><span class="Identifier">int</span><span class="Other">]</span><span class="Other">]</span><span class="Other">(</span><span class="Identifier">a</span><span class="Other">:</span> <span class="Identifier">Vector</span><span class="Other">[</span><span class="Identifier">N</span><span class="Other">]</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">float</span> <span class="Other pragmabegin">{.</span><div class="pragma"><span class="Identifier">inline</span></div><span class="Other pragmaend">.}</span></pre></dt>
+<dd>
+iterates over each item of <cite>a</cite>.
+&nbsp;&nbsp;<a
+href="/tree/master/snail/vector.nim#L217"
+class="link-seesrc" target="_blank">Source</a>
+<a href="/edit/devel/snail/vector.nim#L217" class="link-seesrc" target="_blank" >Edit</a>
+
+</dd>
+<dt id="mitems"><a name="mitems.i,Vector[N]"></a><pre><span class="Keyword">iterator</span> <span class="Identifier">mitems</span><span class="Other">[</span><span class="Identifier">N</span><span class="Other">:</span> <span class="Keyword">static</span><span class="Other">[</span><span class="Identifier">int</span><span class="Other">]</span><span class="Other">]</span><span class="Other">(</span><span class="Identifier">a</span><span class="Other">:</span> <span class="Keyword">var</span> <span class="Identifier">Vector</span><span class="Other">[</span><span class="Identifier">N</span><span class="Other">]</span><span class="Other">)</span><span class="Other">:</span> <span class="Keyword">var</span> <span class="Identifier">float</span> <span class="Other pragmabegin">{.</span><div class="pragma"><span class="Identifier">inline</span></div><span class="Other pragmaend">.}</span></pre></dt>
+<dd>
+iterates over each item of <cite>a</cite>, yielding a mutable value
+&nbsp;&nbsp;<a
+href="/tree/master/snail/vector.nim#L226"
+class="link-seesrc" target="_blank">Source</a>
+<a href="/edit/devel/snail/vector.nim#L226" class="link-seesrc" target="_blank" >Edit</a>
+
+</dd>
+<dt id="pairs"><a name="pairs.i,Vector[N]"></a><pre><span class="Keyword">iterator</span> <span class="Identifier">pairs</span><span class="Other">[</span><span class="Identifier">N</span><span class="Other">:</span> <span class="Keyword">static</span><span class="Other">[</span><span class="Identifier">int</span><span class="Other">]</span><span class="Other">]</span><span class="Other">(</span><span class="Identifier">a</span><span class="Other">:</span> <span class="Identifier">Vector</span><span class="Other">[</span><span class="Identifier">N</span><span class="Other">]</span><span class="Other">)</span><span class="Other">:</span> <span class="Keyword">tuple</span><span class="Other">[</span><span class="Identifier">key</span><span class="Other">:</span> <span class="Identifier">int</span><span class="Other">,</span> <span class="Identifier">val</span><span class="Other">:</span> <span class="Identifier">float</span><span class="Other">]</span> <span class="Other pragmabegin">{.</span><div class="pragma"><span class="Identifier">inline</span></div><span class="Other pragmaend">.}</span></pre></dt>
+<dd>
+iterates over each item of <cite>a</cite>. Yields <tt class="docutils literal"><span class="pre">(index, a[index])</span></tt> pairs.
+&nbsp;&nbsp;<a
+href="/tree/master/snail/vector.nim#L235"
+class="link-seesrc" target="_blank">Source</a>
+<a href="/edit/devel/snail/vector.nim#L235" class="link-seesrc" target="_blank" >Edit</a>
+
+</dd>
+<dt id="mpairs"><a name="mpairs.i,Vector[N]"></a><pre><span class="Keyword">iterator</span> <span class="Identifier">mpairs</span><span class="Other">[</span><span class="Identifier">N</span><span class="Other">:</span> <span class="Keyword">static</span><span class="Other">[</span><span class="Identifier">int</span><span class="Other">]</span><span class="Other">]</span><span class="Other">(</span><span class="Identifier">a</span><span class="Other">:</span> <span class="Keyword">var</span> <span class="Identifier">Vector</span><span class="Other">[</span><span class="Identifier">N</span><span class="Other">]</span><span class="Other">)</span><span class="Other">:</span> <span class="Keyword">tuple</span><span class="Other">[</span><span class="Identifier">key</span><span class="Other">:</span> <span class="Identifier">int</span><span class="Other">,</span> <span class="Identifier">val</span><span class="Other">:</span> <span class="Keyword">var</span> <span class="Identifier">float</span><span class="Other">]</span> <span class="Other pragmabegin">{.</span><div class="pragma">
+    <span class="Identifier">inline</span></div><span class="Other pragmaend">.}</span></pre></dt>
+<dd>
+iterates over each item of <cite>a</cite>. Yields <tt class="docutils literal"><span class="pre">(index, a[index])</span></tt> pairs. <tt class="docutils literal"><span class="pre">a[index]</span></tt> can be modified.
+&nbsp;&nbsp;<a
+href="/tree/master/snail/vector.nim#L244"
+class="link-seesrc" target="_blank">Source</a>
+<a href="/edit/devel/snail/vector.nim#L244" class="link-seesrc" target="_blank" >Edit</a>
+
+</dd>
 
 </dl></div>
 
@@ -1648,7 +1726,7 @@ class="link-seesrc" target="_blank">Source</a>
       <div class="twelve-columns footer">
         <span class="nim-sprite"></span>
         <br/>
-        <small>Made with Nim. Generated: 2017-03-09 19:00:05 UTC</small>
+        <small>Made with Nim. Generated: 2017-03-10 23:51:40 UTC</small>
       </div>
     </div>
   </div>
