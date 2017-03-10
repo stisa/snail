@@ -7,6 +7,8 @@ suite "Tests for snail/vector":
   var r : RowVector[3] = rowVec([1.0,2,3])
   var c : ColVector[3] = colVec([1.0,2,3])
   var a : Vector[3] = colVec([1.0,2,3])
+  var itms : RowVector[3] = rowVec([1.0,2,3])
+
   test "Vector can be Col or Row":
     check( a is ColVector == true )
     check( r is RowVector == true )
@@ -45,6 +47,27 @@ suite "Tests for snail/vector":
     check(a-a == colVec([0.0,0,0]))
     check(a .* a == colVec([1.0,4.0,9.0]))
     check(a ./ a == colVec([1.0,1.0,1.0]))
+  test "items iterator":
+    var i = 0
+    for it in itms:
+      check( it == itms[i] )
+      inc i
+  test "mitems iterator":
+    for it in itms.mitems:
+      it = 12.0
+    check( itms == rowVec([12.0,12,12]) )
+  test "pairs iterator":
+    var ind = 0
+    for i,it in itms:
+      check( i == ind and it == itms[ind] )
+      inc ind
+  test "mpairs iterator":
+    var ind = 0
+    for i,it in itms.mpairs:
+      it = 42.0
+      check(i == ind)
+      inc ind
+    check( itms == rowVec([42.0,42,42]) )
 #[
   when defined js:
   echo r.*r

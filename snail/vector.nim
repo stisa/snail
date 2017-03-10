@@ -202,25 +202,51 @@ proc `./`* [N:static[int]](v,w: Vector[N]): Vector[N] =
     assert(w[i]!=0.0, "Division by zero")
     result[i] = v[i]/w[i]
 
-proc ones*(N:static[int]):RowVector[N] =
+proc rowones*(N:static[int]):RowVector[N] =
   ## Construct a vector of N 1s
   new result.data
   when not defined js: result.p = addr result.data[0]
   for v in result.data[].mitems:
     v = 1.0
 
-proc ones*(N:static[int]):ColVector[N] =
-  new result.data
-  when not defined js: result.p = addr result.data[0]
-  for v in result.data[].mitems:
-    v = 1.0
-
-proc zeros*(N:static[int]):RowVector[N] =
+proc rowzeros*(N:static[int]):RowVector[N] =
   ## Construct a vector of N 0s
   new result.data
   when not defined js: result.p = addr result.data[0]
-  
-proc zeros*(N:static[int]):ColVector[N] =
-  new result.data
-  when not defined js: result.p = addr result.data[0]
-  
+
+iterator items*[N:static[int]](a: Vector[N]): float {.inline.} =
+  ## iterates over each item of `a`.
+  var i = low(a)
+  if i <= high(a):
+    while true:
+      yield a[i]
+      if i >= high(a): break
+      inc(i)
+
+iterator mitems*[N:static[int]](a: var Vector[N]): var float {.inline.} =
+  ## iterates over each item of `a`, yielding a mutable value
+  var i = low(a)
+  if i <= high(a):
+    while true:
+      yield a.data[i]
+      if i >= high(a): break
+      inc(i)
+
+iterator pairs*[N:static[int]](a: Vector[N]): tuple[key: int, val: float] {.inline.} =
+  ## iterates over each item of `a`. Yields ``(index, a[index])`` pairs.
+  var i = low(a)
+  if i <= high(a):
+    while true:
+      yield (i, a[i])
+      if i >= high(a): break
+      inc(i)
+
+iterator mpairs*[N:static[int]](a: var Vector[N]): tuple[key:int,val:var float] {.inline.} =
+  ## iterates over each item of `a`. Yields ``(index, a[index])`` pairs.
+  ## ``a[index]`` can be modified.
+  var i = low(a)
+  if i <= high(a):
+    while true:
+      yield (i, a.data[i])
+      if i >= high(a): break
+      inc(i)
