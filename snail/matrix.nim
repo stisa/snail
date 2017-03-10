@@ -282,7 +282,7 @@ proc row*[N,M : static[int]](m :var Matrix[N,M], r: int,rowv:RowVector[M]|array[
   ## Overwrite row r in the matrix m ( r needs to be a row vector,array or seq )
   for i in 0..<M: m.data[r*m.N+i] = rowv[i]
 
-proc col*[N,M : static[int]](m :var Matrix[N,M], c: int,colv:ColVector[N]|array[M,float]|seq[float]) =
+proc col*[N,M : static[int]](m :var Matrix[N,M], c: int,colv:ColVector[N]|array[N,float]|seq[float]) =
   ## Overwrite col c in the matrix m ( c needs to be a col vector, array or seq )
   for i in 0..<N: m.data[i*m.N+c] = colv[i]
 
