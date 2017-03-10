@@ -41,3 +41,19 @@ suite "Tests for snail/matrix":
     for col in r.cols:
       check( col == r.col(i) )
       inc i
+  test "Row assignment":
+    var mm = matrix([[0.0,0.0],[12.0,12]])
+    mm.row 0, rowVec([11.0,11])
+    check mm == matrix([[11.0,11.0],[12.0,12]])
+    mm.row 0, [1.0,1]
+    check mm == matrix([[1.0,1.0],[12.0,12]])
+    mm.row 0, @[2.0,2]
+    check mm == matrix([[2.0,2.0],[12.0,12]])
+  test "Col assignment":
+    var mm = matrix([[0.0,0.0],[12.0,12]])
+    mm.col 0, colVec([11.0,11])
+    check mm == matrix([[11.0,0.0],[11.0,12]])
+    mm.col 0, [1.0,1]
+    check mm == matrix([[1.0,0.0],[1.0,12]])
+    mm.col 0, @[2.0,2]
+    check mm == matrix([[2.0,0.0],[2.0,12]])
