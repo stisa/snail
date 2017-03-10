@@ -263,3 +263,17 @@ proc norm*[N,M:static[int]] (m: Matrix[N,M]): float =
       tmp += abs(m[i,j])
     echo tmp
     if tmp>result: result = tmp
+
+iterator rows*[N,M:static[int]](m:Matrix[N,M]): RowVector[M] {.inline.} =
+  ## iterates over rows. Each row is a copy
+  var i = 0
+  while i<N:
+    yield m.row(i)
+    inc(i)
+
+iterator cols*[N,M:static[int]](m:Matrix[N,M]): ColVector[M] {.inline.} =
+  ## Iterate over columns. The column is a copy.
+  var i = 0
+  while i<M:
+    yield m.col(i)
+    inc(i)

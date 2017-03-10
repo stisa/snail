@@ -27,4 +27,17 @@ suite "Tests for snail/matrix":
     check(rv*m==rv)
   test "M*W":
     check(m*w==r)
-
+  test "Row":
+    check( m.row(0) == rowVec([0.0,1]) )
+  test "Col":
+    check( m.col(0) == colVec([0.0,1]) )
+  test "Rows iterator":
+    var i = 0
+    for row in r.rows:
+      check( row == r.row(i) )
+      inc i
+  test "Cols iterator":
+    var i = 0
+    for col in r.cols:
+      check( col == r.col(i) )
+      inc i
