@@ -8,3 +8,4 @@ bench.nim
 *.js
 *.html
 !docs/*.html
+experiments
