@@ -4,57 +4,53 @@ from strutils import formatFloat,FloatFormatMode
 when defined openblas:
   import nimblas
 
-#const maxstack :int = 100
 const Epsilon :float = 1.0e-6 #TODO: implement {.floatdefine.}
 
 type 
     #[
     Matrix with fixed size, Rows*Columns
-    eg Matrix [ 2, 3] = | a b c |
+    eg: Matrix [2, 3] = | a b c |
                         | e f g |
     ]#
-    Matrix* [N, M : static[int]] = object
-       # when N>maxstack:
-        data *: ref array[N*M, float]
-       # else: data*: array[N*M,float]
-        when not defined(js):p*: ptr float
+    Matrix* [N, M: static[int]] = object
+        data*: ref array[N*M, float]
+        when not defined(js): p*: ptr float
     Array[N: static[int]] = array[N, float] # hackhis, gives nicer code tho
     BiArray[N,M: static[int]] = array[N, array[M, float]]
 
-
-proc low(m: Matrix):int = m.data[].low
+proc low(m: Matrix): int = m.data[].low
   
-proc high(m: Matrix):int = m.data[].high
+proc high(m: Matrix): int = m.data[].high
 
-proc `[]`*[N,M : static[int]](m : Matrix[N,M], i, j: int): float {.inline.}= 
+proc `[]`*[N,M: static[int]](m: Matrix[N,M], i, j: int): float {.inline.}= 
   assert(i<N, "Row index out of bounds")
   assert(j<M, "Column index out of bounds")
   m.data[i * M + j]
 
-proc `[]=`*[N,M : static[int]](m : var Matrix[N,M], i, j: int, val: float) {.inline.}=
+proc `[]=`*[N,M: static[int]](m: var Matrix[N, M], i, j: int, val: float) {.inline.}=
   assert(i<N, "Row index out of bounds")
   assert(j<M, "Column index out of bounds")
   m.data[i * M + j] = val 
 
-proc eq*[N,M : static[int]](m,w: Matrix[N,M], epsilon:float = Epsilon):bool =
+proc eq*[N,M: static[int]](m,w: Matrix[N,M], epsilon: float = Epsilon): bool =
   ## Equality up to epsilon precision.
   let wdata = w.data[]
   for i,e in pairs(m.data[]):
     if abs(e - wdata[i])>epsilon: return false
   result = true
 
-proc `==`*[N,M : static[int]](m,w: Matrix[N,M], epsilon:float = Epsilon):bool {.inline} =
+proc `==`*[N,M: static[int]](m,w: Matrix[N,M], epsilon: float = Epsilon): bool {.inline} =
   ## ALias for `eq`
   eq(m,w,epsilon)
 
-proc `===`*[N,M : static[int]](m,w: Matrix[N,M]):bool =
+proc `===`*[N,M: static[int]](m,w: Matrix[N,M]): bool =
   ## Exact equality. Beware floating point errors.
   let wdata = w.data[]
   for i,e in pairs(m.data[]):
     if e != wdata[i]: return false
   result = true
 
-proc `$`*[N,M:static[int]] (m: Matrix[N,M]): string =
+proc `$`*[N,M: static[int]] (m: Matrix[N,M]): string =
   result = "["
   if isNil(m.data): result.add("nil]\n")
   else:
@@ -67,7 +63,7 @@ proc `$`*[N,M:static[int]] (m: Matrix[N,M]): string =
         else:
           result.add(fstring & ", ")
 
-proc toMatrix* [K](arr: Array[K],N,M:static[int]): Matrix[N,M] =
+proc toMatrix* [K:static[int]](arr: Array[K], N, M: static[int]): Matrix[N,M] =
   ## Shape the arr array into a matrix with N rows and M columns.
   ##
   ## If the length of the array is less than N*M, the array elements
@@ -83,7 +79,7 @@ proc toMatrix* [K](arr: Array[K],N,M:static[int]): Matrix[N,M] =
     result.data[] = arr
 
 # matrix([2-D arr]) = Matrix[N,M]
-proc matrix* [N,M:static[int]](arr: BiArray[N,M]): Matrix[N,M] = 
+proc matrix* [N,M: static[int]](arr: BiArray[N,M]): Matrix[N,M] = 
     ## Create a matrix from a 2-D array of floats.
     #when N>maxstack:
     new result.data
@@ -99,7 +95,7 @@ proc matrix* [N,M:static[int]](arr: BiArray[N,M]): Matrix[N,M] =
     for i in mitems(result.data[]): i = random(max)
 ]#
 
-proc identity*(N:static[int]):Matrix[N,N]=
+proc identity*(N: static[int]): Matrix[N,N]=
   ## Return the identity matrix with dimension NxN
   new result.data
   when not defined(js):result.p = addr result.data[0]

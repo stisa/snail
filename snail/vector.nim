@@ -41,6 +41,12 @@ proc colVec*  [N:static[int]](arr: Array[N]): ColVector[N] =
   result.data[] = arr
   when not defined js: result.p = addr result.data[0]
 
+proc toRow* [N:static[int]](arr: Array[N]): RowVector[N] {.inline.} = arr.rowVec 
+  ## Create a new row vector, takes an array of floats
+  
+proc toCol* [N:static[int]](arr: Array[N]): ColVector[N] {.inline.} = arr.colVec
+  ## Create a new row vector, takes an array of floats
+  
 #[ Future ]
 proc randomVec* (N: static[int],max: float = 1): Vector[N] =  
   new result.data
