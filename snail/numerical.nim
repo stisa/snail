@@ -200,7 +200,3 @@ when isMainModule:
       2*x
   assert rootNewton(f,df,linspace(-1,0)) ~= -1.0
   assert rootNewton(f,df,linspace(0,1)) ~= 1.0
-  echo integrateTrapez(f,0.0..1.0)
-  echo integrateCompTrapez(f,0.0..1.0)
-  echo integrateSimpson(f,0.0..1.0)
-  echo integrateCompSimpson(f,0.0..1.0)

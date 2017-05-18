@@ -30,3 +30,19 @@ suite "Tests for snail/numerical":
     check cp[7] ~= -2.pow(-0.5)
     check cp[8] ~= -cos(3*Pi/20)
     check cp[9] ~= -cos(Pi/20)
+  test "Root by Newton Method":
+    let 
+      f = proc(x:float):float =
+        pow(x,2)-1
+      df = proc(x:float):float =
+        2*x
+    check rootNewton(f,df,linspace(-1,0)) ~= -1.0
+    check rootNewton(f,df,linspace(0,1)) ~= 1.0
+  test "Integration":
+    let 
+      f = proc(x:float):float =
+        pow(x,2)-1
+    check integrateTrapez(f,0.0..1.0) ~= -0.5
+    check integrateCompTrapez(f,0.0..1.0) ~= -0.6766499999999996
+    check integrateSimpson(f,0.0..1.0) ~= -0.6666666666666666
+    check integrateCompSimpson(f,0.0..1.0) ~= -0.6666666666666669

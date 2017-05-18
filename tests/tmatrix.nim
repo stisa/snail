@@ -23,10 +23,10 @@ suite "Tests for snail/matrix":
     check(m.row(1) == rowVec([1.0,0]))
     check(m.col(1) == colVec([1.0,0]))
   test "M*v and v*M":
-    check(m*cv==cv)
-    check(rv*m==rv)
+    check(m*cv == cv)
+    check(rv*m == rv)
   test "M*W":
-    check(m*w==r)
+    check(m*w == r)
   test "Row":
     check( m.row(0) == rowVec([0.0,1]) )
   test "Col":

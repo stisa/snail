@@ -1,14 +1,13 @@
 # Package
 
-version       = "0.1.0"
+version       = "0.2.0"
 author        = "Stisa"
 description   = "Simple Naive Algebra for Nim"
 license       = "MIT"
 
-
+skipDirs = @["docs","tests"]
 # Dependencies
-
-requires "nim >= 0.14.0"
+requires "nim >= 0.17.0"
 
 requires "nimblas" # Require it even if we may not use it, as nimble doesn't have optional deps for now.
 
@@ -41,3 +40,7 @@ task docs, "Builds documentation":
     if splitfile(file).ext == ".nim":
       exec "nim doc2 --verbosity:0 --hints:off -o:" & "docs" /../ file.changefileext("html") & " " & file
   echo "DONE - Look inside /docs, possibly serve it to a browser."
+
+task prepublish,"Run tests, then build docs":
+  exec "nimble tests"
+  exec "nimble docs"
