@@ -1,4 +1,4 @@
-name: Build
+name: Check
 on: 
   push:
     paths:
@@ -7,12 +7,12 @@ on:
   schedule:
     - cron: '3 2 1 * *' 
 jobs:
-  build:
+  check:
     runs-on: ubuntu-latest
     strategy:
       matrix:
         nim: [ '1.2.0', 'stable', 'devel' ]
-    name: Build on nim ${{ matrix.nim }}
+    name: Check on nim ${{ matrix.nim }}
     steps:
       - uses: actions/checkout@master
         
@@ -34,4 +34,4 @@ jobs:
         uses: jiro4989/setup-nim-action@v1.1.3
         with:
           nim-version: ${{ matrix.nim }}
-      - run: nimble build -Y
+      - run: nim check snail.nim
