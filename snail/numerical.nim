@@ -63,7 +63,7 @@ proc clPoints*(a, b: float, N:static[int]): array[N,float] =
   chebyshevLobattoPoints(a,b,N)
 
 
-iterator linspace*(starts,ends:float,points:Natural=100):float {.closure.} =
+iterator linspace*(starts,ends:float,points:Natural=100):float =
     let 
         divisions: float = (points-1).float
         step = (ends-starts)/divisions
